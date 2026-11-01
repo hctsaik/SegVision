@@ -160,6 +160,7 @@ describe("App", () => {
     await userEvent.click(screen.getByTestId("open-dataset"));
     await waitFor(() => expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 2 / 3"));
     expect(screen.queryByText("third.png")).toBeNull();
+    expect(screen.queryByTestId("load-all-filtered-items")).toBeNull();
 
     await userEvent.click(screen.getByTestId("load-more-items"));
 
@@ -167,6 +168,58 @@ describe("App", () => {
     expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 3 / 3");
     expect(screen.queryByTestId("load-more-items")).toBeNull();
     expect(client.datasetsListItems).toHaveBeenNthCalledWith(2, "d", "2");
+  });
+
+  it("loads remaining item summaries on demand to search the whole dataset", async () => {
+    useViewStore.setState({
+      snapshot: null,
+      grantId: null,
+      datasetId: null,
+      items: [],
+      currentItemId: null,
+      uiError: null,
+      outputGrantId: null,
+      outputDisplayName: null,
+    });
+    const client = host(snap({ workflow_state: "IMAGE_OPEN", revision: 0, candidates: [] }));
+    client.datasetsOpen = vi.fn(async () => ({ dataset_id: "d", class_id: "part", item_count: 3 }));
+    client.datasetsListItems = vi.fn()
+      .mockResolvedValueOnce({
+        items: [
+          { item_id: "i1", image_id: "first", display_name: "first.png", class_id: "part", status: "draft" },
+          { item_id: "i2", image_id: "second", display_name: "second.png", class_id: "part", status: "draft" },
+        ],
+        next_cursor: "2",
+      })
+      .mockRejectedValueOnce(new Error("temporary page failure"))
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i3", image_id: "third", display_name: "third.png", class_id: "part", status: "accepted" }],
+        next_cursor: null,
+      });
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("open-dataset"));
+    await waitFor(() => expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 2 / 3"));
+    await userEvent.type(screen.getByTestId("item-search"), "third");
+    await userEvent.selectOptions(screen.getByTestId("status-filter"), "accepted");
+    expect(screen.getByText("目前已載入的影像沒有符合條件的項目。")).toBeInTheDocument();
+    expect(screen.getByTestId("load-all-filtered-items")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId("load-all-filtered-items"));
+    await waitFor(() => expect(screen.getByTestId("load-all-filtered-items")).toBeEnabled());
+    expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 2 / 3");
+    expect(screen.getByTestId("dataset-page-error")).toHaveTextContent("temporary page failure");
+
+    await userEvent.click(screen.getByTestId("load-all-filtered-items"));
+
+    await waitFor(() => expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 3 / 3"));
+    expect(useViewStore.getState().items).toContainEqual(expect.objectContaining({ item_id: "i3", status: "accepted" }));
+    expect(screen.getByTestId("item-list")).toHaveTextContent("third.png");
+    expect(screen.getByTestId("item-status-i3")).toHaveTextContent("accepted");
+    expect(screen.queryByTestId("dataset-page-error")).toBeNull();
+    expect(screen.queryByTestId("load-all-filtered-items")).toBeNull();
+    expect(client.sessionsCreate).toHaveBeenCalledTimes(1);
+    expect(client.datasetsListItems).toHaveBeenNthCalledWith(3, "d", "2");
   });
 
   it("continues Next across a dataset page boundary", async () => {

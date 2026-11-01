@@ -52,6 +52,15 @@ React SHALL own layout, toolbars, dataset list, candidate cards, status, zoom, p
 - **WHEN** an authoritative snapshot contains dataset items and zero to three candidates
 - **THEN** React SHALL render the dataset list and only the returned candidate cards, including diagnostics when no card exists
 
+#### Scenario: [DUI-R003-S04] Full-list search and status filtering can continue cursor paging
+- **WHEN** a search query or status filter is active, another dataset cursor page exists, and the user requests filtering across the complete dataset
+- **THEN** React SHALL continue `datasets.list_items` through typed host commands until the cursor is exhausted and apply the active search and status filter to all returned item summaries
+- **AND** React SHALL keep source images, thumbnails, and masks lazy; full-list filtering MUST NOT fetch binary assets for non-current items
+
+#### Scenario: [DUI-R003-S05] Failed full-list paging remains retryable
+- **WHEN** a page request fails or returns a cursor that does not advance during full-list filtering
+- **THEN** React SHALL stop the load, preserve the last valid cursor, surface the error, and keep the user-triggered full-list action available for retry
+
 ### Requirement: [DUI-R004] React must not own engine or persistence truth
 React MUST NOT own embeddings, logits, model objects, checkpoints, authoritative masks, candidate provenance, Accept results, persistence truth, job-completion inference, raw filesystem paths, or shell execution. Those values MUST remain owned by Python, the Tauri host, or persistence adapters as specified by the desktop architecture.
 

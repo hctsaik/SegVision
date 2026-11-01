@@ -186,6 +186,7 @@ export function App({ host }: { host?: HostClient }) {
   const [itemSearch, setItemSearch] = useState("");
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [loadingItems, setLoadingItems] = useState(false);
+  const [datasetPageError, setDatasetPageError] = useState<string | null>(null);
   const [openingDataset, setOpeningDataset] = useState(false);
   const [advancingItem, setAdvancingItem] = useState(false);
   // Frozen regions are intentionally kept in a small, explicit picker (a
@@ -380,6 +381,7 @@ export function App({ host }: { host?: HostClient }) {
     if (!datasetId || !cursor) return [];
 
     const requestEpoch = datasetEpoch.current;
+    setDatasetPageError(null);
     setLoadingItems(true);
     const request = (async () => {
       try {
@@ -392,7 +394,7 @@ export function App({ host }: { host?: HostClient }) {
         latest.appendDatasetItems(page.items);
         return page.items;
       } catch (error) {
-        if (requestEpoch === datasetEpoch.current) setUiError(operatorMessage(error));
+        if (requestEpoch === datasetEpoch.current) setDatasetPageError(operatorMessage(error));
         return [];
       } finally {
         if (requestEpoch === datasetEpoch.current) setLoadingItems(false);
@@ -404,9 +406,19 @@ export function App({ host }: { host?: HostClient }) {
     return result;
   }
 
+  async function loadAllDatasetPages(): Promise<void> {
+    const requestEpoch = datasetEpoch.current;
+    while (pageCursor.current && requestEpoch === datasetEpoch.current) {
+      const cursorBefore = pageCursor.current;
+      await loadNextDatasetPage();
+      if (pageCursor.current === cursorBefore) return;
+    }
+  }
+
   async function openDataset() {
     const epoch = ++navigationEpoch.current;
     const openEpoch = ++datasetEpoch.current;
+    setDatasetPageError(null);
     pageRequest.current = null;
     setLoadingItems(false);
     setOpeningDataset(true);
@@ -923,6 +935,9 @@ export function App({ host }: { host?: HostClient }) {
           <div data-testid="dataset-page-status" className="muted-line">
             {`已載入 ${items.length} / ${datasetItemCount ?? items.length} 張`}
           </div>
+          {datasetPageError ? (
+            <div data-testid="dataset-page-error" className="muted-line" role="alert">{datasetPageError}</div>
+          ) : null}
           <div data-testid="work-progress" className="muted-line">
             {`已接受 ${progress.accepted} · 草稿 ${progress.draft} · 待複核 ${progress.review} · 未解決 ${progress.failure}（已載入項目）`}
           </div>
@@ -954,6 +969,17 @@ export function App({ host }: { host?: HostClient }) {
               onClick={() => void loadNextDatasetPage()}
             >
               {loadingItems ? "載入中…" : "載入更多影像"}
+            </button>
+          ) : null}
+          {nextCursor && (itemSearch.trim() || statusFilter !== "all") ? (
+            <button
+              type="button"
+              className="btn load-more-items"
+              data-testid="load-all-filtered-items"
+              disabled={loadingItems || openingDataset || advancingItem}
+              onClick={() => void loadAllDatasetPages()}
+            >
+              載入完整清單後套用篩選
             </button>
           ) : null}
         </div>

@@ -109,6 +109,9 @@ Honor the frozen protocol `1.0` operation set in `desktop-protocol` (including `
 - [ ] 3.10 Add the first real-window desktop E2E path: grant a local folder, open an image, display overlay, and assert image identity plus overlay mask hash (screenshots forensic only)
   - Requirement refs: DPR-R009, DPR-R010, DPR-R011
 
+- [ ] 3.11 Support user-triggered full-list search/status filtering across cursor pages while keeping binary assets lazy and failed page loads retryable
+  - Requirement refs: DUI-R003-S04, DUI-R003-S05
+
 ## 4. Full annotation loop
 
 - [ ] 4.1 Implement application-service `sessions.create` as a desktop session that can project `IMAGE_OPEN` without calling `SegVisionEngine.start`; ROI lock is the only path that starts the engine and mints core revision `1`
