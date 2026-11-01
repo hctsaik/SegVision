@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/model-manifest.schema.json",
+  "title": "SegVision Model and Artifact Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "intended_use", "entries"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"type": "string", "minLength": 3},
+    "intended_use": {"const": "company CPU-only offline annotation and approved redistribution"},
+    "entries": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_id", "artifact_kind", "source_url", "source_revision", "artifact_url", "sha256", "license_facts", "redistribution_status", "organizational_approval", "conversion", "included_in_release"],
+        "properties": {
+          "artifact_id": {"type": "string", "minLength": 3},
+          "artifact_kind": {"enum": ["model_code", "model_weights", "model_card", "converted_artifact", "runtime", "asset"]},
+          "source_url": {"type": "string", "format": "uri"},
+          "source_revision": {"type": "string", "minLength": 7},
+          "artifact_url": {"type": ["string", "null"], "format": "uri"},
+          "sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+          "license_facts": {"type": "object", "required": ["license_id", "source_ref", "verified_by", "verified_at"], "additionalProperties": true},
+          "redistribution_status": {"enum": ["unknown", "prohibited", "allowed_with_conditions", "allowed"]},
+          "organizational_approval": {"type": "object", "required": ["status", "authority_ref", "approved_at"], "properties": {"status": {"enum": ["pending", "approved", "rejected"]}, "authority_ref": {"type": ["string", "null"]}, "approved_at": {"type": ["string", "null"], "format": "date-time"}}, "additionalProperties": false},
+          "conversion": {"type": ["object", "null"], "properties": {"tool": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}, "source_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}}, "required": ["tool", "version", "source_sha256"], "additionalProperties": false},
+          "included_in_release": {"type": "boolean"}
+        },
+        "allOf": [
+          {"if": {"properties": {"included_in_release": {"const": true}}}, "then": {"properties": {"sha256": {"type": "string"}, "redistribution_status": {"enum": ["allowed_with_conditions", "allowed"]}, "organizational_approval": {"properties": {"status": {"const": "approved"}, "authority_ref": {"type": "string", "minLength": 1}, "approved_at": {"type": "string"}}}}}},
+          {"if": {"properties": {"artifact_kind": {"const": "converted_artifact"}}}, "then": {"properties": {"conversion": {"type": "object"}}}}
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {"properties": {"entries": {"contains": {"properties": {"artifact_kind": {"const": "model_code"}}, "required": ["artifact_kind"]}}}},
+    {"properties": {"entries": {"contains": {"properties": {"artifact_kind": {"const": "model_weights"}}, "required": ["artifact_kind"]}}}}
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/accepted-sidecar.schema.json",
+  "title": "SegVision Accepted Annotation Sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "training_eligible", "acceptance_actor", "image", "mask", "geometry", "annotation_policy", "class_id", "revision", "selected_candidate", "ancestry", "prompts", "operations", "warnings", "acknowledgements", "timing", "runtime", "published_at"],
+  "allOf": [{"if": {"properties": {"schema_version": {"const": 2}}}, "then": {"required": ["region_workflow"]}}],
+  "properties": {
+    "schema_version": {"enum": [1, 2]},
+    "status": {"const": "accepted"},
+    "training_eligible": {"const": true},
+    "acceptance_actor": {"enum": ["interactive_user", "scripted_test"]},
+    "image": {"$ref": "#/$defs/image"},
+    "mask": {"type": "object", "additionalProperties": false, "required": ["filename", "sha256", "height", "width", "dtype", "values"], "properties": {"filename": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "height": {"type": "integer", "minimum": 1}, "width": {"type": "integer", "minimum": 1}, "dtype": {"const": "uint8"}, "values": {"type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": {"enum": [0, 255]}, "contains": {"const": 255}}}},
+    "geometry": {"$ref": "#/$defs/geometry"},
+    "annotation_policy": {"type": "object", "required": ["policy_id", "sha256"], "properties": {"policy_id": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}, "additionalProperties": false},
+    "class_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "integer", "minimum": 1},
+    "selected_candidate": {"type": "object", "required": ["candidate_id", "source", "generator", "parent_candidate_id"], "properties": {"candidate_id": {"type": "string"}, "source": {"enum": ["sam_box", "sam_safe_grid", "sam_cv", "cv_direct", "manual_empty", "manual_edit", "fusion"]}, "generator": {"oneOf": [{"$ref": "#/$defs/modelGenerator"}, {"$ref": "#/$defs/cvGenerator"}, {"$ref": "#/$defs/manualGenerator"}, {"$ref": "#/$defs/fusionGenerator"}]}, "parent_candidate_id": {"type": ["string", "null"]}}, "additionalProperties": false},
+    "ancestry": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "source", "parent_candidate_id"], "properties": {"candidate_id": {"type": "string"}, "source": {"type": "string"}, "parent_candidate_id": {"type": ["string", "null"]}}, "additionalProperties": true}},
+    "prompts": {"type": "array", "items": {"type": "object", "required": ["sequence", "kind", "x", "y", "label"], "properties": {"sequence": {"type": "integer", "minimum": 1}, "kind": {"const": "point"}, "point_id": {"type": "string", "minLength": 1}, "x": {"type": "integer", "minimum": 0}, "y": {"type": "integer", "minimum": 0}, "label": {"enum": ["foreground", "background"]}}, "additionalProperties": false}},
+    "operations": {"type": "array", "items": {"type": "object", "required": ["sequence", "kind", "parameters"], "properties": {"sequence": {"type": "integer", "minimum": 1}, "kind": {"enum": ["brush", "erase", "grow", "shrink", "fill_holes", "undo", "lock_region", "unlock_region", "next_region", "prompt_removed"]}, "parameters": {"type": "object"}}, "additionalProperties": false}},
+    "region_workflow": {"type": "object", "required": ["pass_index", "frozen_regions"], "properties": {"pass_index": {"type": "integer", "minimum": 0}, "frozen_regions": {"type": "array", "items": {"type": "object", "required": ["region_id", "label", "source_candidate_id", "pass_index", "area", "mask_sha256"], "properties": {"region_id": {"type": "string", "minLength": 1}, "label": {"type": "integer", "enum": [0, 1]}, "source_candidate_id": {"type": ["string", "null"]}, "pass_index": {"type": "integer", "minimum": 0}, "area": {"type": "integer", "minimum": 1}, "mask_sha256": {"$ref": "#/$defs/sha256"}}, "additionalProperties": false}}}, "additionalProperties": false},
+    "warnings": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "acknowledgements": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "timing": {"type": "object", "required": ["first_roi_locked_ns", "first_valid_accept_time_ms", "annotation_time_ms", "decision_time_ms", "within_30_accept", "save_latency_ms", "had_timeout"], "properties": {"first_roi_locked_ns": {"type": "integer", "minimum": 0}, "first_valid_accept_time_ms": {"type": "number", "minimum": 0}, "annotation_time_ms": {"type": "number", "minimum": 0}, "decision_time_ms": {"type": "number", "minimum": 0}, "within_30_accept": {"type": "boolean"}, "save_latency_ms": {"type": "number", "minimum": 0}, "had_timeout": {"type": "boolean"}}, "additionalProperties": false},
+    "runtime": {"type": "object", "required": ["os", "cpu", "python", "dependency_lock_sha256"], "additionalProperties": true},
+    "published_at": {"type": "string", "format": "date-time"},
+    "supersedes": {"type": ["object", "null"], "properties": {"sidecar_sha256": {"$ref": "#/$defs/sha256"}, "mask_filename": {"type": "string"}, "mask_sha256": {"$ref": "#/$defs/sha256"}}, "required": ["sidecar_sha256", "mask_filename", "mask_sha256"], "additionalProperties": false}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "image": {"type": "object", "additionalProperties": false, "required": ["image_id", "source_sha256", "height", "width"], "properties": {"image_id": {"type": "string"}, "source_sha256": {"$ref": "#/$defs/sha256"}, "height": {"type": "integer", "minimum": 1}, "width": {"type": "integer", "minimum": 1}}},
+    "geometry": {"type": "object", "additionalProperties": false, "required": ["user_roi_full", "crop_rect_full", "padding_fraction", "image_boundary_truncated"], "properties": {"user_roi_full": {"$ref": "#/$defs/rect"}, "crop_rect_full": {"$ref": "#/$defs/rect"}, "padding_fraction": {"const": 0.1}, "image_boundary_truncated": {"type": "boolean"}}},
+    "rect": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false, "minItems": 4, "maxItems": 4},
+    "modelGenerator": {"type": "object", "additionalProperties": false, "required": ["kind", "backend", "model_version", "checkpoint_sha256", "runtime_version", "preprocessing_version"], "properties": {"kind": {"const": "model"}, "backend": {"type": "string"}, "model_version": {"type": "string"}, "checkpoint_sha256": {"$ref": "#/$defs/sha256"}, "runtime_version": {"type": "string"}, "preprocessing_version": {"type": "string"}}},
+    "cvGenerator": {"type": "object", "additionalProperties": false, "required": ["kind", "recipe_id", "recipe_sha256"], "properties": {"kind": {"const": "cv_recipe"}, "recipe_id": {"type": "string"}, "recipe_sha256": {"$ref": "#/$defs/sha256"}}},
+    "manualGenerator": {"type": "object", "additionalProperties": false, "required": ["kind"], "properties": {"kind": {"const": "manual"}}},
+    "fusionGenerator": {"type": "object", "additionalProperties": false, "required": ["kind", "parent_candidate_ids", "rule"], "properties": {"kind": {"const": "fusion"}, "parent_candidate_ids": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string"}}, "rule": {"const": "votes_greater_than_or_equal_to_2_of_3"}}}
+  }
+}

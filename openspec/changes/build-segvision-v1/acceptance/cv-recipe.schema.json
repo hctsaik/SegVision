@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/cv-recipe.schema.json",
+  "title": "SegVision Fixed CV Recipe v1 Canonical Form",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "recipe_id",
+    "class_id",
+    "enabled",
+    "working_long_side",
+    "algorithm",
+    "l_range",
+    "a_range",
+    "b_range",
+    "median_blur_px",
+    "open_radius_px",
+    "close_radius_px",
+    "fill_holes",
+    "min_component_area",
+    "min_area_fraction",
+    "max_area_fraction",
+    "max_crop_border_fraction",
+    "max_components",
+    "bridge"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "recipe_id": {"type": "string", "minLength": 1},
+    "class_id": {"type": "string", "minLength": 1},
+    "enabled": {"type": "boolean", "default": false},
+    "working_long_side": {"type": "integer", "minimum": 1, "default": 512},
+    "algorithm": {"const": "lab_threshold"},
+    "l_range": {"$ref": "#/$defs/labRange"},
+    "a_range": {"$ref": "#/$defs/labRange"},
+    "b_range": {"$ref": "#/$defs/labRange"},
+    "median_blur_px": {
+      "default": 3,
+      "anyOf": [
+        {"const": 0},
+        {"type": "integer", "minimum": 1, "not": {"multipleOf": 2}}
+      ]
+    },
+    "open_radius_px": {"type": "integer", "minimum": 0, "default": 0},
+    "close_radius_px": {"type": "integer", "minimum": 0, "default": 0},
+    "fill_holes": {"type": "boolean", "default": false},
+    "min_component_area": {"type": "integer", "minimum": 0, "default": 0},
+    "min_area_fraction": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.01},
+    "max_area_fraction": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.85},
+    "max_crop_border_fraction": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.02},
+    "max_components": {"type": "integer", "minimum": 1, "default": 4},
+    "bridge": {"const": "direct_if_clean_else_mask_prompt"}
+  },
+  "$defs": {
+    "labRange": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255}
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "The semantic validator additionally requires lower <= upper."
+    }
+  }
+}

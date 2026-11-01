@@ -1,0 +1,15 @@
+{
+  "fixture_version": 1,
+  "kind": "synthetic",
+  "seed": 1729,
+  "image_shape": [16, 20, 3],
+  "roi": [3, 4, 17, 14],
+  "expected": {
+    "initial_multimask_count": 3,
+    "encoder_calls": 1,
+    "decoder_calls": 1,
+    "mask_prompt_calls": 0,
+    "max_mask_iou_error": 0.0
+  },
+  "non_domain_evidence": true
+}

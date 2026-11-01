@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/desktop-protocol/events.schema.json",
+  "title": "SegVisionDesktopEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "request_id",
+    "job_id",
+    "session_id",
+    "revision",
+    "kind",
+    "timestamp"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "job_id": { "type": "string", "minLength": 1 },
+    "session_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 0 },
+    "kind": {
+      "type": "string",
+      "enum": ["progress", "completed", "cancelled", "stale", "failed"]
+    },
+    "timestamp": { "type": "string", "minLength": 1 },
+    "protocol_version": { "const": "1.1" },
+    "operation": { "type": ["string", "null"] },
+    "draft_state": {
+      "type": ["string", "null"],
+      "enum": [null, "dirty", "flushing", "saved", "failed", "resumable"]
+    },
+    "payload": { "type": ["object", "null"] },
+    "progress": { "type": ["number", "null"] },
+    "message": { "type": ["string", "null"] },
+    "error_code": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "protocol_version_mismatch",
+        "revision_conflict",
+        "unauthorized",
+        "engine_unavailable",
+        "validation_failed",
+        "unsupported_operation",
+        "not_found",
+        "stale_job"
+      ]
+    }
+  }
+}

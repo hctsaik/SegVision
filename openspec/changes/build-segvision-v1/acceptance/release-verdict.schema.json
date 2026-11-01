@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/release-verdict.schema.json",
+  "title": "SegVision Release Verdict",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "run_id",
+    "candidate_id",
+    "target_release_class",
+    "verdict",
+    "project_state",
+    "classifications",
+    "release_labels",
+    "summary",
+    "blocker_refs",
+    "bound_hashes",
+    "gates",
+    "external_gaps",
+    "evidence_bundle",
+    "classified_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "change_id": {"const": "build-segvision-v1"},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "candidate_id": {"type": "string", "minLength": 3},
+    "target_release_class": {"enum": ["engineering", "domain"]},
+    "verdict": {
+      "enum": [
+        "PASS_ENGINEERING",
+        "PASS_DOMAIN_VALIDATED",
+        "FAIL",
+        "BLOCKED_EXTERNAL_INPUT",
+        "BLOCKED_LICENSE",
+        "BLOCKED_REFERENCE_HARDWARE"
+      ]
+    },
+    "project_state": {
+      "enum": [
+        "in_progress",
+        "complete",
+        "implementation_complete_release_blocked",
+        "failed"
+      ]
+    },
+    "classifications": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engineering_accepted", "domain_validated"],
+      "properties": {
+        "engineering_accepted": {"type": "boolean"},
+        "domain_validated": {"type": "boolean"}
+      }
+    },
+    "release_labels": {
+      "type": "array",
+      "items": {"enum": ["engineering-accepted", "domain-validated"]},
+      "uniqueItems": true,
+      "maxItems": 2
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mandatory_required", "mandatory_passed", "mandatory_failed", "flaky_retry_count", "partial_pairs_accepted", "corrupt_pairs_accepted", "accepted_under_30_count", "needs_review_count", "sessions_with_timeout_count", "wrong_accept_count", "performance_gate", "boundary_gate", "reviewer_gate", "offline_passed", "network_attempt_count", "cuda_required"],
+      "properties": {
+        "mandatory_required": {"type": "integer", "minimum": 0},
+        "mandatory_passed": {"type": "integer", "minimum": 0},
+        "mandatory_failed": {"type": "integer", "minimum": 0},
+        "flaky_retry_count": {"type": "integer", "minimum": 0},
+        "partial_pairs_accepted": {"type": "integer", "minimum": 0},
+        "corrupt_pairs_accepted": {"type": "integer", "minimum": 0},
+        "accepted_under_30_count": {"type": "integer", "minimum": 0},
+        "needs_review_count": {"type": "integer", "minimum": 0},
+        "sessions_with_timeout_count": {"type": "integer", "minimum": 0},
+        "wrong_accept_count": {"type": "integer", "minimum": 0},
+        "performance_gate": {"enum": ["passed", "failed", "blocked", "not_applicable"]},
+        "boundary_gate": {"enum": ["passed", "failed", "blocked", "not_applicable"]},
+        "reviewer_gate": {"enum": ["passed", "failed", "blocked", "not_applicable"]},
+        "offline_passed": {"type": "boolean"},
+        "network_attempt_count": {"type": "integer", "minimum": 0},
+        "cuda_required": {"type": "boolean"}
+      }
+    },
+    "blocker_refs": {"type": "array", "items": {"type": "string", "pattern": "^BLK-[A-Z0-9-]+$"}, "uniqueItems": true},
+    "bound_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "file_tree", "dependency_lock", "model_manifest", "recipe_manifest", "package", "evidence_bundle", "e2e_cases", "traceability", "acceptance_profile", "annotation_policy", "task_graph", "fixture_manifest", "reference_machine", "domain_inputs"],
+      "properties": {
+        "source": {"type": ["string", "null"]},
+        "file_tree": {"$ref": "#/$defs/nullableSha256"},
+        "dependency_lock": {"$ref": "#/$defs/nullableSha256"},
+        "model_manifest": {"$ref": "#/$defs/nullableSha256"},
+        "recipe_manifest": {"$ref": "#/$defs/nullableSha256"},
+        "package": {"$ref": "#/$defs/nullableSha256"},
+        "evidence_bundle": {"$ref": "#/$defs/nullableSha256"},
+        "e2e_cases": {"$ref": "#/$defs/nullableSha256"},
+        "traceability": {"$ref": "#/$defs/nullableSha256"},
+        "acceptance_profile": {"$ref": "#/$defs/nullableSha256"},
+        "annotation_policy": {"$ref": "#/$defs/nullableSha256"},
+        "task_graph": {"$ref": "#/$defs/nullableSha256"},
+        "fixture_manifest": {"$ref": "#/$defs/nullableSha256"},
+        "reference_machine": {"$ref": "#/$defs/nullableSha256"},
+        "domain_inputs": {"$ref": "#/$defs/nullableSha256"}
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gate_id", "tier", "mandatory", "status", "evidence_refs"],
+        "properties": {
+          "gate_id": {"type": "string", "minLength": 2},
+          "tier": {"enum": ["A", "B", "C"]},
+          "mandatory": {"type": "boolean"},
+          "status": {"enum": ["passed", "failed", "blocked", "not_applicable"]},
+          "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "reason": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "external_gaps": {"type": "array", "items": {"type": "string", "minLength": 3}, "uniqueItems": true},
+    "evidence_bundle": {"type": "string", "minLength": 1},
+    "classified_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classifications": {
+            "properties": {"engineering_accepted": {"const": true}},
+            "required": ["engineering_accepted"]
+          }
+        }
+      },
+      "then": {"properties": {"release_labels": {"contains": {"const": "engineering-accepted"}}}},
+      "else": {"properties": {"release_labels": {"not": {"contains": {"const": "engineering-accepted"}}}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "classifications": {
+            "properties": {"domain_validated": {"const": true}},
+            "required": ["domain_validated"]
+          }
+        }
+      },
+      "then": {"properties": {"release_labels": {"contains": {"const": "domain-validated"}}}},
+      "else": {"properties": {"release_labels": {"not": {"contains": {"const": "domain-validated"}}}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "classifications": {
+            "properties": {"domain_validated": {"const": true}},
+            "required": ["domain_validated"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "classifications": {
+            "properties": {"engineering_accepted": {"const": true}}
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "PASS_ENGINEERING"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "target_release_class": {"const": "engineering"},
+          "project_state": {"const": "complete"},
+          "classifications": {
+            "properties": {
+              "engineering_accepted": {"const": true},
+              "domain_validated": {"const": false}
+            }
+          },
+          "release_labels": {
+            "contains": {"const": "engineering-accepted"},
+            "not": {"contains": {"const": "domain-validated"}}
+          },
+          "summary": {
+            "properties": {
+              "mandatory_required": {"minimum": 1},
+              "mandatory_failed": {"const": 0},
+              "flaky_retry_count": {"const": 0},
+              "partial_pairs_accepted": {"const": 0},
+              "corrupt_pairs_accepted": {"const": 0},
+              "wrong_accept_count": {"const": 0},
+              "performance_gate": {"const": "passed"},
+              "boundary_gate": {"enum": ["passed", "not_applicable"]},
+              "reviewer_gate": {"enum": ["passed", "not_applicable"]},
+              "offline_passed": {"const": true},
+              "network_attempt_count": {"const": 0},
+              "cuda_required": {"const": false}
+            }
+          },
+          "bound_hashes": {"$ref": "#/$defs/engineeringPassHashes"},
+          "blocker_refs": {"maxItems": 0},
+          "external_gaps": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "PASS_DOMAIN_VALIDATED"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "target_release_class": {"const": "domain"},
+          "project_state": {"const": "complete"},
+          "classifications": {
+            "properties": {
+              "engineering_accepted": {"const": true},
+              "domain_validated": {"const": true}
+            }
+          },
+          "release_labels": {
+            "allOf": [
+              {"contains": {"const": "engineering-accepted"}},
+              {"contains": {"const": "domain-validated"}}
+            ],
+            "minItems": 2
+          },
+          "summary": {
+            "properties": {
+              "mandatory_required": {"minimum": 1},
+              "mandatory_failed": {"const": 0},
+              "flaky_retry_count": {"const": 0},
+              "partial_pairs_accepted": {"const": 0},
+              "corrupt_pairs_accepted": {"const": 0},
+              "wrong_accept_count": {"const": 0},
+              "performance_gate": {"const": "passed"},
+              "boundary_gate": {"const": "passed"},
+              "reviewer_gate": {"const": "passed"},
+              "offline_passed": {"const": true},
+              "network_attempt_count": {"const": 0},
+              "cuda_required": {"const": false}
+            }
+          },
+          "bound_hashes": {
+            "allOf": [
+              {"$ref": "#/$defs/engineeringPassHashes"},
+              {"properties": {"domain_inputs": {"$ref": "#/$defs/sha256"}}}
+            ]
+          },
+          "blocker_refs": {"maxItems": 0},
+          "external_gaps": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "FAIL"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "project_state": {"const": "failed"},
+          "summary": {"properties": {"mandatory_failed": {"minimum": 1}}},
+          "classifications": {
+            "properties": {"domain_validated": {"const": false}}
+          },
+          "release_labels": {"not": {"contains": {"const": "domain-validated"}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "FAIL"}, "target_release_class": {"const": "engineering"}}, "required": ["verdict", "target_release_class"]},
+      "then": {"properties": {"classifications": {"properties": {"engineering_accepted": {"const": false}, "domain_validated": {"const": false}}}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "verdict": {
+            "enum": [
+              "BLOCKED_EXTERNAL_INPUT",
+              "BLOCKED_LICENSE",
+              "BLOCKED_REFERENCE_HARDWARE"
+            ]
+          }
+        },
+        "required": ["verdict"]
+      },
+      "then": {
+        "properties": {
+          "project_state": {"const": "implementation_complete_release_blocked"},
+          "classifications": {"properties": {"domain_validated": {"const": false}}},
+          "release_labels": {"not": {"contains": {"const": "domain-validated"}}},
+          "blocker_refs": {"minItems": 1},
+          "external_gaps": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verdict": {"enum": ["BLOCKED_EXTERNAL_INPUT", "BLOCKED_LICENSE", "BLOCKED_REFERENCE_HARDWARE"]},
+          "target_release_class": {"const": "engineering"}
+        },
+        "required": ["verdict", "target_release_class"]
+      },
+      "then": {
+        "properties": {
+          "classifications": {"properties": {"engineering_accepted": {"const": false}, "domain_validated": {"const": false}}}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verdict": {"enum": ["BLOCKED_EXTERNAL_INPUT", "BLOCKED_LICENSE", "BLOCKED_REFERENCE_HARDWARE"]},
+          "classifications": {"properties": {"engineering_accepted": {"const": true}}, "required": ["engineering_accepted"]}
+        },
+        "required": ["verdict", "classifications"]
+      },
+      "then": {
+        "properties": {
+          "target_release_class": {"const": "domain"},
+          "bound_hashes": {"$ref": "#/$defs/engineeringPassHashes"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "nullableSha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "engineeringPassHashes": {
+      "type": "object",
+      "properties": {
+        "file_tree": {"$ref": "#/$defs/sha256"},
+        "dependency_lock": {"$ref": "#/$defs/sha256"},
+        "model_manifest": {"$ref": "#/$defs/sha256"},
+        "recipe_manifest": {"$ref": "#/$defs/sha256"},
+        "package": {"$ref": "#/$defs/sha256"},
+        "evidence_bundle": {"$ref": "#/$defs/sha256"},
+        "e2e_cases": {"$ref": "#/$defs/sha256"},
+        "traceability": {"$ref": "#/$defs/sha256"},
+        "acceptance_profile": {"$ref": "#/$defs/sha256"},
+        "annotation_policy": {"$ref": "#/$defs/sha256"},
+        "task_graph": {"$ref": "#/$defs/sha256"},
+        "fixture_manifest": {"$ref": "#/$defs/sha256"},
+        "reference_machine": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

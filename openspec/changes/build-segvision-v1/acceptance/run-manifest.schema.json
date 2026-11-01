@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/run-manifest.schema.json",
+  "title": "SegVision Acceptance Run Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "change_id", "run_id", "target_release_class", "tiers", "status", "bound_hashes", "source", "environment", "commands", "tool_versions", "retry_history", "artifacts", "approvals", "started_at", "finished_at", "scenario_results", "events", "backend_calls", "filesystem_calls", "performance_report", "quality_report", "release_verdict"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "change_id": {"const": "build-segvision-v1"},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "target_release_class": {"enum": ["engineering", "domain"]},
+    "tiers": {"type": "array", "items": {"enum": ["A", "B", "C"]}, "uniqueItems": true, "minItems": 1},
+    "status": {"enum": ["running", "passed", "failed", "blocked"]},
+    "bound_hashes": {"type": "object", "required": ["openspec", "e2e_cases", "traceability", "acceptance_profile", "annotation_policy", "task_graph", "fixture_manifest", "dependency_lock", "model_manifest", "reference_machine", "domain_inputs"], "additionalProperties": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"}},
+    "source": {"type": "object", "required": ["revision", "file_tree_sha256", "dirty_paths"], "additionalProperties": true},
+    "environment": {"type": "object", "required": ["os", "cpu", "ram_bytes", "python", "thread_policy"], "additionalProperties": true},
+    "commands": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["command", "exit_code", "stdout_sha256", "stderr_sha256"], "properties": {"command": {"type": "string", "minLength": 1}, "exit_code": {"type": "integer"}, "stdout_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "stderr_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}}, "additionalProperties": false}},
+    "tool_versions": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string"}},
+    "retry_history": {"type": "array", "maxItems": 3, "items": {"type": "object", "required": ["attempt", "hypothesis", "result"], "properties": {"attempt": {"type": "integer", "minimum": 1, "maximum": 3}, "hypothesis": {"type": "string"}, "result": {"type": "string"}}, "additionalProperties": true}},
+    "artifacts": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["path", "sha256", "size_bytes"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "size_bytes": {"type": "integer", "minimum": 0}}, "additionalProperties": false}},
+    "approvals": {"type": "array", "items": {"type": "object", "required": ["kind", "status", "authority_ref"], "properties": {"kind": {"type": "string"}, "status": {"enum": ["pending", "approved", "rejected"]}, "authority_ref": {"type": ["string", "null"]}}, "additionalProperties": true}},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": ["string", "null"], "format": "date-time"},
+    "scenario_results": {"type": "string", "minLength": 1},
+    "events": {"type": "string", "minLength": 1},
+    "backend_calls": {"type": "string", "minLength": 1},
+    "filesystem_calls": {"type": "string", "minLength": 1},
+    "performance_report": {"type": ["string", "null"]},
+    "quality_report": {"type": ["string", "null"]},
+    "release_verdict": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"target_release_class": {"const": "engineering"}}, "required": ["target_release_class"]},
+      "then": {"properties": {"tiers": {"allOf": [{"contains": {"const": "A"}}, {"contains": {"const": "B"}}], "minItems": 2}}}
+    },
+    {
+      "if": {"properties": {"target_release_class": {"const": "domain"}}, "required": ["target_release_class"]},
+      "then": {"properties": {"tiers": {"allOf": [{"contains": {"const": "A"}}, {"contains": {"const": "B"}}, {"contains": {"const": "C"}}], "minItems": 3}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "running"}}, "required": ["status"]},
+      "then": {"properties": {"finished_at": {"type": "null"}, "release_verdict": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"status": {"enum": ["passed", "failed", "blocked"]}}, "required": ["status"]},
+      "then": {"properties": {"finished_at": {"type": "string"}, "release_verdict": {"type": "string", "minLength": 1}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "passed"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "commands": {"items": {"properties": {"exit_code": {"const": 0}}}},
+          "retry_history": {"maxItems": 0},
+          "performance_report": {"type": "string", "minLength": 1},
+          "quality_report": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  ]
+}

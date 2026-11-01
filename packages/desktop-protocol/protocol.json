@@ -1,0 +1,274 @@
+{
+  "protocol_version": "1.1",
+  "error_codes": [
+    "protocol_version_mismatch",
+    "revision_conflict",
+    "unauthorized",
+    "engine_unavailable",
+    "validation_failed",
+    "unsupported_operation",
+    "not_found",
+    "stale_job"
+  ],
+  "host_error_codes": [
+    "grant_invalid",
+    "filesystem_error"
+  ],
+  "event_kinds": [
+    "progress",
+    "completed",
+    "cancelled",
+    "stale",
+    "failed"
+  ],
+  "asset_kinds": [
+    "source_image",
+    "thumbnail",
+    "mask",
+    "polygon_preview",
+    "difference_preview",
+    "diagnostic_bundle"
+  ],
+  "operations": [
+    {
+      "name": "health",
+      "method": "GET",
+      "path": "/v1/health",
+      "mutating": false
+    },
+    {
+      "name": "datasets.open",
+      "method": "POST",
+      "path": "/v1/datasets/open",
+      "mutating": false
+    },
+    {
+      "name": "datasets.list_items",
+      "method": "GET",
+      "path": "/v1/datasets/{dataset_id}/items",
+      "mutating": false
+    },
+    {
+      "name": "sessions.create",
+      "method": "POST",
+      "path": "/v1/sessions",
+      "mutating": true
+    },
+    {
+      "name": "sessions.get",
+      "method": "GET",
+      "path": "/v1/sessions/{session_id}",
+      "mutating": false
+    },
+    {
+      "name": "sessions.lock_roi",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/lock-roi",
+      "mutating": true
+    },
+    {
+      "name": "sessions.propose",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/proposals",
+      "mutating": true
+    },
+    {
+      "name": "sessions.select",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/select",
+      "mutating": true
+    },
+    {
+      "name": "sessions.refine",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/refinements",
+      "mutating": true
+    },
+    {
+      "name": "sessions.delete_prompt",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/prompts/delete",
+      "mutating": true
+    },
+    {
+      "name": "sessions.lock_region",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/regions/lock",
+      "mutating": true
+    },
+    {
+      "name": "sessions.unlock_region",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/regions/unlock",
+      "mutating": true
+    },
+    {
+      "name": "sessions.start_next_region",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/regions/next",
+      "mutating": true
+    },
+    {
+      "name": "sessions.edit",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/edits",
+      "mutating": true
+    },
+    {
+      "name": "sessions.undo",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/undo",
+      "mutating": true
+    },
+    {
+      "name": "sessions.redo",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/redo",
+      "mutating": true
+    },
+    {
+      "name": "sessions.update_prompt",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/prompts/update",
+      "mutating": true
+    },
+    {
+      "name": "sessions.begin_manual_empty",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/manual-empty",
+      "mutating": true
+    },
+    {
+      "name": "sessions.expand_roi",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/expand-roi",
+      "mutating": true
+    },
+    {
+      "name": "sessions.acknowledge_warning",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/acknowledge-warning",
+      "mutating": true
+    },
+    {
+      "name": "sessions.accept",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/accept",
+      "mutating": true
+    },
+    {
+      "name": "sessions.needs_review",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/needs-review",
+      "mutating": true
+    },
+    {
+      "name": "sessions.close",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/close",
+      "mutating": true
+    },
+    {
+      "name": "jobs.cancel",
+      "method": "POST",
+      "path": "/v1/jobs/{job_id}/cancel",
+      "mutating": false
+    },
+    {
+      "name": "drafts.inspect",
+      "method": "POST",
+      "path": "/v1/drafts/inspect",
+      "mutating": false
+    },
+    {
+      "name": "drafts.flush",
+      "method": "POST",
+      "path": "/v1/drafts/flush",
+      "mutating": true
+    },
+    {
+      "name": "drafts.load",
+      "method": "POST",
+      "path": "/v1/drafts/load",
+      "mutating": true
+    },
+    {
+      "name": "drafts.discard",
+      "method": "POST",
+      "path": "/v1/drafts/discard",
+      "mutating": true
+    },
+    {
+      "name": "datasets.work_status",
+      "method": "GET",
+      "path": "/v1/datasets/{dataset_id}/work-status",
+      "mutating": false
+    },
+    {
+      "name": "sessions.qa",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/qa",
+      "mutating": false
+    },
+    {
+      "name": "labelme.preview",
+      "method": "POST",
+      "path": "/v1/labelme/preview",
+      "mutating": false
+    },
+    {
+      "name": "labelme.export",
+      "method": "POST",
+      "path": "/v1/labelme/export",
+      "mutating": true
+    },
+    {
+      "name": "labelme.import",
+      "method": "POST",
+      "path": "/v1/labelme/import",
+      "mutating": true
+    },
+    {
+      "name": "engine.restart",
+      "method": "POST",
+      "path": "/v1/engine/restart",
+      "mutating": true
+    },
+    {
+      "name": "diagnostics.export",
+      "method": "POST",
+      "path": "/v1/diagnostics/export",
+      "mutating": false
+    },
+    {
+      "name": "labels.list",
+      "method": "GET",
+      "path": "/v1/labels",
+      "mutating": false
+    },
+    {
+      "name": "labels.reclassify",
+      "method": "POST",
+      "path": "/v1/sessions/{session_id}/reclassify",
+      "mutating": true
+    },
+    {
+      "name": "updates.info",
+      "method": "GET",
+      "path": "/v1/updates/info",
+      "mutating": false
+    },
+    {
+      "name": "updates.verify",
+      "method": "POST",
+      "path": "/v1/updates/verify",
+      "mutating": false
+    },
+    {
+      "name": "assets.get",
+      "method": "GET",
+      "path": "/v1/assets/{token}",
+      "mutating": false
+    }
+  ]
+}

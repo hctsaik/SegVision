@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/reference-targets.schema.json",
+  "title": "SegVision Reference Targets",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "performance_reference", "offline_clean_install"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"type": "string", "minLength": 3},
+    "performance_reference": {"$ref": "reference-machine.schema.json"},
+    "offline_clean_install": {"$ref": "reference-machine.schema.json"}
+  }
+}

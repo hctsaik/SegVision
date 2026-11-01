@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/e2e-cases.schema.json",
+  "title": "SegVision E2E Case Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "change_id", "source_document", "cases"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "change_id": {"const": "build-segvision-v1"},
+    "source_document": {"const": "../e2e-acceptance.md"},
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/case"}
+    }
+  },
+  "$defs": {
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "requirementRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^[A-Z]{3}-R[0-9]{3}$"},
+      "uniqueItems": true
+    },
+    "scenarioRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^[A-Z]{3}-R[0-9]{3}-S[0-9]{2}$"},
+      "uniqueItems": true
+    },
+    "actorProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_actor", "acceptance_actor", "human_evidence"],
+      "properties": {
+        "execution_actor": {
+          "enum": [
+            "scripted_test",
+            "reference_machine_runner",
+            "acceptance_controller",
+            "real_annotator_and_independent_reviewer"
+          ]
+        },
+        "acceptance_actor": {
+          "enum": ["not_applicable", "scripted_test", "interactive_user"]
+        },
+        "human_evidence": {
+          "enum": ["none", "scripted_not_human", "real_annotator_and_independent_reviewer"]
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "tier",
+        "category",
+        "mandatory",
+        "requirement_refs",
+        "scenario_refs",
+        "test_target",
+        "preconditions",
+        "steps",
+        "actor_provenance",
+        "oracles",
+        "evidence"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"},
+        "title": {"type": "string", "minLength": 3},
+        "tier": {"enum": ["A", "B", "C"]},
+        "category": {"type": "string", "minLength": 2},
+        "mandatory": {"type": "boolean"},
+        "requirement_refs": {"$ref": "#/$defs/requirementRefs"},
+        "scenario_refs": {"$ref": "#/$defs/scenarioRefs"},
+        "test_target": {
+          "type": "string",
+          "pattern": "^tests/(unit|integration|e2e|gui|packaging|governance)/.+\\.py::test_[a-z0-9_]+$"
+        },
+        "preconditions": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 8}, "uniqueItems": true},
+        "steps": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 8}, "uniqueItems": true},
+        "actor_provenance": {"$ref": "#/$defs/actorProvenance"},
+        "oracles": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "evidence": {"$ref": "#/$defs/nonEmptyStringArray"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"tier": {"const": "C"}}, "required": ["tier"]},
+          "then": {
+            "properties": {
+              "actor_provenance": {
+                "properties": {
+                  "execution_actor": {"const": "real_annotator_and_independent_reviewer"},
+                  "acceptance_actor": {"const": "interactive_user"},
+                  "human_evidence": {"const": "real_annotator_and_independent_reviewer"}
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "actor_provenance": {
+                "properties": {"acceptance_actor": {"const": "scripted_test"}},
+                "required": ["acceptance_actor"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "actor_provenance": {
+                "properties": {"human_evidence": {"const": "scripted_not_human"}}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "actor_provenance": {
+                "properties": {"acceptance_actor": {"const": "not_applicable"}},
+                "required": ["acceptance_actor"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "actor_provenance": {
+                "properties": {"human_evidence": {"const": "none"}}
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

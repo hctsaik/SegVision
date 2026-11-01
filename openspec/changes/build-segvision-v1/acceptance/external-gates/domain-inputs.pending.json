@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "manifest_id": "segvision-v1-domain-inputs-pending",
+  "status": "pending_external_input",
+  "target_candidate_id": null,
+  "annotation_policy_id": "segvision-visible-pixels-default-v1",
+  "annotation_policy_sha256": null,
+  "annotation_policy_approval": {"status": "pending", "authority_ref": null, "approved_at": null},
+  "representative_images": {"count": 0, "manifest_sha256": null, "provenance_ref": null, "independent_from_agent": false},
+  "independent_gold": {"count": 0, "manifest_sha256": null, "provenance_ref": null, "independent_from_agent": false},
+  "annotator_sessions": {"count": 0, "manifest_sha256": null, "provenance_ref": null, "independent_from_agent": false},
+  "independent_reviews": {"count": 0, "manifest_sha256": null, "provenance_ref": null, "independent_from_agent": false},
+  "data_authority": {"status": "pending", "authority_ref": null, "approved_at": null},
+  "release_signoff": {"status": "pending", "authority_ref": null, "approved_at": null}
+}

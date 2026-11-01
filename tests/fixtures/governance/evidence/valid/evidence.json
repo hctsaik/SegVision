@@ -1,0 +1,86 @@
+{
+  "acceptance_profile_sha256": "0a577d0600eb563e8207cfab2f5ec8e26319c5785c2d6b7ae0c9aba51946fb51",
+  "annotation_policy_sha256": "031a829bfb2c8e2f6b6b8242d4c0dbd35c6af42b34c6d5bd9054f86c1e835b8a",
+  "artifacts": [
+    {
+      "path": "PRD.md",
+      "sha256": "7791467358052e8df3058b1b7bb4c144171b4028f9b187075dd8fa8ad2f336df",
+      "size_bytes": 6775
+    }
+  ],
+  "blocker_ref": null,
+  "change_id": "build-segvision-v1",
+  "checkpoint": {
+    "checkpoint_id": "cp-p00",
+    "commit_id": null,
+    "patch_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "commands": [
+    {
+      "command": "internal",
+      "exit_code": 0,
+      "stderr_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "stdout_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "dependency_checkpoints": [],
+  "domain_inputs_manifest_sha256": null,
+  "e2e_cases_sha256": "b05dc97b5dd343046a598746b20c4a360d8dd14bb155393e5682cab1a2d037ee",
+  "environment": {
+    "cpu": "unknown",
+    "dependency_lock_sha256": null,
+    "dependency_lock_state": "not_created_yet",
+    "os": "Windows",
+    "python": "3.11",
+    "ram_bytes": 1
+  },
+  "finished_at": "2026-08-28T00:13:06.774908Z",
+  "fixtures_manifest_sha256": null,
+  "inputs": [
+    {
+      "path": "PRD.md",
+      "sha256": "7791467358052e8df3058b1b7bb4c144171b4028f9b187075dd8fa8ad2f336df",
+      "size_bytes": 6775
+    }
+  ],
+  "policy_checks": {
+    "external_evidence_fabricated": false,
+    "out_of_scope_writes": false,
+    "prohibited_runtime_added": false,
+    "required_tests_skipped": false,
+    "thresholds_weakened": false
+  },
+  "reference_machine_manifest_sha256": null,
+  "retry_history": [],
+  "run_id": "sv-20260828T001222Z-18415eda",
+  "scenario_results_sha256": null,
+  "schema_version": 1,
+  "source": {
+    "dirty_paths": [],
+    "file_tree_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "openspec_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "revision": null
+  },
+  "started_at": "2026-08-28T00:13:06.774908Z",
+  "status": "passed",
+  "subject_kind": "task",
+  "task_graph_sha256": "63b3525fb992cdabee88f6bfa41651f4f8f74b0d2a49d7da6bf24122319f4de4",
+  "task_or_scenario_id": "P00",
+  "task_state": "passed",
+  "tests": [
+    {
+      "evidence_ref": "P00",
+      "failed": 0,
+      "passed": 1,
+      "skipped": 0,
+      "status": "passed",
+      "suite": "internal",
+      "xfailed": 0
+    }
+  ],
+  "tool_versions": {
+    "python": "3.11"
+  },
+  "traceability_sha256": "e7ff636b28d9bd9a03ef707e35ead3e232722b13490a497ea0827eaa20726aef",
+  "warnings": []
+}

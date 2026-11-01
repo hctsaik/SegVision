@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/blocker.schema.json",
+  "title": "SegVision Autonomous Execution Blocker",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "run_id",
+    "target_release_class",
+    "blocker_id",
+    "task_id",
+    "gate_id",
+    "blocker_class",
+    "status",
+    "observed_evidence",
+    "attempts",
+    "safe_alternatives_tried",
+    "missing_input_or_authority",
+    "decision_required",
+    "options",
+    "recommended_option",
+    "runnable_tasks",
+    "earliest_milestone_affected",
+    "safe_no_response_state",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "change_id": {"const": "build-segvision-v1"},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "target_release_class": {"enum": ["engineering", "domain"]},
+    "blocker_id": {"type": "string", "pattern": "^BLK-[A-Z0-9-]+$"},
+    "task_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"},
+    "gate_id": {"type": "string", "minLength": 2},
+    "blocker_class": {
+      "enum": [
+        "external_input",
+        "license_authority",
+        "reference_hardware",
+        "official_artifact_unavailable",
+        "spec_conflict",
+        "overlapping_user_change",
+        "destructive_authority",
+        "security_or_privacy",
+        "physical_performance_limit"
+      ]
+    },
+    "status": {"enum": ["open", "resolved", "superseded"]},
+    "observed_evidence": {"$ref": "#/$defs/nonEmptyStrings"},
+    "attempts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attempt", "hypothesis", "action", "result", "evidence_refs"],
+        "properties": {
+          "attempt": {"type": "integer", "minimum": 1, "maximum": 3},
+          "hypothesis": {"type": "string", "minLength": 3},
+          "action": {"type": "string", "minLength": 3},
+          "result": {"type": "string", "minLength": 3},
+          "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "safe_alternatives_tried": {"type": "array", "items": {"type": "string", "minLength": 3}, "uniqueItems": true},
+    "missing_input_or_authority": {"type": "string", "minLength": 3},
+    "decision_required": {"type": "boolean"},
+    "options": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "impact"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 3},
+          "impact": {"type": "string", "minLength": 3}
+        }
+      }
+    },
+    "recommended_option": {"type": ["string", "null"]},
+    "runnable_tasks": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"}, "uniqueItems": true},
+    "earliest_milestone_affected": {"enum": ["M0", "M1", "M2", "M3", "M4", "M5"]},
+    "safe_no_response_state": {"type": "string", "minLength": 3},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "resolution": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision_required": {"const": true}}, "required": ["decision_required"]},
+      "then": {
+        "properties": {
+          "options": {"minItems": 2, "maxItems": 3},
+          "recommended_option": {"type": "string", "minLength": 1}
+        }
+      },
+      "else": {
+        "properties": {
+          "options": {"maxItems": 0},
+          "recommended_option": {"type": "null"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  }
+}

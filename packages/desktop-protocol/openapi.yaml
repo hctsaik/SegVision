@@ -1,0 +1,1002 @@
+openapi: 3.1.0
+info:
+  title: SegVision Desktop Protocol
+  version: "1.1"
+  description: >
+    Host-only localhost control plane. Production React MUST NOT call these
+    URLs. Protocol version matching is exact string 1.1.
+servers:
+  - url: http://127.0.0.1
+security:
+  - launchSecret: []
+tags:
+  - name: control
+paths:
+  /v1/health:
+    get:
+      operationId: health
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/ProtocolVersionHeader"
+      responses:
+        "200":
+          description: Health
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/datasets/open:
+    post:
+      operationId: datasets.open
+      tags: [control]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatasetOpenRequest"
+      responses:
+        "200":
+          description: Dataset opened
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetOpenResponse"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/datasets/{dataset_id}/items:
+    get:
+      operationId: datasets.list_items
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/ProtocolVersionHeader"
+        - name: dataset_id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: cursor
+          in: query
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 32 }
+      responses:
+        "200":
+          description: Page of items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetItemsResponse"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions:
+    post:
+      operationId: sessions.create
+      tags: [control]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SessionCreateRequest"
+      responses:
+        "200":
+          description: IMAGE_OPEN snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}:
+    get:
+      operationId: sessions.get
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/ProtocolVersionHeader"
+        - $ref: "#/components/parameters/SessionId"
+      responses:
+        "200":
+          description: Authoritative snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/lock-roi:
+    post:
+      operationId: sessions.lock_roi
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LockRoiRequest"
+      responses:
+        "200":
+          description: Snapshot after start
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/proposals:
+    post:
+      operationId: sessions.propose
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MutationEnvelope"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/select:
+    post:
+      operationId: sessions.select
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SelectRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/refinements:
+    post:
+      operationId: sessions.refine
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefineRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/prompts/delete:
+    post:
+      operationId: sessions.delete_prompt
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeletePromptRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/regions/lock:
+    post:
+      operationId: sessions.lock_region
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LockRegionRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/regions/unlock:
+    post:
+      operationId: sessions.unlock_region
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnlockRegionRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/regions/next:
+    post:
+      operationId: sessions.start_next_region
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MutationEnvelope"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/edits:
+    post:
+      operationId: sessions.edit
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/undo:
+    post:
+      operationId: sessions.undo
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MutationEnvelope"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/redo:
+    post:
+      operationId: sessions.redo
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MutationEnvelope" }
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Snapshot" }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/sessions/{session_id}/prompts/update:
+    post:
+      operationId: sessions.update_prompt
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MutationEnvelope" }
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Snapshot" }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/sessions/{session_id}/manual-empty:
+    post:
+      operationId: sessions.begin_manual_empty
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManualEmptyRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/expand-roi:
+    post:
+      operationId: sessions.expand_roi
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MutationEnvelope"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/acknowledge-warning:
+    post:
+      operationId: sessions.acknowledge_warning
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AcknowledgeRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/accept:
+    post:
+      operationId: sessions.accept
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AcceptRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/needs-review:
+    post:
+      operationId: sessions.needs_review
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NeedsReviewRequest"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/sessions/{session_id}/close:
+    post:
+      operationId: sessions.close
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MutationEnvelope"
+      responses:
+        "200":
+          description: Snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snapshot"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/jobs/{job_id}/cancel:
+    post:
+      operationId: jobs.cancel
+      tags: [control]
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CancelRequest"
+      responses:
+        "200":
+          description: Cancel accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CancelResponse"
+        default:
+          $ref: "#/components/responses/Error"
+  /v1/drafts/inspect:
+    post:
+      operationId: drafts.inspect
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Draft inventory }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/drafts/flush:
+    post:
+      operationId: drafts.flush
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Draft status }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/drafts/load:
+    post:
+      operationId: drafts.load
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Restored snapshot }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/drafts/discard:
+    post:
+      operationId: drafts.discard
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Draft discarded }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/datasets/{dataset_id}/work-status:
+    get:
+      operationId: datasets.work_status
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/ProtocolVersionHeader"
+        - name: dataset_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Work queue status }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/sessions/{session_id}/qa:
+    post:
+      operationId: sessions.qa
+      tags: [control]
+      parameters: [ { $ref: "#/components/parameters/SessionId" } ]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: QA issues }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/labelme/preview:
+    post:
+      operationId: labelme.preview
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: LabelMe preview }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/labelme/export:
+    post:
+      operationId: labelme.export
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: LabelMe export }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/labelme/import:
+    post:
+      operationId: labelme.import
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: LabelMe import }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/engine/restart:
+    post:
+      operationId: engine.restart
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Engine state }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/diagnostics/export:
+    post:
+      operationId: diagnostics.export
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Redacted diagnostics }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/labels:
+    get:
+      operationId: labels.list
+      tags: [control]
+      responses:
+        "200": { description: Project labels }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/sessions/{session_id}/reclassify:
+    post:
+      operationId: labels.reclassify
+      tags: [control]
+      parameters: [ { $ref: "#/components/parameters/SessionId" } ]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Reclassified snapshot }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/updates/info:
+    get:
+      operationId: updates.info
+      tags: [control]
+      responses:
+        "200": { description: Version/update information }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/updates/verify:
+    post:
+      operationId: updates.verify
+      tags: [control]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MutationEnvelope" } } } }
+      responses:
+        "200": { description: Verification result }
+        default: { $ref: "#/components/responses/Error" }
+  /v1/assets/{token}:
+    get:
+      operationId: assets.get
+      tags: [control]
+      parameters:
+        - $ref: "#/components/parameters/ProtocolVersionHeader"
+        - name: token
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Binary asset
+          content:
+            image/png: { schema: { type: string, format: binary } }
+            image/jpeg: { schema: { type: string, format: binary } }
+            image/webp: { schema: { type: string, format: binary } }
+        default:
+          $ref: "#/components/responses/Error"
+components:
+  securitySchemes:
+    launchSecret:
+      type: apiKey
+      in: header
+      name: X-SegVision-Launch-Secret
+  parameters:
+    ProtocolVersionHeader:
+      name: X-SegVision-Protocol-Version
+      in: header
+      required: true
+      schema:
+        type: string
+        enum: ["1.1"]
+    SessionId:
+      name: session_id
+      in: path
+      required: true
+      schema: { type: string }
+  responses:
+    Error:
+      description: Typed protocol error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"
+  schemas:
+    ErrorCode:
+      type: string
+      enum:
+        - protocol_version_mismatch
+        - revision_conflict
+        - unauthorized
+        - engine_unavailable
+        - validation_failed
+        - unsupported_operation
+        - not_found
+        - stale_job
+    ErrorBody:
+      type: object
+      required: [code, message]
+      additionalProperties: false
+      properties:
+        code: { $ref: "#/components/schemas/ErrorCode" }
+        message: { type: string }
+        request_id: { type: ["string", "null"] }
+    MutationEnvelope:
+      type: object
+      required: [protocol_version, request_id, base_revision]
+      properties:
+        protocol_version:
+          type: string
+          enum: ["1.1"]
+        request_id: { type: string, minLength: 1 }
+        session_id: { type: string }
+        base_revision: { type: integer, minimum: 0 }
+    DatasetOpenRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [grant_id]
+          properties:
+            grant_id: { type: string }
+            grant_kind:
+              type: string
+              enum: [dataset]
+    DatasetOpenResponse:
+      type: object
+      required: [dataset_id, display_name, item_count]
+      properties:
+        dataset_id: { type: string }
+        display_name: { type: string }
+        item_count: { type: integer }
+        class_id: { type: string }
+    DatasetItemsResponse:
+      type: object
+      required: [items, next_cursor]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemSummary"
+        next_cursor: { type: ["string", "null"] }
+    ItemSummary:
+      type: object
+      required: [item_id, image_id, class_id, display_name]
+      properties:
+        item_id: { type: string }
+        image_id: { type: string }
+        class_id: { type: string }
+        display_name: { type: string }
+        thumbnail_token: { type: ["string", "null"] }
+        gold_mask_token: { type: ["string", "null"] }
+    SessionCreateRequest:
+      type: object
+      required: [protocol_version, request_id, base_revision, dataset_id, item_id]
+      properties:
+        protocol_version:
+          type: string
+          enum: ["1.1"]
+        request_id: { type: string }
+        base_revision:
+          type: integer
+          enum: [0]
+        dataset_id: { type: string }
+        item_id: { type: string }
+    LockRoiRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [class_id, roi_xyxy]
+          properties:
+            class_id: { type: string }
+            recipe_id: { type: ["string", "null"] }
+            roi_xyxy:
+              type: array
+              minItems: 4
+              maxItems: 4
+              items: { type: integer }
+    SelectRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [candidate_id]
+          properties:
+            candidate_id: { type: string }
+    RefineRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [x, y, label]
+          properties:
+            x: { type: integer }
+            y: { type: integer }
+            label:
+              type: integer
+              enum: [0, 1]
+    DeletePromptRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [prompt_id]
+          properties:
+            prompt_id: { type: string, minLength: 1 }
+    LockRegionRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [x, y]
+          properties:
+            x: { type: integer }
+            y: { type: integer }
+            guard: { type: boolean, default: true }
+    UnlockRegionRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          properties:
+            region_id: { type: ["string", "null"] }
+    EditRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [operation]
+          properties:
+            operation:
+              type: string
+              enum: [brush, erase, grow, shrink, fill_holes]
+            points:
+              type: array
+              items:
+                type: array
+                minItems: 2
+                maxItems: 2
+                items: { type: integer }
+            radius: { type: integer, minimum: 0 }
+            clip_rect:
+              type: [array, "null"]
+              minItems: 4
+              maxItems: 4
+              items: { type: integer }
+    ManualEmptyRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          properties:
+            roi_xyxy:
+              type: [array, "null"]
+              minItems: 4
+              maxItems: 4
+              items: { type: integer }
+    AcknowledgeRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [warning_code]
+          properties:
+            warning_code: { type: string }
+    AcceptRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          properties:
+            acknowledge_warnings:
+              type: array
+              items: { type: string }
+            output_grant_id: { type: string }
+    NeedsReviewRequest:
+      allOf:
+        - $ref: "#/components/schemas/MutationEnvelope"
+        - type: object
+          required: [reason]
+          properties:
+            reason: { type: string }
+            include_draft: { type: boolean, default: true }
+            output_grant_id: { type: string }
+    CancelRequest:
+      type: object
+      required: [protocol_version, request_id, session_id, job_id]
+      properties:
+        protocol_version:
+          type: string
+          enum: ["1.1"]
+        request_id: { type: string }
+        session_id: { type: string }
+        job_id: { type: string }
+        base_revision: { type: integer }
+    CancelResponse:
+      type: object
+      required: [job_id, status]
+      properties:
+        job_id: { type: string }
+        status:
+          type: string
+          enum: [cancelled]
+    HealthResponse:
+      type: object
+      required: [protocol_version, ready, backend, setup_state]
+      properties:
+        protocol_version:
+          type: string
+          enum: ["1.1"]
+        ready: { type: boolean }
+        backend:
+          type: object
+          required: [name, approved]
+          properties:
+            name: { type: string }
+            approved: { type: boolean }
+            capabilities: { type: object, additionalProperties: true }
+        setup_state:
+          type: string
+          enum: [ready, missing_checkpoint, checksum_invalid, unapproved]
+        cpu_only: { type: boolean }
+    CandidateSummary:
+      type: object
+      required: [candidate_id, source, capabilities, mask_token]
+      properties:
+        candidate_id: { type: string }
+        source: { type: string }
+        capabilities:
+          type: object
+          required: [can_refine, can_local_edit, can_commit]
+          properties:
+            can_refine: { type: boolean }
+            can_local_edit: { type: boolean }
+            can_commit: { type: boolean }
+        mask_token: { type: string }
+        quality: { type: number }
+        warnings:
+          type: array
+          items:
+            type: object
+            required: [code, message]
+            properties:
+              code: { type: string }
+              message: { type: string }
+              severity: { type: string }
+    Snapshot:
+      type: object
+      required:
+        - protocol_session_id
+        - workflow_state
+        - revision
+        - candidates
+        - warnings
+        - job
+        - assets
+        - controls
+      properties:
+        protocol_session_id: { type: string }
+        workflow_state: { type: string }
+        revision: { type: integer, minimum: 0 }
+        image_id: { type: string }
+        class_id: { type: ["string", "null"] }
+        recipe_id: { type: ["string", "null"] }
+        user_roi_full:
+          type: ["array", "null"]
+          items: { type: integer }
+        crop_rect_full:
+          type: ["array", "null"]
+          items: { type: integer }
+        selected_candidate_id: { type: ["string", "null"] }
+        pass_index: { type: integer, minimum: 0 }
+        prompt_points:
+          type: array
+          items:
+            type: object
+            required: [x, y, label]
+            properties:
+              point_id: { type: ["string", "null"] }
+              x: { type: integer }
+              y: { type: integer }
+              label: { type: integer, enum: [0, 1] }
+        frozen_regions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        candidates:
+          type: array
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/CandidateSummary"
+        warnings:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        acknowledged_warnings:
+          type: array
+          items: { type: string }
+        job:
+          type: object
+          properties:
+            job_id: { type: ["string", "null"] }
+            kind: { type: ["string", "null"] }
+            status: { type: ["string", "null"] }
+        assets:
+          type: object
+          properties:
+            source_image: { type: ["string", "null"] }
+            thumbnail: { type: ["string", "null"] }
+            mask: { type: ["string", "null"] }
+            locked_foreground: { type: ["string", "null"] }
+            locked_background: { type: ["string", "null"] }
+        first_roi_locked_at: { type: ["number", "null"] }
+        persist:
+          type: object
+          additionalProperties: true
+        controls:
+          type: object
+          additionalProperties: true
+        last_error: { type: ["string", "null"] }

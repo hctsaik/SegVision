@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SegVision",
+  "version": "0.1.0",
+  "identifier": "local.segvision.desktop",
+  "build": {
+    "frontendDist": "../../../apps/desktop-ui/dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "npm --prefix ../desktop-ui run dev",
+    "beforeBuildCommand": "npm --prefix ../desktop-ui run build"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "SegVision",
+        "width": 1280,
+        "height": 800
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' http://localhost:5173 ipc: http://ipc.localhost; img-src 'self' http://localhost:5173 segvision-asset: http://segvision-asset.localhost https://segvision-asset.localhost blob: data:; connect-src 'self' http://localhost:5173 ws://localhost:5173 ipc: http://ipc.localhost; frame-src 'none'; script-src 'self' 'unsafe-eval' http://localhost:5173; style-src 'self' 'unsafe-inline' http://localhost:5173",
+      "dangerousDisableAssetCspModification": false
+    }
+  },
+  "bundle": {
+    "active": false,
+    "icon": ["icons/icon.ico", "icons/32x32.png", "icons/128x128.png"],
+    "targets": ["nsis"],
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      }
+    }
+  },
+  "plugins": {}
+}

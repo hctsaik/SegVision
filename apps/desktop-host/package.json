@@ -1,0 +1,14 @@
+{
+  "name": "@segvision/desktop-host",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "dev:cim": "powershell -NoProfile -ExecutionPolicy Bypass -File ./start-cim-shell.ps1",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.6.2"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/desktop-protocol/update-manifest.schema.json",
+  "title": "SegVisionOfflineUpdateManifest",
+  "type": "object",
+  "required": ["version", "build_id", "protocol_range", "components", "release_authority", "signature", "rollback"],
+  "properties": {
+    "version": {"type": "string", "minLength": 1},
+    "build_id": {"type": "string", "minLength": 1},
+    "protocol_range": {"type": "string", "minLength": 1},
+    "components": {"type": "array", "minItems": 1},
+    "release_authority": {"type": "string", "minLength": 1},
+    "signature": {"type": "string", "minLength": 1},
+    "rollback": {"type": "object", "required": ["prior_version", "retention"], "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

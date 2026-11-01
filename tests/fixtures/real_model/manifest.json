@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "manifest_id": "segvision-v1-real-model-fixtures-synthetic",
+  "seed": 1729,
+  "model_identity": null,
+  "fixtures": [
+    {
+      "fixture_id": "synthetic-reference",
+      "kind": "synthetic",
+      "path": "tests/fixtures/real_model/synthetic_reference.json",
+      "sha256": "2fd3173f079a03cb773c6e8a56489628a361a33c0b2d17b131b267d94e03ad3e",
+      "expected_sha256": "2fd3173f079a03cb773c6e8a56489628a361a33c0b2d17b131b267d94e03ad3e",
+      "tolerance_profile": "segvision-v1-synthetic-exact"
+    },
+    {
+      "fixture_id": "call-ledger",
+      "kind": "replay",
+      "path": "tests/fixtures/real_model/call_ledger.jsonl",
+      "sha256": "6964a9aaa3d0accb068fbed194dc9c79c74b45cfadf03cdec06a50392ad3048f",
+      "expected_sha256": "6964a9aaa3d0accb068fbed194dc9c79c74b45cfadf03cdec06a50392ad3048f",
+      "tolerance_profile": "segvision-v1-call-counts"
+    },
+    {
+      "fixture_id": "tolerances",
+      "kind": "synthetic",
+      "path": "tests/fixtures/real_model/tolerances.json",
+      "sha256": "ac914f039bb1d4f6359c95a6b5fce0421e7a4df84949536420db406583fca1e2",
+      "expected_sha256": null,
+      "tolerance_profile": "segvision-v1-real-backend-regression"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "manifest_id": "segvision-v1-mobilesam-pending-approval",
+  "intended_use": "company CPU-only offline annotation and approved redistribution",
+  "entries": [
+    {
+      "artifact_id": "mobilesam-code-f706ad9",
+      "artifact_kind": "model_code",
+      "source_url": "https://github.com/ChaoningZhang/MobileSAM",
+      "source_revision": "f706ad9c4eb7f219c00d9050e46328518ffb65d2",
+      "artifact_url": null,
+      "sha256": null,
+      "license_facts": {
+        "license_id": "Apache-2.0",
+        "source_ref": "https://github.com/ChaoningZhang/MobileSAM/blob/f706ad9c4eb7f219c00d9050e46328518ffb65d2/LICENSE",
+        "verified_by": "AI source review; organizational legal approval not inferred",
+        "verified_at": "2026-08-27T00:00:00+08:00"
+      },
+      "redistribution_status": "unknown",
+      "organizational_approval": {
+        "status": "pending",
+        "authority_ref": null,
+        "approved_at": null
+      },
+      "conversion": null,
+      "included_in_release": false
+    },
+    {
+      "artifact_id": "mobilesam-weights-f706ad9",
+      "artifact_kind": "model_weights",
+      "source_url": "https://github.com/ChaoningZhang/MobileSAM",
+      "source_revision": "f706ad9c4eb7f219c00d9050e46328518ffb65d2",
+      "artifact_url": "https://raw.githubusercontent.com/ChaoningZhang/MobileSAM/f706ad9c4eb7f219c00d9050e46328518ffb65d2/weights/mobile_sam.pt",
+      "sha256": "6dbb90523a35330fedd7f1d3dfc66f995213d81b29a5ca8108dbcdd4e37d6c2f",
+      "license_facts": {
+        "license_id": "NO_SEPARATE_WEIGHT_LICENSE_FOUND_IN_REPOSITORY",
+        "source_ref": "https://github.com/ChaoningZhang/MobileSAM/tree/f706ad9c4eb7f219c00d9050e46328518ffb65d2/weights",
+        "verified_by": "AI source review; repository license is not treated as weight authorization",
+        "verified_at": "2026-08-27T00:00:00+08:00"
+      },
+      "redistribution_status": "unknown",
+      "organizational_approval": {
+        "status": "pending",
+        "authority_ref": null,
+        "approved_at": null
+      },
+      "conversion": null,
+      "included_in_release": false
+    }
+  ]
+}

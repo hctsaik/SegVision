@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/scenario-results.schema.json",
+  "title": "SegVision Scenario Results",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "e2e_cases_sha256", "traceability_sha256", "results"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "e2e_cases_sha256": {"$ref": "#/$defs/sha256"},
+    "traceability_sha256": {"$ref": "#/$defs/sha256"},
+    "results": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["case_id", "test_target", "tier", "mandatory", "status", "attempt_count", "started_at", "finished_at", "oracle_results", "evidence_refs"], "properties": {"case_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"}, "test_target": {"type": "string", "pattern": "^tests/.+\\.py::test_[a-z0-9_]+$"}, "tier": {"enum": ["A", "B", "C"]}, "mandatory": {"type": "boolean"}, "status": {"enum": ["passed", "failed", "blocked"]}, "attempt_count": {"const": 1}, "started_at": {"type": "string", "format": "date-time"}, "finished_at": {"type": "string", "format": "date-time"}, "oracle_results": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["oracle", "passed", "actual", "evidence_ref"], "properties": {"oracle": {"type": "string", "minLength": 1}, "passed": {"type": "boolean"}, "actual": {}, "evidence_ref": {"type": "string", "minLength": 1}}, "additionalProperties": false}}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true}}}}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}}
+}

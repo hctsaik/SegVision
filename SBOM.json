@@ -1,0 +1,168 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "license": "UNKNOWN",
+      "name": "ast_serialize",
+      "type": "library",
+      "version": "0.8.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "attrs",
+      "type": "library",
+      "version": "26.1.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "build",
+      "type": "library",
+      "version": "1.2.2.post1"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "colorama",
+      "type": "library",
+      "version": "0.4.6"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "iniconfig",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "jsonschema",
+      "type": "library",
+      "version": "4.26.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "jsonschema-specifications",
+      "type": "library",
+      "version": "2025.9.1"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "librt",
+      "type": "library",
+      "version": "0.15.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "mypy",
+      "type": "library",
+      "version": "2.3.1"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "mypy_extensions",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "numpy",
+      "type": "library",
+      "version": "2.4.6"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "packaging",
+      "type": "library",
+      "version": "26.3"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "pathspec",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "pillow",
+      "type": "library",
+      "version": "12.3.0"
+    },
+    {
+      "license": "MIT",
+      "name": "pip",
+      "type": "library",
+      "version": "24.0"
+    },
+    {
+      "license": "MIT",
+      "name": "pluggy",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "Pygments",
+      "type": "library",
+      "version": "2.21.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "pyproject_hooks",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "pytest",
+      "type": "library",
+      "version": "9.1.1"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "referencing",
+      "type": "library",
+      "version": "0.37.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "rpds-py",
+      "type": "library",
+      "version": "0.27.1"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "ruff",
+      "type": "library",
+      "version": "0.16.5"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "segvision",
+      "type": "library",
+      "version": "0.1.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "segvision",
+      "type": "library",
+      "version": "0.1.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "setuptools",
+      "type": "library",
+      "version": "65.5.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "typing_extensions",
+      "type": "library",
+      "version": "4.16.0"
+    },
+    {
+      "license": "UNKNOWN",
+      "name": "wheel",
+      "type": "library",
+      "version": "0.45.1"
+    }
+  ],
+  "specVersion": "1.5"
+}

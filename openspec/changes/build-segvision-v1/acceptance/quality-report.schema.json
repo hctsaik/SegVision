@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/quality-report.schema.json",
+  "title": "SegVision Quality and Human Review Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "report_kind", "profile_sha256", "policy_sha256", "domain_inputs_sha256", "metric_algorithm_id", "per_image", "aggregate", "human_review"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "report_kind": {"enum": ["engineering_regression", "domain_validation"]},
+    "profile_sha256": {"$ref": "#/$defs/sha256"},
+    "policy_sha256": {"$ref": "#/$defs/sha256"},
+    "domain_inputs_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "metric_algorithm_id": {"const": "segvision-symmetric-boundary-f1-v1"},
+    "per_image": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["image_id", "prediction_sha256", "gold_sha256", "boundary_tolerance_px", "boundary_precision", "boundary_recall", "boundary_f1"], "properties": {"image_id": {"type": "string"}, "prediction_sha256": {"$ref": "#/$defs/sha256"}, "gold_sha256": {"$ref": "#/$defs/sha256"}, "boundary_tolerance_px": {"type": "number", "minimum": 0}, "boundary_precision": {"type": "number", "minimum": 0, "maximum": 1}, "boundary_recall": {"type": "number", "minimum": 0, "maximum": 1}, "boundary_f1": {"type": "number", "minimum": 0, "maximum": 1}}, "additionalProperties": false}},
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["presented", "accepted", "needs_review", "unresolved", "sessions_with_timeout", "accepted_under_30", "valid_accept_rate", "accepted_conditional_within_30_rate", "all_presented_within_30_accept_rate", "needs_review_rate", "timeout_rate", "unresolved_rate", "median_boundary_f1", "minimum_boundary_f1", "wrong_accept_count", "wrong_accept_rate"],
+      "properties": {
+        "presented": {"type": "integer", "minimum": 1},
+        "accepted": {"type": "integer", "minimum": 0},
+        "needs_review": {"type": "integer", "minimum": 0},
+        "unresolved": {"type": "integer", "minimum": 0},
+        "sessions_with_timeout": {"type": "integer", "minimum": 0},
+        "accepted_under_30": {"type": "integer", "minimum": 0},
+        "valid_accept_rate": {"$ref": "#/$defs/rate"},
+        "accepted_conditional_within_30_rate": {"$ref": "#/$defs/rate"},
+        "all_presented_within_30_accept_rate": {"$ref": "#/$defs/rate"},
+        "needs_review_rate": {"$ref": "#/$defs/rate"},
+        "timeout_rate": {"$ref": "#/$defs/rate"},
+        "unresolved_rate": {"$ref": "#/$defs/rate"},
+        "median_boundary_f1": {"$ref": "#/$defs/rate"},
+        "minimum_boundary_f1": {"$ref": "#/$defs/rate"},
+        "wrong_accept_count": {"type": "integer", "minimum": 0},
+        "wrong_accept_rate": {"$ref": "#/$defs/rate"}
+      }
+    },
+    "human_review": {"type": ["object", "null"], "properties": {"reviewed_accepted_count": {"type": "integer", "minimum": 0}, "training_usable_count": {"type": "integer", "minimum": 0}, "training_unusable_count": {"type": "integer", "minimum": 0}, "training_usable_rate": {"$ref": "#/$defs/rate"}, "reviewer_manifest_sha256": {"$ref": "#/$defs/sha256"}, "independence_attested": {"const": true}}, "required": ["reviewed_accepted_count", "training_usable_count", "training_unusable_count", "training_usable_rate", "reviewer_manifest_sha256", "independence_attested"], "additionalProperties": false}
+  },
+  "allOf": [
+    {"if": {"properties": {"report_kind": {"const": "engineering_regression"}}}, "then": {"properties": {"domain_inputs_sha256": {"type": "null"}, "human_review": {"type": "null"}}}},
+    {"if": {"properties": {"report_kind": {"const": "domain_validation"}}}, "then": {"properties": {"domain_inputs_sha256": {"type": "string"}, "per_image": {"minItems": 30, "items": {"properties": {"boundary_f1": {"minimum": 0.90}}}}, "aggregate": {"properties": {"presented": {"minimum": 100}, "accepted": {"minimum": 90}, "valid_accept_rate": {"minimum": 0.90}, "accepted_conditional_within_30_rate": {"const": 1.0}, "all_presented_within_30_accept_rate": {"minimum": 0.90}, "needs_review_rate": {"maximum": 0.10}, "timeout_rate": {"const": 0.0}, "unresolved_rate": {"const": 0.0}, "median_boundary_f1": {"minimum": 0.95}, "minimum_boundary_f1": {"minimum": 0.90}, "wrong_accept_count": {"const": 0}, "wrong_accept_rate": {"const": 0.0}}}, "human_review": {"type": "object", "properties": {"reviewed_accepted_count": {"minimum": 30}, "training_usable_rate": {"const": 1.0}}}}}}
+  ],
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "rate": {"type": "number", "minimum": 0, "maximum": 1}}
+}

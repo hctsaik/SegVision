@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/session-events.schema.json",
+  "title": "SegVision Session Event Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "events"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "events": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["session_id", "revision", "sequence", "monotonic_ns", "event", "job_id", "candidate_id", "actor", "details"], "properties": {"session_id": {"type": "string"}, "revision": {"type": ["integer", "null"], "minimum": 1}, "sequence": {"type": "integer", "minimum": 1}, "monotonic_ns": {"type": "integer", "minimum": 0}, "event": {"enum": ["image_visible", "roi_drag_started", "first_roi_locked", "roi_relocked", "proposal_started", "encode_started", "encode_finished", "first_candidate_ready", "all_candidates_ready", "candidate_selected", "refine_started", "refine_finished", "first_local_edit", "job_cancel_requested", "job_cancelled", "stale_result_rejected", "required_operation_timeout", "accept_attempted", "accept_validation_passed", "accept_validation_failed", "needs_review_requested", "review_save_started", "review_save_finished", "review_save_failed", "commit_started", "commit_finished", "save_started", "save_finished", "save_failed", "next_image"]}, "job_id": {"type": ["string", "null"]}, "candidate_id": {"type": ["string", "null"]}, "actor": {"enum": ["interactive_user", "scripted_test", "system"]}, "details": {"type": "object"}}}}
+  }
+}

@@ -1,0 +1,1029 @@
+{
+  "change_id": "build-segvision-v1",
+  "latest_verdict": null,
+  "open_blockers": [],
+  "project_state": "in_progress",
+  "run_id": "sv-20260827T232308Z-2e186d64",
+  "schema_version": 1,
+  "source": {
+    "dirty_paths": [],
+    "file_tree_sha256": "b63e3b6db3c3d7571de46cb844f549bf748ac9f8cbb681ab21153ddaf273c5cb",
+    "revision": null
+  },
+  "started_at": "2026-08-27T23:23:09.167259Z",
+  "target_release_class": "engineering",
+  "task_graph_sha256": "63b3525fb992cdabee88f6bfa41651f4f8f74b0d2a49d7da6bf24122319f4de4",
+  "tasks": [
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "P00",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "P00"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "SCAFFOLD",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "SCAFFOLD"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "VALIDATE-CONTRACTS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "VALIDATE-CONTRACTS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "VALIDATE-EVIDENCE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "VALIDATE-EVIDENCE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "VALIDATE-STATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "VALIDATE-STATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GOV-META-E2E",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "VALIDATE-STATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "POLICY-CONTRACTS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GOV-META-E2E",
+        "POLICY-CONTRACTS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M0-GATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M0-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CORE-TYPES",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CORE-TYPES"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "BACKEND-FAKE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CORE-TYPES"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "ROI-CONTEXT",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "ROI-CONTEXT"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "ROI-TRANSFORMS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "ROI-TRANSFORMS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "ROI-COMMIT",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CORE-TYPES"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "RECIPE-SCHEMA",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "BACKEND-FAKE",
+        "ROI-COMMIT",
+        "RECIPE-SCHEMA"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "SESSION-LIFECYCLE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "SESSION-LIFECYCLE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CANDIDATE-VALIDATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CANDIDATE-VALIDATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CANDIDATE-ALLOCATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CANDIDATE-ALLOCATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "SAFE-GRID",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CANDIDATE-ALLOCATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "UNCERTAINTY-FUSION",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "SAFE-GRID",
+        "UNCERTAINTY-FUSION"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "POINT-REFINE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "ROI-COMMIT",
+        "UNCERTAINTY-FUSION"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "LOCAL-OPS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "POINT-REFINE",
+        "LOCAL-OPS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "EDIT-UNDO-MANUAL",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "EDIT-UNDO-MANUAL"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "COMMIT-REVIEW",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "COMMIT-REVIEW"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CORE-SCENARIOS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CORE-SCENARIOS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M1-GATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M1-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "MODEL-MANIFEST",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MODEL-MANIFEST"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "MODEL-ACQUIRE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MODEL-ACQUIRE",
+        "BACKEND-FAKE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "MOBILE-ENCODE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MOBILE-ENCODE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "MOBILE-DECODE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MOBILE-DECODE",
+        "VALIDATE-CONTRACTS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "MODEL-FIXTURES",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MODEL-MANIFEST"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "X-MODEL",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MODEL-FIXTURES",
+        "X-MODEL"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "REAL-BACKEND-REG",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "MOBILE-DECODE",
+        "MODEL-FIXTURES"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M2-CODE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M2-CODE",
+        "REAL-BACKEND-REG"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M2-GATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M2-CODE",
+        "SESSION-LIFECYCLE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "RUNTIME-JOBS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "RUNTIME-JOBS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "RUNTIME-STALE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M1-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "PERSIST-CONTRACT",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "PERSIST-CONTRACT"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "PAIR-PUBLISH",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "PAIR-PUBLISH"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "PAIR-LOADER",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "PAIR-LOADER",
+        "VALIDATE-EVIDENCE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "PERSIST-E2E",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "RUNTIME-STALE",
+        "M1-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-STATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-STATE",
+        "ROI-COMMIT",
+        "CANDIDATE-ALLOCATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-CANVAS-CARDS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-CANVAS-CARDS",
+        "POINT-REFINE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-POINTS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-POINTS",
+        "EDIT-UNDO-MANUAL"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-LOCAL-SHORTCUTS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-LOCAL-SHORTCUTS",
+        "PAIR-LOADER"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-OUTCOMES-TIMER",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-OUTCOMES-TIMER",
+        "RUNTIME-STALE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-RESPONSIVE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-RESPONSIVE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-SCOPE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-SCOPE",
+        "PERSIST-E2E"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "GUI-E2E",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "GUI-E2E"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M3-SCENARIOS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M3-SCENARIOS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M3-GATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "RECIPE-SCHEMA",
+        "M3-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CV-EXECUTOR",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CV-EXECUTOR"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CV-GATES",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CV-GATES",
+        "M2-CODE",
+        "M3-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CV-BRIDGE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CV-BRIDGE",
+        "VALIDATE-EVIDENCE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "CV-E2E",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M3-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "OBSERVABILITY",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "OBSERVABILITY",
+        "VALIDATE-CONTRACTS",
+        "VALIDATE-EVIDENCE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "ACCEPTANCE-RUNNER",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "ACCEPTANCE-RUNNER",
+        "VALIDATE-STATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "VERDICT-CLASSIFIER",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "ACCEPTANCE-RUNNER",
+        "M3-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "E2E-CANDIDATES",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "E2E-CANDIDATES",
+        "RUNTIME-STALE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "E2E-REFINE-ROI",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "E2E-REFINE-ROI",
+        "PERSIST-E2E",
+        "GUI-E2E",
+        "OBSERVABILITY"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "E2E-PERSIST-GUI-TIME",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M3-GATE",
+        "MODEL-FIXTURES"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "PERFORMANCE-HARNESS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M3-GATE",
+        "M2-CODE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "PACKAGE-BUILD",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "PACKAGE-BUILD",
+        "MODEL-MANIFEST"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "COMPLIANCE-BUNDLE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "COMPLIANCE-BUNDLE",
+        "X-MODEL"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "X-RELEASE-AUTH",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "PERFORMANCE-HARNESS"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "X-REFERENCE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "M2-GATE",
+        "PERFORMANCE-HARNESS",
+        "X-REFERENCE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "REFERENCE-PERF",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "COMPLIANCE-BUNDLE",
+        "X-RELEASE-AUTH",
+        "X-REFERENCE",
+        "M2-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "OFFLINE-E2E",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "CV-E2E",
+        "E2E-PERSIST-GUI-TIME",
+        "REFERENCE-PERF",
+        "OFFLINE-E2E",
+        "VERDICT-CLASSIFIER"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "TIER-A-B",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "TIER-A-B",
+        "X-RELEASE-AUTH"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M4-GATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "VERDICT-CLASSIFIER"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "DOMAIN-TOOLS",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "DOMAIN-TOOLS",
+        "M4-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "X-DOMAIN",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "DOMAIN-TOOLS",
+        "X-DOMAIN",
+        "M4-GATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "DOMAIN-EVALUATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "DOMAIN-EVALUATE"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "DOMAIN-VERDICT",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    },
+    {
+      "attempt_count": 0,
+      "blocker_ref": null,
+      "checkpoint_id": null,
+      "dependencies": [
+        "DOMAIN-VERDICT"
+      ],
+      "evidence_refs": [],
+      "reason": null,
+      "state": "pending",
+      "task_id": "M5-GATE",
+      "updated_at": "2026-08-27T23:23:09.167259Z"
+    }
+  ],
+  "updated_at": "2026-08-27T23:23:09.167259Z"
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/task-graph.schema.json",
+  "title": "SegVision Autonomous Task Graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "change_id", "source_checklist", "execution_contract", "tasks"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "change_id": {"const": "build-segvision-v1"},
+    "source_checklist": {"const": "../tasks.md"},
+    "execution_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bootstrap_task_ids", "post_bootstrap_root_task_id", "controller_managed_paths", "effective_command_rule", "source_fingerprint_rule", "checkpoint_reuse_rule", "verdict_precondition_rule", "inherited_pre_pass_commands"],
+      "properties": {
+        "bootstrap_task_ids": {"const": ["P00", "SCAFFOLD", "VALIDATE-CONTRACTS", "VALIDATE-EVIDENCE", "VALIDATE-STATE"]},
+        "post_bootstrap_root_task_id": {"const": "VALIDATE-STATE"},
+        "controller_managed_paths": {"const": ["openspec/changes/build-segvision-v1/tasks.md", "evidence/execution-state.json"]},
+        "effective_command_rule": {"const": "run task.commands in order; immediately before its first repository validator generate provisional task evidence and proposed state/checkpoint, refresh them after the listed commands, then run inherited_pre_pass_commands in order before passed"},
+        "source_fingerprint_rule": {"const": "hash maintained repository files; exclude .venv, evidence, dist, build, and tool caches; normalize only tasks.md checkbox markers to unchecked; hash model and release artifacts separately through their manifests"},
+        "checkpoint_reuse_rule": {"const": "reuse depends on unchanged task graph and contract hashes, dependency checkpoint IDs, declared required-input hashes, and owned-output hashes; later disjoint task outputs and controller-managed bookkeeping do not invalidate a checkpoint"},
+        "verdict_precondition_rule": {"const": "a verdict command is legal only when validate-contracts, full-run validate-evidence, and validate-state appear earlier in the same task command list and all exited zero"},
+        "inherited_pre_pass_commands": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "python -m segvision.acceptance validate-contracts --change build-segvision-v1"},
+            {"const": "python -m segvision.acceptance validate-evidence --evidence evidence/$env:SEG_RUN_ID/$env:SEG_TASK_ID/evidence.json"},
+            {"const": "python -m segvision.acceptance validate-state --state evidence/execution-state.json"}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/task"}
+    }
+  },
+  "$defs": {
+    "strings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "checklist_id",
+        "milestone",
+        "objective",
+        "dependencies",
+        "requirement_refs",
+        "e2e_refs",
+        "owned_paths",
+        "required_inputs",
+        "expected_outputs",
+        "commands",
+        "required_evidence",
+        "pass_criteria",
+        "retry_policy",
+        "fallback",
+        "rollback_boundary",
+        "escalation_conditions",
+        "external_gate"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"},
+        "checklist_id": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "milestone": {"enum": ["M0", "M1", "M2", "M3", "M4", "M5"]},
+        "objective": {"type": "string", "minLength": 10},
+        "dependencies": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"}, "uniqueItems": true},
+        "requirement_refs": {"$ref": "#/$defs/strings"},
+        "e2e_refs": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"}, "uniqueItems": true},
+        "owned_paths": {"$ref": "#/$defs/strings"},
+        "required_inputs": {"$ref": "#/$defs/strings"},
+        "expected_outputs": {"$ref": "#/$defs/strings"},
+        "commands": {"$ref": "#/$defs/strings"},
+        "required_evidence": {"$ref": "#/$defs/strings"},
+        "pass_criteria": {"$ref": "#/$defs/strings"},
+        "retry_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maximum_attempts", "materially_different_hypothesis_required"],
+          "properties": {
+            "maximum_attempts": {"type": "integer", "minimum": 1, "maximum": 3},
+            "materially_different_hypothesis_required": {"const": true}
+          }
+        },
+        "fallback": {"type": "string", "minLength": 3},
+        "rollback_boundary": {"type": "string", "minLength": 3},
+        "escalation_conditions": {"type": "array", "items": {"type": "string", "minLength": 3}, "uniqueItems": true},
+        "external_gate": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "manifest_id": "segvision-v1-reference-targets-pending",
+  "performance_reference": {
+    "schema_version": 1,
+    "manifest_id": "segvision-v1-performance-reference-pending",
+    "approval_status": "pending",
+    "role": "performance_reference",
+    "machine_kind": "physical",
+    "os": "PENDING",
+    "cpu": "PENDING",
+    "ram_bytes": 1,
+    "python": "PENDING",
+    "thread_policy": {"torch_threads": 1, "opencv_threads": 1, "blas_threads": 1},
+    "network_isolation": true,
+    "cuda_absent": true,
+    "clean_install_target": false,
+    "approved_by": null,
+    "approved_at": null
+  },
+  "offline_clean_install": {
+    "schema_version": 1,
+    "manifest_id": "segvision-v1-offline-clean-install-pending",
+    "approval_status": "pending",
+    "role": "offline_clean_install",
+    "machine_kind": "virtual_clean_install",
+    "os": "PENDING",
+    "cpu": "PENDING",
+    "ram_bytes": 1,
+    "python": "PENDING",
+    "thread_policy": {"torch_threads": 1, "opencv_threads": 1, "blas_threads": 1},
+    "network_isolation": true,
+    "cuda_absent": true,
+    "clean_install_target": true,
+    "approved_by": null,
+    "approved_at": null
+  }
+}

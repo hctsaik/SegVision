@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/performance-report.schema.json",
+  "title": "SegVision Performance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "reference_machine_sha256", "profile_sha256", "model_manifest_sha256", "thread_policy", "metrics"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "reference_machine_sha256": {"$ref": "#/$defs/sha256"},
+    "profile_sha256": {"$ref": "#/$defs/sha256"},
+    "model_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "thread_policy": {"type": "object", "minProperties": 1},
+    "metrics": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["metric_id", "sample_count", "cold_or_warm", "p50_ms", "p90_ms", "p95_ms", "max_ms", "peak_ram_bytes", "threshold", "passed"], "properties": {"metric_id": {"type": "string"}, "sample_count": {"type": "integer", "minimum": 1}, "cold_or_warm": {"enum": ["cold", "warm", "mixed"]}, "p50_ms": {"type": "number", "minimum": 0}, "p90_ms": {"type": "number", "minimum": 0}, "p95_ms": {"type": "number", "minimum": 0}, "max_ms": {"type": "number", "minimum": 0}, "peak_ram_bytes": {"type": "integer", "minimum": 1}, "threshold": {"type": "object"}, "passed": {"type": "boolean"}}}}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}}
+}

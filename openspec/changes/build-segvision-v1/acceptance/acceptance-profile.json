@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "profile_id": "segvision-v1-default",
+  "change_id": "build-segvision-v1",
+  "clock": {
+    "kind": "monotonic",
+    "annotation_start_event": "first_roi_locked",
+    "annotation_end_event": "accept_validation_passed",
+    "review_end_event": "needs_review_requested",
+    "deadline_ms": 30000,
+    "deadline_operator": "strictly_less_than",
+    "roi_relock_resets_timer": false,
+    "invalid_accept_resets_or_stops_timer": false
+  },
+  "functional": {
+    "mandatory_pass_rate": 1.0,
+    "allowed_skips": 0,
+    "allowed_xfails": 0,
+    "allowed_flaky_retries": 0,
+    "allowed_stale_overwrites": 0,
+    "max_candidates": 3,
+    "sam_proposal_encoder_calls": 1,
+    "cv_direct_encoder_calls": 0,
+    "sam_refine_encoder_delta": 0
+  },
+  "geometry": {
+    "padding_fraction": 0.10,
+    "rectangle_convention": "half_open_xyxy",
+    "round_trip_max_error_px": 1,
+    "candidate_mask_dtype": "bool",
+    "accepted_png_values": [0, 255]
+  },
+  "performance": {
+    "reference_machine_manifest_required": true,
+    "overlay_brush_p95_ms": {
+      "value": 100,
+      "operator": "strictly_less_than",
+      "hard_gate": true,
+      "min_samples": 1000
+    },
+    "cached_refine_p95_ms": {
+      "value": 1000,
+      "operator": "less_than_or_equal",
+      "hard_gate": false,
+      "classification": "prd_best_effort_target",
+      "min_samples": 30
+    },
+    "scripted_supported_case_decision_ms": {
+      "value": 30000,
+      "operator": "strictly_less_than",
+      "hard_gate": true
+    },
+    "required_percentiles": [50, 90, 95],
+    "cold_and_warm_reported_separately": true,
+    "peak_ram_required": true
+  },
+  "real_backend_regression": {
+    "fixture_manifest_required": true,
+    "minimum_fixture_count": 3,
+    "candidate_count_must_match": true,
+    "selected_mask_iou_minimum": 0.995,
+    "maximum_boundary_displacement_px": 1,
+    "provider_score_absolute_tolerance": 0.0001,
+    "call_ledger_must_match": true,
+    "checkpoint_and_runtime_hashes_must_match": true
+  },
+  "storage": {
+    "partial_pairs_accepted": 0,
+    "hash_mismatches_accepted": 0,
+    "review_items_returned_by_training_loader": 0,
+    "accepted_pairs_reload_rate": 1.0,
+    "default_overwrite": false
+  },
+  "domain_validation": {
+    "minimum_representative_images": 100,
+    "minimum_independent_gold_images": 30,
+    "minimum_valid_accepted_images": 90,
+    "minimum_valid_accept_rate": 0.90,
+    "accepted_conditional_within_30_rate": 1.0,
+    "all_presented_within_30_accept_rate_minimum": 0.90,
+    "maximum_needs_review_rate": 0.10,
+    "maximum_timeout_rate": 0.0,
+    "maximum_unresolved_rate": 0.0,
+    "maximum_wrong_accept_rate": 0.0,
+    "median_boundary_f1_minimum": 0.95,
+    "per_image_boundary_f1_minimum": 0.90,
+    "boundary_tolerance": {
+      "kind": "max_pixels_or_diagonal_fraction",
+      "pixels": 2,
+      "image_diagonal_fraction": 0.002
+    },
+    "boundary_metric": {
+      "algorithm_id": "segvision-symmetric-boundary-f1-v1",
+      "input": "full_image_bool_masks",
+      "boundary_extraction": "foreground_pixels_with_any_8_neighbor_background_or_outside_image",
+      "matching_distance": "symmetric_euclidean_within_tolerance",
+      "both_empty_f1": 1.0,
+      "one_empty_f1": 0.0,
+      "aggregation": "per_image_then_median_over_independent_gold_set"
+    },
+    "independent_gold_required": true,
+    "independent_human_review_required": true,
+    "real_annotator_workflow_required": true,
+    "minimum_independently_reviewed_accepted_images": 30,
+    "minimum_training_usable_rate": 1.0,
+    "wrong_accept_denominator": "all_independently_reviewed_accepted_images",
+    "synthetic_data_may_satisfy_domain_gate": false
+  },
+  "offline_release": {
+    "network_required": false,
+    "login_required": false,
+    "cuda_required": false,
+    "clean_windows_install_required": true,
+    "paths_with_spaces_and_unicode_required": true,
+    "lockfile_required": true,
+    "sbom_required": true,
+    "third_party_notices_required": true,
+    "approved_model_manifest_required": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/fixture-manifest.schema.json",
+  "title": "SegVision Test Fixture Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "seed", "model_identity", "fixtures"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"type": "string", "minLength": 3},
+    "seed": {"type": "integer"},
+    "model_identity": {"type": ["object", "null"], "properties": {"backend": {"type": "string", "minLength": 1}, "source_revision": {"type": "string", "minLength": 7}, "checkpoint_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "runtime_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "preprocess_version": {"type": "string", "minLength": 1}}, "required": ["backend", "source_revision", "checkpoint_sha256", "runtime_sha256", "preprocess_version"], "additionalProperties": false},
+    "fixtures": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["fixture_id", "kind", "path", "sha256", "expected_sha256", "tolerance_profile"], "properties": {"fixture_id": {"type": "string", "minLength": 1}, "kind": {"enum": ["synthetic", "replay", "real_model_regression", "persistence_fault", "gui"]}, "path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "expected_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"}, "tolerance_profile": {"type": ["string", "null"]}}, "allOf": [{"if": {"properties": {"kind": {"const": "real_model_regression"}}}, "then": {"properties": {"expected_sha256": {"type": "string"}, "tolerance_profile": {"const": "segvision-v1-real-backend-regression"}}}}]}}
+  },
+  "allOf": [{"if": {"properties": {"fixtures": {"contains": {"properties": {"kind": {"const": "real_model_regression"}}, "required": ["kind"]}}}}, "then": {"properties": {"model_identity": {"type": "object"}}}}]
+}

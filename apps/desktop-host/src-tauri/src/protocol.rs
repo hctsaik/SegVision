@@ -1,0 +1,61 @@
+// generated from protocol.json — do not hand-edit
+pub const PROTOCOL_VERSION: &str = "1.1";
+pub const OPERATIONS: &[&str] = &[
+    "health",
+    "datasets.open",
+    "datasets.list_items",
+    "sessions.create",
+    "sessions.get",
+    "sessions.lock_roi",
+    "sessions.propose",
+    "sessions.select",
+    "sessions.refine",
+    "sessions.delete_prompt",
+    "sessions.lock_region",
+    "sessions.unlock_region",
+    "sessions.start_next_region",
+    "sessions.edit",
+    "sessions.undo",
+    "sessions.redo",
+    "sessions.update_prompt",
+    "sessions.begin_manual_empty",
+    "sessions.expand_roi",
+    "sessions.acknowledge_warning",
+    "sessions.accept",
+    "sessions.needs_review",
+    "sessions.close",
+    "jobs.cancel",
+    "drafts.inspect",
+    "drafts.flush",
+    "drafts.load",
+    "drafts.discard",
+    "datasets.work_status",
+    "sessions.qa",
+    "labelme.preview",
+    "labelme.export",
+    "labelme.import",
+    "engine.restart",
+    "diagnostics.export",
+    "labels.list",
+    "labels.reclassify",
+    "updates.info",
+    "updates.verify",
+    "assets.get"
+];
+pub const ERROR_CODES: &[&str] = &[
+    "protocol_version_mismatch",
+    "revision_conflict",
+    "unauthorized",
+    "engine_unavailable",
+    "validation_failed",
+    "unsupported_operation",
+    "not_found",
+    "stale_job"
+];
+pub const EVENT_KINDS: &[&str] = &[
+    "progress",
+    "completed",
+    "cancelled",
+    "stale",
+    "failed"
+];

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/desktop-protocol/draft.schema.json",
+  "title": "SegVisionEditableDraft",
+  "type": "object",
+  "required": ["schema_version", "draft_id", "dataset_id", "item_id", "source_sha256", "mask"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "draft_id": {"type": "string", "minLength": 1},
+    "dataset_id": {"type": "string", "minLength": 1},
+    "item_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "protocol_version": {"const": "1.1"},
+    "revision": {"type": "integer", "minimum": 0},
+    "class_id": {"type": "string", "minLength": 1},
+    "mask": {"type": "object", "required": ["path", "sha256", "height", "width"], "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,7 @@
+{
+  "profile_id": "segvision-v1-real-backend-regression",
+  "mask_iou_min": 0.995,
+  "pixel_mismatch_max": 0,
+  "score_tolerance": 0.000001,
+  "synthetic_only": true
+}

@@ -1,0 +1,5040 @@
+{
+  "schema_version": 1,
+  "change_id": "build-segvision-v1",
+  "specs_sha256": "088674107cd1c6100234e03bee633ff7bdb54de4667378a35dc48d54785778de",
+  "entries": [
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R001",
+      "scenario_id": "AOB-R001-S01",
+      "scenario_title": "Happy-path event sequence",
+      "planned_test_id": "T-AOB-R001-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r001_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R001",
+      "scenario_id": "AOB-R001-S02",
+      "scenario_title": "Revision changes during an active job",
+      "planned_test_id": "T-AOB-R001-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r001_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "ROI-STALE-P",
+        "ROI-STALE-R"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R001",
+      "scenario_id": "AOB-R001-S03",
+      "scenario_title": "Failed Accept is observable",
+      "planned_test_id": "T-AOB-R001-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r001_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "VAL-POINT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R002",
+      "scenario_id": "AOB-R002-S01",
+      "scenario_title": "Strict 30-second boundary",
+      "planned_test_id": "T-AOB-R002-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r002_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "TIME-BOUNDARY",
+        "PERF-WORKFLOW"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R002",
+      "scenario_id": "AOB-R002-S02",
+      "scenario_title": "Invalid early Accept does not game time",
+      "planned_test_id": "T-AOB-R002-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r002_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "TIME-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R002",
+      "scenario_id": "AOB-R002-S03",
+      "scenario_title": "ROI redraw preserves timer origin",
+      "planned_test_id": "T-AOB-R002-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r002_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "TIME-ROI"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R002",
+      "scenario_id": "AOB-R002-S04",
+      "scenario_title": "Save completes after the annotation limit",
+      "planned_test_id": "T-AOB-R002-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r002_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "TIME-SAVE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R002",
+      "scenario_id": "AOB-R002-S05",
+      "scenario_title": "Needs Review is not a successful Accept",
+      "planned_test_id": "T-AOB-R002-S05",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r002_s05",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REVIEW-TIMEOUT",
+        "TIME-REVIEW"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R002",
+      "scenario_id": "AOB-R002-S06",
+      "scenario_title": "Save failure is changed to Needs Review",
+      "planned_test_id": "T-AOB-R002-S06",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r002_s06",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REVIEW-STATES"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R003",
+      "scenario_id": "AOB-R003-S01",
+      "scenario_title": "Mixed outcome aggregation",
+      "planned_test_id": "T-AOB-R003-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r003_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "TIME-AGG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R003",
+      "scenario_id": "AOB-R003-S02",
+      "scenario_title": "Timed-out session remains unresolved at cutoff",
+      "planned_test_id": "T-AOB-R003-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r003_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "TIME-AGG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R003",
+      "scenario_id": "AOB-R003-S03",
+      "scenario_title": "Failed cases remain in reports",
+      "planned_test_id": "T-AOB-R003-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r003_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REVIEW-TIMEOUT",
+        "TIME-AGG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R004",
+      "scenario_id": "AOB-R004-S01",
+      "scenario_title": "Race test uses a barrier",
+      "planned_test_id": "T-AOB-R004-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r004_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "ROI-STALE-P",
+        "ROI-STALE-R"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R004",
+      "scenario_id": "AOB-R004-S02",
+      "scenario_title": "GUI test sends real input events",
+      "planned_test_id": "T-AOB-R004-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r004_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "KEY-123",
+        "MOUSE-FG-BG",
+        "KEY-LOCAL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R004",
+      "scenario_id": "AOB-R004-S03",
+      "scenario_title": "Fixture result is reproducible",
+      "planned_test_id": "T-AOB-R004-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r004_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REAL-REG",
+        "QUALITY-SYNTH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R005",
+      "scenario_id": "AOB-R005-S01",
+      "scenario_title": "Zero-candidate oracle",
+      "planned_test_id": "T-AOB-R005-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r005_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CAND-00"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R005",
+      "scenario_id": "AOB-R005-S02",
+      "scenario_title": "One-candidate oracle",
+      "planned_test_id": "T-AOB-R005-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r005_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CAND-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R005",
+      "scenario_id": "AOB-R005-S03",
+      "scenario_title": "Two-candidate oracle",
+      "planned_test_id": "T-AOB-R005-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r005_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CAND-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R005",
+      "scenario_id": "AOB-R005-S04",
+      "scenario_title": "Three-candidate oracle",
+      "planned_test_id": "T-AOB-R005-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r005_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "HP-01",
+        "CAND-03"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R005",
+      "scenario_id": "AOB-R005-S05",
+      "scenario_title": "Oversized internal pool oracle",
+      "planned_test_id": "T-AOB-R005-S05",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r005_s05",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R006",
+      "scenario_id": "AOB-R006-S01",
+      "scenario_title": "Multi-round refinement oracle",
+      "planned_test_id": "T-AOB-R006-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r006_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REF-01",
+        "REF-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R006",
+      "scenario_id": "AOB-R006-S02",
+      "scenario_title": "First human point clears automatic guidance",
+      "planned_test_id": "T-AOB-R006-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r006_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REF-03"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R006",
+      "scenario_id": "AOB-R006-S03",
+      "scenario_title": "Manual-empty acceptance oracle",
+      "planned_test_id": "T-AOB-R006-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r006_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "MAN-EMPTY",
+        "MAN-BACKEND-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R006",
+      "scenario_id": "AOB-R006-S04",
+      "scenario_title": "Local-edit lock and Undo oracle",
+      "planned_test_id": "T-AOB-R006-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r006_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "EDIT-01",
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R007",
+      "scenario_id": "AOB-R007-S01",
+      "scenario_title": "CV-direct oracle",
+      "planned_test_id": "T-AOB-R007-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r007_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R007",
+      "scenario_id": "AOB-R007-S02",
+      "scenario_title": "CV-coarse oracle",
+      "planned_test_id": "T-AOB-R007-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r007_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R007",
+      "scenario_id": "AOB-R007-S03",
+      "scenario_title": "Invalid recipe oracle",
+      "planned_test_id": "T-AOB-R007-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r007_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CV-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R007",
+      "scenario_id": "AOB-R007-S04",
+      "scenario_title": "Disabled recipe oracle",
+      "planned_test_id": "T-AOB-R007-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r007_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "CV-OFF"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R008",
+      "scenario_id": "AOB-R008-S01",
+      "scenario_title": "Proposal completes after ROI redraw",
+      "planned_test_id": "T-AOB-R008-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r008_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "ROI-STALE-P"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R008",
+      "scenario_id": "AOB-R008-S02",
+      "scenario_title": "Refinement completes after ROI redraw",
+      "planned_test_id": "T-AOB-R008-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r008_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "ROI-STALE-R"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R008",
+      "scenario_id": "AOB-R008-S03",
+      "scenario_title": "Expand ROI follows a CV-direct result",
+      "planned_test_id": "T-AOB-R008-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r008_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "ROI-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R009",
+      "scenario_id": "AOB-R009-S01",
+      "scenario_title": "Every save stage is fault injected",
+      "planned_test_id": "T-AOB-R009-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r009_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "SAVE-FAIL-TEMP-PNG",
+        "SAVE-FAIL-TEMP-JSON",
+        "SAVE-FAIL-VERIFY",
+        "SAVE-FAIL-PNG-PUBLISH",
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R009",
+      "scenario_id": "AOB-R009-S02",
+      "scenario_title": "Crash leaves a published PNG without a matching sidecar",
+      "planned_test_id": "T-AOB-R009-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r009_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "SAVE-ORPHAN"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R009",
+      "scenario_id": "AOB-R009-S03",
+      "scenario_title": "Retry publishes a complete pair",
+      "planned_test_id": "T-AOB-R009-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r009_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R009",
+      "scenario_id": "AOB-R009-S04",
+      "scenario_title": "Review artifacts are isolated",
+      "planned_test_id": "T-AOB-R009-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r009_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "SAVE-CORRUPT",
+        "REVIEW-DRAFT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R010",
+      "scenario_id": "AOB-R010-S01",
+      "scenario_title": "Candidate and point inputs",
+      "planned_test_id": "T-AOB-R010-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r010_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "KEY-123",
+        "MOUSE-FG-BG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R010",
+      "scenario_id": "AOB-R010-S02",
+      "scenario_title": "Local-edit inputs",
+      "planned_test_id": "T-AOB-R010-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r010_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "KEY-LOCAL",
+        "KEY-XZ"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R010",
+      "scenario_id": "AOB-R010-S03",
+      "scenario_title": "Accept and next-image gating",
+      "planned_test_id": "T-AOB-R010-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r010_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "KEY-SPACE-N"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R010",
+      "scenario_id": "AOB-R010-S04",
+      "scenario_title": "Non-refinable candidate controls",
+      "planned_test_id": "T-AOB-R010-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r010_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "KEY-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R010",
+      "scenario_id": "AOB-R010-S05",
+      "scenario_title": "Frozen-scope control inventory",
+      "planned_test_id": "T-AOB-R010-S05",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r010_s05",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GUI-SCOPE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R011",
+      "scenario_id": "AOB-R011-S01",
+      "scenario_title": "Overlay and brush benchmark passes",
+      "planned_test_id": "T-AOB-R011-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r011_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PERF-UI"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R011",
+      "scenario_id": "AOB-R011-S02",
+      "scenario_title": "Encoder is busy during GUI interaction",
+      "planned_test_id": "T-AOB-R011-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r011_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GUI-RESP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R012",
+      "scenario_id": "AOB-R012-S01",
+      "scenario_title": "Reference-CPU benchmark evidence is complete",
+      "planned_test_id": "T-AOB-R012-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r012_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PERF-REFINE",
+        "PERF-MODEL",
+        "PERF-WORKFLOW",
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R012",
+      "scenario_id": "AOB-R012-S02",
+      "scenario_title": "Shared CI produces timing data",
+      "planned_test_id": "T-AOB-R012-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r012_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PERF-MODEL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R013",
+      "scenario_id": "AOB-R013-S01",
+      "scenario_title": "Domain quality passes",
+      "planned_test_id": "T-AOB-R013-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r013_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "QUALITY-DOMAIN"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R013",
+      "scenario_id": "AOB-R013-S02",
+      "scenario_title": "Boundary passes but human review fails",
+      "planned_test_id": "T-AOB-R013-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r013_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R013",
+      "scenario_id": "AOB-R013-S03",
+      "scenario_title": "Human review passes but boundary fails",
+      "planned_test_id": "T-AOB-R013-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r013_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R013",
+      "scenario_id": "AOB-R013-S04",
+      "scenario_title": "Required domain inputs are absent",
+      "planned_test_id": "T-AOB-R013-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r013_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R014",
+      "scenario_id": "AOB-R014-S01",
+      "scenario_title": "Feature reduces actions without harming quality",
+      "planned_test_id": "T-AOB-R014-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r014_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R014",
+      "scenario_id": "AOB-R014-S02",
+      "scenario_title": "Feature adds complexity without measured benefit",
+      "planned_test_id": "T-AOB-R014-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r014_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R015",
+      "scenario_id": "AOB-R015-S01",
+      "scenario_title": "Passing evidence bundle is audited",
+      "planned_test_id": "T-AOB-R015-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r015_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R015",
+      "scenario_id": "AOB-R015-S02",
+      "scenario_title": "Evidence is missing or inconsistent",
+      "planned_test_id": "T-AOB-R015-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r015_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R015",
+      "scenario_id": "AOB-R015-S03",
+      "scenario_title": "Dirty source tree is tested",
+      "planned_test_id": "T-AOB-R015-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r015_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R016",
+      "scenario_id": "AOB-R016-S01",
+      "scenario_title": "Offline install and import",
+      "planned_test_id": "T-AOB-R016-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r016_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PKG-INSTALL",
+        "PKG-PATH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R016",
+      "scenario_id": "AOB-R016-S02",
+      "scenario_title": "Offline GUI annotation and reload",
+      "planned_test_id": "T-AOB-R016-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r016_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PKG-E2E"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R016",
+      "scenario_id": "AOB-R016-S03",
+      "scenario_title": "Runtime has no hidden GPU or network dependency",
+      "planned_test_id": "T-AOB-R016-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r016_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PKG-CPU",
+        "PKG-NET"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R016",
+      "scenario_id": "AOB-R016-S04",
+      "scenario_title": "License or manifest entry is missing",
+      "planned_test_id": "T-AOB-R016-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r016_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R017",
+      "scenario_id": "AOB-R017-S01",
+      "scenario_title": "Engineering acceptance succeeds without domain data",
+      "planned_test_id": "T-AOB-R017-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r017_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R017",
+      "scenario_id": "AOB-R017-S02",
+      "scenario_title": "Domain validation succeeds",
+      "planned_test_id": "T-AOB-R017-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r017_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R017",
+      "scenario_id": "AOB-R017-S03",
+      "scenario_title": "Deterministic or reference-machine gate fails",
+      "planned_test_id": "T-AOB-R017-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r017_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R017",
+      "scenario_id": "AOB-R017-S04",
+      "scenario_title": "Domain gate fails after engineering acceptance",
+      "planned_test_id": "T-AOB-R017-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r017_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R018",
+      "scenario_id": "AOB-R018-S01",
+      "scenario_title": "All configured gates pass",
+      "planned_test_id": "T-AOB-R018-S01",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r018_s01",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R018",
+      "scenario_id": "AOB-R018-S02",
+      "scenario_title": "Acceptance profile is incomplete",
+      "planned_test_id": "T-AOB-R018-S02",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r018_s02",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R018",
+      "scenario_id": "AOB-R018-S03",
+      "scenario_title": "Test passes only after an automatic retry",
+      "planned_test_id": "T-AOB-R018-S03",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r018_s03",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "acceptance-observability",
+      "requirement_id": "AOB-R018",
+      "scenario_id": "AOB-R018-S04",
+      "scenario_title": "Threshold is weakened during a run",
+      "planned_test_id": "T-AOB-R018-S04",
+      "planned_test_target": "tests/e2e/test_acceptance_observability_scenarios.py::test_aob_r018_s04",
+      "test_level": "e2e",
+      "e2e_case_ids": [
+        "GOV-PROHIBITIONS"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R001",
+      "scenario_id": "PST-R001-S01",
+      "scenario_title": "Headless commit",
+      "planned_test_id": "T-PST-R001-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r001_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R001",
+      "scenario_id": "PST-R001-S02",
+      "scenario_title": "Adapter saves a commit result",
+      "planned_test_id": "T-PST-R001-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r001_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R002",
+      "scenario_id": "PST-R002-S01",
+      "scenario_title": "Valid full-image mask is encoded",
+      "planned_test_id": "T-PST-R002-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r002_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK",
+        "SAVE-PATH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R002",
+      "scenario_id": "PST-R002-S02",
+      "scenario_title": "Crop content is placed in full coordinates",
+      "planned_test_id": "T-PST-R002-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r002_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R002",
+      "scenario_id": "PST-R002-S03",
+      "scenario_title": "Invalid mask is rejected before publication",
+      "planned_test_id": "T-PST-R002-S03",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r002_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R003",
+      "scenario_id": "PST-R003-S01",
+      "scenario_title": "Model-generated annotation sidecar",
+      "planned_test_id": "T-PST-R003-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r003_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R003",
+      "scenario_id": "PST-R003-S02",
+      "scenario_title": "Direct-CV annotation sidecar",
+      "planned_test_id": "T-PST-R003-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r003_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R003",
+      "scenario_id": "PST-R003-S03",
+      "scenario_title": "Fully manual annotation sidecar",
+      "planned_test_id": "T-PST-R003-S03",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r003_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "MAN-EMPTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R003",
+      "scenario_id": "PST-R003-S04",
+      "scenario_title": "Sidecar does not match the commit result",
+      "planned_test_id": "T-PST-R003-S04",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r003_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-VERIFY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R004",
+      "scenario_id": "PST-R004-S01",
+      "scenario_title": "Successful new annotation publication",
+      "planned_test_id": "T-PST-R004-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r004_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "HP-01",
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R004",
+      "scenario_id": "PST-R004-S02",
+      "scenario_title": "Existing annotation is replaced",
+      "planned_test_id": "T-PST-R004-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r004_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OVERWRITE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R004",
+      "scenario_id": "PST-R004-S04",
+      "scenario_title": "Replacement sidecar publication fails",
+      "planned_test_id": "T-PST-R004-S04",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r004_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-JSON-PUBLISH",
+        "SAVE-OVERWRITE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R004",
+      "scenario_id": "PST-R004-S03",
+      "scenario_title": "Sidecar publication is the commit marker",
+      "planned_test_id": "T-PST-R004-S03",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r004_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R005",
+      "scenario_id": "PST-R005-S01",
+      "scenario_title": "Temporary PNG write fails",
+      "planned_test_id": "T-PST-R005-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r005_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-TEMP-PNG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R005",
+      "scenario_id": "PST-R005-S02",
+      "scenario_title": "Temporary sidecar write or validation fails",
+      "planned_test_id": "T-PST-R005-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r005_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-TEMP-JSON",
+        "SAVE-FAIL-VERIFY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R005",
+      "scenario_id": "PST-R005-S03",
+      "scenario_title": "PNG publication succeeds but sidecar publication fails",
+      "planned_test_id": "T-PST-R005-S03",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r005_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R005",
+      "scenario_id": "PST-R005-S04",
+      "scenario_title": "Retry succeeds",
+      "planned_test_id": "T-PST-R005-S04",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r005_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R006",
+      "scenario_id": "PST-R006-S01",
+      "scenario_title": "Complete pair reloads",
+      "planned_test_id": "T-PST-R006-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r006_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R006",
+      "scenario_id": "PST-R006-S02",
+      "scenario_title": "Orphan PNG is ignored",
+      "planned_test_id": "T-PST-R006-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r006_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-ORPHAN"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R006",
+      "scenario_id": "PST-R006-S03",
+      "scenario_title": "Referenced PNG is missing",
+      "planned_test_id": "T-PST-R006-S03",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r006_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-ORPHAN",
+        "SAVE-CORRUPT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R006",
+      "scenario_id": "PST-R006-S04",
+      "scenario_title": "Mask hash is incorrect",
+      "planned_test_id": "T-PST-R006-S04",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r006_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-CORRUPT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R006",
+      "scenario_id": "PST-R006-S05",
+      "scenario_title": "Schema version is unsupported",
+      "planned_test_id": "T-PST-R006-S05",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r006_s05",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-CORRUPT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R007",
+      "scenario_id": "PST-R007-S01",
+      "scenario_title": "Review without a draft",
+      "planned_test_id": "T-PST-R007-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r007_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REVIEW-DRAFT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R007",
+      "scenario_id": "PST-R007-S02",
+      "scenario_title": "Review with a draft",
+      "planned_test_id": "T-PST-R007-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r007_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REVIEW-DRAFT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R007",
+      "scenario_id": "PST-R007-S03",
+      "scenario_title": "Review publication fails",
+      "planned_test_id": "T-PST-R007-S03",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r007_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REVIEW-SAVE-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R007",
+      "scenario_id": "PST-R007-S04",
+      "scenario_title": "Training loader scans review storage",
+      "planned_test_id": "T-PST-R007-S04",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r007_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-CORRUPT",
+        "REVIEW-DRAFT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R008",
+      "scenario_id": "PST-R008-S01",
+      "scenario_title": "Model candidate is brushed before Accept",
+      "planned_test_id": "T-PST-R008-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r008_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "EDIT-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R008",
+      "scenario_id": "PST-R008-S02",
+      "scenario_title": "CV-direct candidate is locally corrected",
+      "planned_test_id": "T-PST-R008-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r008_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "EDIT-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R009",
+      "scenario_id": "PST-R009-S01",
+      "scenario_title": "Save and reload round trip",
+      "planned_test_id": "T-PST-R009-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r009_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R009",
+      "scenario_id": "PST-R009-S02",
+      "scenario_title": "Coordinates remain full-image based",
+      "planned_test_id": "T-PST-R009-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r009_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R010",
+      "scenario_id": "PST-R010-S01",
+      "scenario_title": "Retry targets the same pending outcome",
+      "planned_test_id": "T-PST-R010-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r010_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R010",
+      "scenario_id": "PST-R010-S02",
+      "scenario_title": "A later annotation supersedes an earlier one",
+      "planned_test_id": "T-PST-R010-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r010_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-OVERWRITE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R011",
+      "scenario_id": "PST-R011-S01",
+      "scenario_title": "Failure matrix is executed",
+      "planned_test_id": "T-PST-R011-S01",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r011_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-FAIL-TEMP-PNG",
+        "SAVE-FAIL-TEMP-JSON",
+        "SAVE-FAIL-VERIFY",
+        "SAVE-FAIL-PNG-PUBLISH",
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-persistence",
+      "requirement_id": "PST-R011",
+      "scenario_id": "PST-R011-S02",
+      "scenario_title": "Corruption matrix is executed",
+      "planned_test_id": "T-PST-R011-S02",
+      "planned_test_target": "tests/integration/test_persistence_scenarios.py::test_pst_r011_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "SAVE-ORPHAN",
+        "SAVE-CORRUPT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R001",
+      "scenario_id": "SES-R001-S01",
+      "scenario_title": "Start a valid session",
+      "planned_test_id": "T-SES-R001-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r001_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R001",
+      "scenario_id": "SES-R001-S02",
+      "scenario_title": "Reject an invalid image contract",
+      "planned_test_id": "T-SES-R001-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r001_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R001",
+      "scenario_id": "SES-R001-S03",
+      "scenario_title": "Keep the core headless and side-effect free",
+      "planned_test_id": "T-SES-R001-S03",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r001_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R002",
+      "scenario_id": "SES-R002-S01",
+      "scenario_title": "Bind the default policy",
+      "planned_test_id": "T-SES-R002-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r002_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R002",
+      "scenario_id": "SES-R002-S02",
+      "scenario_title": "Prevent runtime policy drift",
+      "planned_test_id": "T-SES-R002-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r002_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R003",
+      "scenario_id": "SES-R003-S01",
+      "scenario_title": "Refine through a candidate ID",
+      "planned_test_id": "T-SES-R003-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r003_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REF-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R003",
+      "scenario_id": "SES-R003-S02",
+      "scenario_title": "Reject a foreign candidate ID",
+      "planned_test_id": "T-SES-R003-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r003_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R004",
+      "scenario_id": "SES-R004-S01",
+      "scenario_title": "Update the ROI",
+      "planned_test_id": "T-SES-R004-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r004_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-STALE-P"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R004",
+      "scenario_id": "SES-R004-S02",
+      "scenario_title": "Discard a late result",
+      "planned_test_id": "T-SES-R004-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r004_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-STALE-P",
+        "ROI-STALE-R"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R004",
+      "scenario_id": "SES-R004-S03",
+      "scenario_title": "Reuse the same ROI on a different image",
+      "planned_test_id": "T-SES-R004-S03",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r004_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R005",
+      "scenario_id": "SES-R005-S01",
+      "scenario_title": "Select a current candidate",
+      "planned_test_id": "T-SES-R005-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r005_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R005",
+      "scenario_id": "SES-R005-S02",
+      "scenario_title": "Reject an unsupported operation",
+      "planned_test_id": "T-SES-R005-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r005_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REF-UNSUPPORTED",
+        "MAN-REFINE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R006",
+      "scenario_id": "SES-R006-S01",
+      "scenario_title": "First human point refinement",
+      "planned_test_id": "T-SES-R006-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r006_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REF-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R006",
+      "scenario_id": "SES-R006-S02",
+      "scenario_title": "Multi-round refinement",
+      "planned_test_id": "T-SES-R006-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r006_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REF-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R006",
+      "scenario_id": "SES-R006-S03",
+      "scenario_title": "Reject a point outside the current work crop",
+      "planned_test_id": "T-SES-R006-S03",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r006_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R007",
+      "scenario_id": "SES-R007-S01",
+      "scenario_title": "Replace automatic prompts with human evidence",
+      "planned_test_id": "T-SES-R007-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r007_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REF-03"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R008",
+      "scenario_id": "SES-R008-S01",
+      "scenario_title": "Begin local editing from a model candidate",
+      "planned_test_id": "T-SES-R008-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r008_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "EDIT-01",
+        "MAN-ERASE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R008",
+      "scenario_id": "SES-R008-S02",
+      "scenario_title": "One-pixel grow and shrink",
+      "planned_test_id": "T-SES-R008-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r008_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "EDIT-GROW"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R008",
+      "scenario_id": "SES-R008-S03",
+      "scenario_title": "Fill visible holes",
+      "planned_test_id": "T-SES-R008-S03",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r008_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "EDIT-FILL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R009",
+      "scenario_id": "SES-R009-S01",
+      "scenario_title": "Undo a local edit to a SAM candidate",
+      "planned_test_id": "T-SES-R009-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r009_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R009",
+      "scenario_id": "SES-R009-S02",
+      "scenario_title": "Undo with no checkpoint",
+      "planned_test_id": "T-SES-R009-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r009_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R010",
+      "scenario_id": "SES-R010-S01",
+      "scenario_title": "Begin drawing after a backend failure",
+      "planned_test_id": "T-SES-R010-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r010_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "MAN-BACKEND-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R010",
+      "scenario_id": "SES-R010-S02",
+      "scenario_title": "Reject an unchanged empty manual mask",
+      "planned_test_id": "T-SES-R010-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r010_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "MAN-EMPTY",
+        "REVIEW-EMPTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R011",
+      "scenario_id": "SES-R011-S01",
+      "scenario_title": "Commit a valid candidate",
+      "planned_test_id": "T-SES-R011-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r011_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R011",
+      "scenario_id": "SES-R011-S05",
+      "scenario_title": "Scripted acceptance cannot prove human acceptance",
+      "planned_test_id": "T-SES-R011-S05",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r011_s05",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R011",
+      "scenario_id": "SES-R011-S02",
+      "scenario_title": "Reject automatic acceptance",
+      "planned_test_id": "T-SES-R011-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r011_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R011",
+      "scenario_id": "SES-R011-S03",
+      "scenario_title": "Reject point-inconsistent commit",
+      "planned_test_id": "T-SES-R011-S03",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r011_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CAND-POINT",
+        "VAL-POINT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R011",
+      "scenario_id": "SES-R011-S04",
+      "scenario_title": "Require crop-edge acknowledgement",
+      "planned_test_id": "T-SES-R011-S04",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r011_s04",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CAND-EDGE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R012",
+      "scenario_id": "SES-R012-S01",
+      "scenario_title": "Mark an unresolved annotation for review",
+      "planned_test_id": "T-SES-R012-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r012_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REVIEW-STATES",
+        "REVIEW-EMPTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R012",
+      "scenario_id": "SES-R012-S02",
+      "scenario_title": "Thirty seconds elapse",
+      "planned_test_id": "T-SES-R012-S02",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r012_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REVIEW-TIMEOUT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-session",
+      "requirement_id": "SES-R013",
+      "scenario_id": "SES-R013-S01",
+      "scenario_title": "Recoverable zero-candidate proposal",
+      "planned_test_id": "T-SES-R013-S01",
+      "planned_test_target": "tests/unit/test_annotation_session_scenarios.py::test_ses_r013_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "MAN-BACKEND-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R001",
+      "scenario_id": "UIW-R001-S01",
+      "scenario_title": "Successful model-assisted annotation",
+      "planned_test_id": "T-UIW-R001-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r001_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R001",
+      "scenario_id": "UIW-R001-S02",
+      "scenario_title": "Invalid transition is rejected",
+      "planned_test_id": "T-UIW-R001-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r001_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REVIEW-STATES"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R001",
+      "scenario_id": "UIW-R001-S03",
+      "scenario_title": "Validation failure returns to editing",
+      "planned_test_id": "T-UIW-R001-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r001_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "VAL-POINT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R002",
+      "scenario_id": "UIW-R002-S01",
+      "scenario_title": "Initial ROI lock",
+      "planned_test_id": "T-UIW-R002-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r002_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R002",
+      "scenario_id": "UIW-R002-S02",
+      "scenario_title": "ROI redraw invalidates old state",
+      "planned_test_id": "T-UIW-R002-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r002_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "ROI-STALE-P"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R002",
+      "scenario_id": "UIW-R002-S03",
+      "scenario_title": "Expand ROI follows the current recipe path",
+      "planned_test_id": "T-UIW-R002-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r002_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "ROI-EXPAND",
+        "ROI-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R003",
+      "scenario_id": "UIW-R003-S01",
+      "scenario_title": "Zero candidates",
+      "planned_test_id": "T-UIW-R003-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r003_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-00"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R003",
+      "scenario_id": "UIW-R003-S02",
+      "scenario_title": "One candidate",
+      "planned_test_id": "T-UIW-R003-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r003_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R003",
+      "scenario_id": "UIW-R003-S03",
+      "scenario_title": "Two candidates",
+      "planned_test_id": "T-UIW-R003-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r003_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R003",
+      "scenario_id": "UIW-R003-S04",
+      "scenario_title": "Three candidates",
+      "planned_test_id": "T-UIW-R003-S04",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r003_s04",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-03"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R003",
+      "scenario_id": "UIW-R003-S05",
+      "scenario_title": "Candidate pool exceeds the display cap",
+      "planned_test_id": "T-UIW-R003-S05",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r003_s05",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R004",
+      "scenario_id": "UIW-R004-S01",
+      "scenario_title": "SAM candidate permits point refinement",
+      "planned_test_id": "T-UIW-R004-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r004_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R004",
+      "scenario_id": "UIW-R004-S02",
+      "scenario_title": "CV-direct candidate rejects point refinement",
+      "planned_test_id": "T-UIW-R004-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r004_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-UNSUPPORTED",
+        "KEY-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R004",
+      "scenario_id": "UIW-R004-S03",
+      "scenario_title": "Manual candidate rejects point refinement",
+      "planned_test_id": "T-UIW-R004-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r004_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-UNSUPPORTED",
+        "MAN-REFINE",
+        "KEY-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R005",
+      "scenario_id": "UIW-R005-S01",
+      "scenario_title": "Foreground point refinement",
+      "planned_test_id": "T-UIW-R005-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r005_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-01",
+        "MOUSE-FG-BG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R005",
+      "scenario_id": "UIW-R005-S02",
+      "scenario_title": "Background point refinement",
+      "planned_test_id": "T-UIW-R005-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r005_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-01",
+        "MOUSE-FG-BG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R005",
+      "scenario_id": "UIW-R005-S03",
+      "scenario_title": "Candidate is switched before refinement",
+      "planned_test_id": "T-UIW-R005-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r005_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R005",
+      "scenario_id": "UIW-R005-S04",
+      "scenario_title": "First human point supersedes automatic prompts",
+      "planned_test_id": "T-UIW-R005-S04",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r005_s04",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REF-03"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R006",
+      "scenario_id": "UIW-R006-S01",
+      "scenario_title": "Draw from an empty mask",
+      "planned_test_id": "T-UIW-R006-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r006_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-00",
+        "MAN-EMPTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R006",
+      "scenario_id": "UIW-R006-S02",
+      "scenario_title": "Empty manual mask cannot be accepted",
+      "planned_test_id": "T-UIW-R006-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r006_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "MAN-EMPTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R006",
+      "scenario_id": "UIW-R006-S03",
+      "scenario_title": "Backend failure falls back safely",
+      "planned_test_id": "T-UIW-R006-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r006_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "MAN-BACKEND-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R007",
+      "scenario_id": "UIW-R007-S01",
+      "scenario_title": "Local operation changes only the current mask",
+      "planned_test_id": "T-UIW-R007-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r007_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "EDIT-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R007",
+      "scenario_id": "UIW-R007-S02",
+      "scenario_title": "Late model result arrives after local edit",
+      "planned_test_id": "T-UIW-R007-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r007_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R007",
+      "scenario_id": "UIW-R007-S03",
+      "scenario_title": "Erase returns a manual mask to empty",
+      "planned_test_id": "T-UIW-R007-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r007_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "MAN-ERASE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R008",
+      "scenario_id": "UIW-R008-S01",
+      "scenario_title": "Undo a local operation",
+      "planned_test_id": "T-UIW-R008-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r008_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R008",
+      "scenario_id": "UIW-R008-S02",
+      "scenario_title": "Undo returns to a SAM checkpoint",
+      "planned_test_id": "T-UIW-R008-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r008_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R008",
+      "scenario_id": "UIW-R008-S03",
+      "scenario_title": "Undo has no earlier checkpoint",
+      "planned_test_id": "T-UIW-R008-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r008_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "EDIT-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R009",
+      "scenario_id": "UIW-R009-S01",
+      "scenario_title": "Candidate keyboard selection",
+      "planned_test_id": "T-UIW-R009-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r009_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "KEY-123"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R009",
+      "scenario_id": "UIW-R009-S02",
+      "scenario_title": "Local-edit keyboard operations",
+      "planned_test_id": "T-UIW-R009-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r009_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "KEY-LOCAL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R009",
+      "scenario_id": "UIW-R009-S03",
+      "scenario_title": "Expand and undo shortcuts",
+      "planned_test_id": "T-UIW-R009-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r009_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "ROI-EXPAND",
+        "KEY-XZ"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R009",
+      "scenario_id": "UIW-R009-S04",
+      "scenario_title": "Accept and next-image shortcuts are separate",
+      "planned_test_id": "T-UIW-R009-S04",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r009_s04",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "KEY-SPACE-N"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R010",
+      "scenario_id": "UIW-R010-S01",
+      "scenario_title": "Candidate disagreement is shown",
+      "planned_test_id": "T-UIW-R010-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r010_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-UNCERTAINTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R010",
+      "scenario_id": "UIW-R010-S02",
+      "scenario_title": "Mask touches only the user ROI",
+      "planned_test_id": "T-UIW-R010-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r010_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "ROI-EDGE-SEM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R010",
+      "scenario_id": "UIW-R010-S03",
+      "scenario_title": "Mask touches the work crop",
+      "planned_test_id": "T-UIW-R010-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r010_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CAND-EDGE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R011",
+      "scenario_id": "UIW-R011-S01",
+      "scenario_title": "Valid Accept",
+      "planned_test_id": "T-UIW-R011-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r011_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "HP-01",
+        "SAVE-OK",
+        "KEY-SPACE-N"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R011",
+      "scenario_id": "UIW-R011-S02",
+      "scenario_title": "Invalid Accept does not stop the timer",
+      "planned_test_id": "T-UIW-R011-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r011_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "VAL-POINT",
+        "KEY-SPACE-N"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R011",
+      "scenario_id": "UIW-R011-S03",
+      "scenario_title": "High model score does not auto-accept",
+      "planned_test_id": "T-UIW-R011-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r011_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R012",
+      "scenario_id": "UIW-R012-S01",
+      "scenario_title": "Save fails and succeeds on retry",
+      "planned_test_id": "T-UIW-R012-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r012_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "SAVE-FAIL-TEMP-PNG",
+        "SAVE-FAIL-TEMP-JSON",
+        "SAVE-FAIL-VERIFY",
+        "SAVE-FAIL-PNG-PUBLISH",
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R012",
+      "scenario_id": "UIW-R012-S02",
+      "scenario_title": "Next is attempted after save failure",
+      "planned_test_id": "T-UIW-R012-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r012_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "SAVE-FAIL-TEMP-PNG",
+        "SAVE-FAIL-TEMP-JSON",
+        "SAVE-FAIL-VERIFY",
+        "SAVE-FAIL-PNG-PUBLISH",
+        "SAVE-FAIL-JSON-PUBLISH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R013",
+      "scenario_id": "UIW-R013-S01",
+      "scenario_title": "User selects Needs Review from an active state",
+      "planned_test_id": "T-UIW-R013-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r013_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REVIEW-STATES",
+        "REVIEW-EMPTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R013",
+      "scenario_id": "UIW-R013-S02",
+      "scenario_title": "Review publication fails and retries",
+      "planned_test_id": "T-UIW-R013-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r013_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REVIEW-SAVE-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R013",
+      "scenario_id": "UIW-R013-S03",
+      "scenario_title": "Timeout is sent to review",
+      "planned_test_id": "T-UIW-R013-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r013_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REVIEW-TIMEOUT",
+        "TIME-REVIEW"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R013",
+      "scenario_id": "UIW-R013-S04",
+      "scenario_title": "Durable Needs Review is terminal",
+      "planned_test_id": "T-UIW-R013-S04",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r013_s04",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REVIEW-STATES",
+        "KEY-SPACE-N"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R014",
+      "scenario_id": "UIW-R014-S01",
+      "scenario_title": "ROI redraw does not reset time",
+      "planned_test_id": "T-UIW-R014-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r014_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "TIME-ROI"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R014",
+      "scenario_id": "UIW-R014-S02",
+      "scenario_title": "Invalid Accept does not reset or stop time",
+      "planned_test_id": "T-UIW-R014-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r014_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "TIME-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R014",
+      "scenario_id": "UIW-R014-S03",
+      "scenario_title": "Thirty seconds elapse without a valid mask",
+      "planned_test_id": "T-UIW-R014-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r014_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "REVIEW-TIMEOUT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R015",
+      "scenario_id": "UIW-R015-S01",
+      "scenario_title": "ROI changes during proposal",
+      "planned_test_id": "T-UIW-R015-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r015_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "ROI-STALE-P"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R015",
+      "scenario_id": "UIW-R015-S02",
+      "scenario_title": "ROI changes during refinement",
+      "planned_test_id": "T-UIW-R015-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r015_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "ROI-STALE-R"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R015",
+      "scenario_id": "UIW-R015-S03",
+      "scenario_title": "GUI remains responsive during encoding",
+      "planned_test_id": "T-UIW-R015-S03",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r015_s03",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "GUI-RESP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R016",
+      "scenario_id": "UIW-R016-S01",
+      "scenario_title": "Cold GUI launch",
+      "planned_test_id": "T-UIW-R016-S01",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r016_s01",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "CV-UI",
+        "GUI-SCOPE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "annotation-workflow",
+      "requirement_id": "UIW-R016",
+      "scenario_id": "UIW-R016-S02",
+      "scenario_title": "Fusion remains opt-in",
+      "planned_test_id": "T-UIW-R016-S02",
+      "planned_test_target": "tests/gui/test_annotation_workflow_scenarios.py::test_uiw_r016_s02",
+      "test_level": "gui",
+      "e2e_case_ids": [
+        "GUI-SCOPE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R001",
+      "scenario_id": "AUT-R001-S01",
+      "scenario_title": "Guidance conflicts with the frozen product contract",
+      "planned_test_id": "T-AUT-R001-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r001_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-PROHIBITIONS"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R002",
+      "scenario_id": "AUT-R002-S01",
+      "scenario_title": "Task dependencies have passed",
+      "planned_test_id": "T-AUT-R002-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r002_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-DAG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R002",
+      "scenario_id": "AUT-R002-S02",
+      "scenario_title": "Dependency has not passed",
+      "planned_test_id": "T-AUT-R002-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r002_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-DAG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R003",
+      "scenario_id": "AUT-R003-S01",
+      "scenario_title": "Task definition is complete",
+      "planned_test_id": "T-AUT-R003-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r003_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-DAG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R003",
+      "scenario_id": "AUT-R003-S02",
+      "scenario_title": "Task lacks evidence or rollback instructions",
+      "planned_test_id": "T-AUT-R003-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r003_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R004",
+      "scenario_id": "AUT-R004-S01",
+      "scenario_title": "Validation succeeds",
+      "planned_test_id": "T-AUT-R004-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r004_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-DAG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R004",
+      "scenario_id": "AUT-R004-S02",
+      "scenario_title": "External authority is missing",
+      "planned_test_id": "T-AUT-R004-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r004_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-DAG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R005",
+      "scenario_id": "AUT-R005-S01",
+      "scenario_title": "Worktree is clean or non-overlapping",
+      "planned_test_id": "T-AUT-R005-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r005_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-OWNERSHIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R005",
+      "scenario_id": "AUT-R005-S02",
+      "scenario_title": "User change overlaps task ownership",
+      "planned_test_id": "T-AUT-R005-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r005_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-OWNERSHIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R006",
+      "scenario_id": "AUT-R006-S01",
+      "scenario_title": "Independent tasks are available",
+      "planned_test_id": "T-AUT-R006-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r006_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-OWNERSHIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R006",
+      "scenario_id": "AUT-R006-S02",
+      "scenario_title": "Tasks share a mutable file",
+      "planned_test_id": "T-AUT-R006-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r006_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-OWNERSHIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R007",
+      "scenario_id": "AUT-R007-S01",
+      "scenario_title": "Focused implementation succeeds",
+      "planned_test_id": "T-AUT-R007-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r007_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R007",
+      "scenario_id": "AUT-R007-S02",
+      "scenario_title": "Adjacent refactor is unnecessary",
+      "planned_test_id": "T-AUT-R007-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r007_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R008",
+      "scenario_id": "AUT-R008-S01",
+      "scenario_title": "Shared contract changes",
+      "planned_test_id": "T-AUT-R008-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r008_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R008",
+      "scenario_id": "AUT-R008-S02",
+      "scenario_title": "Required test cannot execute",
+      "planned_test_id": "T-AUT-R008-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r008_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R009",
+      "scenario_id": "AUT-R009-S01",
+      "scenario_title": "Passing task is audited",
+      "planned_test_id": "T-AUT-R009-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r009_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R009",
+      "scenario_id": "AUT-R009-S02",
+      "scenario_title": "Command output contains a secret",
+      "planned_test_id": "T-AUT-R009-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r009_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R010",
+      "scenario_id": "AUT-R010-S01",
+      "scenario_title": "Output exists but regression fails",
+      "planned_test_id": "T-AUT-R010-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r010_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R010",
+      "scenario_id": "AUT-R010-S02",
+      "scenario_title": "All completion conditions hold",
+      "planned_test_id": "T-AUT-R010-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r010_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-INCOMPLETE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R011",
+      "scenario_id": "AUT-R011-S01",
+      "scenario_title": "Retry uses a new hypothesis",
+      "planned_test_id": "T-AUT-R011-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r011_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R011",
+      "scenario_id": "AUT-R011-S02",
+      "scenario_title": "Third materially different attempt fails",
+      "planned_test_id": "T-AUT-R011-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r011_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R012",
+      "scenario_id": "AUT-R012-S01",
+      "scenario_title": "Approved checkpoint is temporarily unavailable",
+      "planned_test_id": "T-AUT-R012-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r012_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R012",
+      "scenario_id": "AUT-R012-S02",
+      "scenario_title": "CV recipe does not improve evidence",
+      "planned_test_id": "T-AUT-R012-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r012_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R013",
+      "scenario_id": "AUT-R013-S01",
+      "scenario_title": "Checkpoint hash is wrong",
+      "planned_test_id": "T-AUT-R013-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r013_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R013",
+      "scenario_id": "AUT-R013-S02",
+      "scenario_title": "Commercial authority is unknown",
+      "planned_test_id": "T-AUT-R013-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r013_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RETRY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R014",
+      "scenario_id": "AUT-R014-S01",
+      "scenario_title": "Task passes with commit authority",
+      "planned_test_id": "T-AUT-R014-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r014_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-ROLLBACK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R014",
+      "scenario_id": "AUT-R014-S02",
+      "scenario_title": "Commit authority is absent",
+      "planned_test_id": "T-AUT-R014-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r014_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-ROLLBACK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R015",
+      "scenario_id": "AUT-R015-S01",
+      "scenario_title": "Latest task must be rolled back",
+      "planned_test_id": "T-AUT-R015-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r015_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-ROLLBACK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R015",
+      "scenario_id": "AUT-R015-S02",
+      "scenario_title": "Release artifact rollback is required",
+      "planned_test_id": "T-AUT-R015-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r015_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-ROLLBACK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R016",
+      "scenario_id": "AUT-R016-S01",
+      "scenario_title": "Persistence test needs output files",
+      "planned_test_id": "T-AUT-R016-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r016_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-OWNERSHIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R016",
+      "scenario_id": "AUT-R016-S02",
+      "scenario_title": "Existing accepted annotation is present",
+      "planned_test_id": "T-AUT-R016-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r016_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-OWNERSHIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R017",
+      "scenario_id": "AUT-R017-S01",
+      "scenario_title": "Failing latency tempts a GPU fallback",
+      "planned_test_id": "T-AUT-R017-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r017_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-PROHIBITIONS"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R017",
+      "scenario_id": "AUT-R017-S02",
+      "scenario_title": "Later feature appears convenient",
+      "planned_test_id": "T-AUT-R017-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r017_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-PROHIBITIONS"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R018",
+      "scenario_id": "AUT-R018-S01",
+      "scenario_title": "Required performance threshold fails",
+      "planned_test_id": "T-AUT-R018-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r018_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-PROHIBITIONS"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R018",
+      "scenario_id": "AUT-R018-S02",
+      "scenario_title": "Domain data is unavailable",
+      "planned_test_id": "T-AUT-R018-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r018_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-PROHIBITIONS"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R019",
+      "scenario_id": "AUT-R019-S01",
+      "scenario_title": "Ordinary implementation choice remains",
+      "planned_test_id": "T-AUT-R019-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r019_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-BLOCK-CONTINUE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R019",
+      "scenario_id": "AUT-R019-S02",
+      "scenario_title": "Required legal authority is missing",
+      "planned_test_id": "T-AUT-R019-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r019_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-BLOCK-CONTINUE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R020",
+      "scenario_id": "AUT-R020-S01",
+      "scenario_title": "Escalation is emitted",
+      "planned_test_id": "T-AUT-R020-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r020_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-BLOCK-CONTINUE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R020",
+      "scenario_id": "AUT-R020-S02",
+      "scenario_title": "Escalation lacks attempted alternatives",
+      "planned_test_id": "T-AUT-R020-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r020_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-BLOCK-CONTINUE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R021",
+      "scenario_id": "AUT-R021-S01",
+      "scenario_title": "Model license gate is blocked",
+      "planned_test_id": "T-AUT-R021-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r021_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-BLOCK-CONTINUE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R022",
+      "scenario_id": "AUT-R022-S01",
+      "scenario_title": "Agent resumes after interruption",
+      "planned_test_id": "T-AUT-R022-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r022_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RESUME"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R022",
+      "scenario_id": "AUT-R022-S02",
+      "scenario_title": "Input changed after checkpoint",
+      "planned_test_id": "T-AUT-R022-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r022_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-RESUME"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R023",
+      "scenario_id": "AUT-R023-S01",
+      "scenario_title": "Engineering implementation is complete but external gate is missing",
+      "planned_test_id": "T-AUT-R023-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r023_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "GOV-BLOCK-CONTINUE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R023",
+      "scenario_id": "AUT-R023-S02",
+      "scenario_title": "Engineering milestone gates pass",
+      "planned_test_id": "T-AUT-R023-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r023_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R023",
+      "scenario_id": "AUT-R023-S03",
+      "scenario_title": "Domain milestone gates pass",
+      "planned_test_id": "T-AUT-R023-S03",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r023_s03",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R024",
+      "scenario_id": "AUT-R024-S01",
+      "scenario_title": "Deterministic and reference gates pass without domain evidence",
+      "planned_test_id": "T-AUT-R024-S01",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r024_s01",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "autonomous-delivery",
+      "requirement_id": "AUT-R024",
+      "scenario_id": "AUT-R024-S02",
+      "scenario_title": "Candidate changes after label assignment",
+      "planned_test_id": "T-AUT-R024-S02",
+      "planned_test_target": "tests/governance/test_autonomous_delivery_scenarios.py::test_aut_r024_s02",
+      "test_level": "governance",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R001",
+      "scenario_id": "CVR-R001-S01",
+      "scenario_title": "Parse a valid v1 recipe",
+      "planned_test_id": "T-CVR-R001-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r001_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R001",
+      "scenario_id": "CVR-R001-S02",
+      "scenario_title": "Reject an unsupported schema version",
+      "planned_test_id": "T-CVR-R001-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r001_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R001",
+      "scenario_id": "CVR-R001-S03",
+      "scenario_title": "Reject an unsupported algorithm or bridge",
+      "planned_test_id": "T-CVR-R001-S03",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r001_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R002",
+      "scenario_id": "CVR-R002-S01",
+      "scenario_title": "Construct a recipe with safe defaults",
+      "planned_test_id": "T-CVR-R002-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r002_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R002",
+      "scenario_id": "CVR-R002-S02",
+      "scenario_title": "Reject missing LAB thresholds",
+      "planned_test_id": "T-CVR-R002-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r002_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R003",
+      "scenario_id": "CVR-R003-S01",
+      "scenario_title": "Reject invalid channel ranges",
+      "planned_test_id": "T-CVR-R003-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r003_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R003",
+      "scenario_id": "CVR-R003-S02",
+      "scenario_title": "Reject invalid processing parameters",
+      "planned_test_id": "T-CVR-R003-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r003_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R004",
+      "scenario_id": "CVR-R004-S01",
+      "scenario_title": "Execute a matching class recipe",
+      "planned_test_id": "T-CVR-R004-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r004_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R004",
+      "scenario_id": "CVR-R004-S02",
+      "scenario_title": "Reject a class mismatch",
+      "planned_test_id": "T-CVR-R004-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r004_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R005",
+      "scenario_id": "CVR-R005-S01",
+      "scenario_title": "No class recipe",
+      "planned_test_id": "T-CVR-R005-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r005_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-OFF"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R005",
+      "scenario_id": "CVR-R005-S02",
+      "scenario_title": "Disabled class recipe",
+      "planned_test_id": "T-CVR-R005-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r005_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-OFF"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R006",
+      "scenario_id": "CVR-R006-S01",
+      "scenario_title": "Repeat the same recipe",
+      "planned_test_id": "T-CVR-R006-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r006_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R006",
+      "scenario_id": "CVR-R006-S02",
+      "scenario_title": "Preserve aspect ratio",
+      "planned_test_id": "T-CVR-R006-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r006_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R006",
+      "scenario_id": "CVR-R006-S03",
+      "scenario_title": "Use inclusive channel ranges",
+      "planned_test_id": "T-CVR-R006-S03",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r006_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R007",
+      "scenario_id": "CVR-R007-S01",
+      "scenario_title": "Default postprocessing is non-destructive",
+      "planned_test_id": "T-CVR-R007-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r007_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R007",
+      "scenario_id": "CVR-R007-S02",
+      "scenario_title": "Remove a small component when configured",
+      "planned_test_id": "T-CVR-R007-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r007_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R008",
+      "scenario_id": "CVR-R008-S01",
+      "scenario_title": "Difficult image does not mutate the recipe",
+      "planned_test_id": "T-CVR-R008-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r008_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R008",
+      "scenario_id": "CVR-R008-S02",
+      "scenario_title": "Runtime override attempt",
+      "planned_test_id": "T-CVR-R008-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r008_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DETERMINISM",
+        "CV-UI"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R009",
+      "scenario_id": "CVR-R009-S01",
+      "scenario_title": "Empty threshold result is invalid",
+      "planned_test_id": "T-CVR-R009-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r009_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R009",
+      "scenario_id": "CVR-R009-S02",
+      "scenario_title": "CV execution error is invalid",
+      "planned_test_id": "T-CVR-R009-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r009_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R010",
+      "scenario_id": "CVR-R010-S01",
+      "scenario_title": "Reject an area-invalid mask",
+      "planned_test_id": "T-CVR-R010-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r010_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R010",
+      "scenario_id": "CVR-R010-S02",
+      "scenario_title": "Accept a bound-equal area as valid",
+      "planned_test_id": "T-CVR-R010-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r010_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R011",
+      "scenario_id": "CVR-R011-S01",
+      "scenario_title": "Produce a direct result",
+      "planned_test_id": "T-CVR-R011-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r011_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R011",
+      "scenario_id": "CVR-R011-S02",
+      "scenario_title": "Produce a coarse result from excess components",
+      "planned_test_id": "T-CVR-R011-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r011_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R011",
+      "scenario_id": "CVR-R011-S03",
+      "scenario_title": "Produce a coarse result from border contact",
+      "planned_test_id": "T-CVR-R011-S03",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r011_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R012",
+      "scenario_id": "CVR-R012-S01",
+      "scenario_title": "Invalid result falls back to SAM",
+      "planned_test_id": "T-CVR-R012-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r012_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R012",
+      "scenario_id": "CVR-R012-S02",
+      "scenario_title": "Coarse result feeds SAM",
+      "planned_test_id": "T-CVR-R012-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r012_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R012",
+      "scenario_id": "CVR-R012-S03",
+      "scenario_title": "Direct result skips SAM",
+      "planned_test_id": "T-CVR-R012-S03",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r012_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DIRECT",
+        "ROI-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R013",
+      "scenario_id": "CVR-R013-S01",
+      "scenario_title": "Edit a direct candidate locally",
+      "planned_test_id": "T-CVR-R013-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r013_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R013",
+      "scenario_id": "CVR-R013-S02",
+      "scenario_title": "Attempt point refinement on a direct candidate",
+      "planned_test_id": "T-CVR-R013-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r013_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "REF-UNSUPPORTED"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R013",
+      "scenario_id": "CVR-R013-S03",
+      "scenario_title": "High-quality direct result is not auto-accepted",
+      "planned_test_id": "T-CVR-R013-S03",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r013_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R014",
+      "scenario_id": "CVR-R014-S01",
+      "scenario_title": "Backend rejects the mask prompt",
+      "planned_test_id": "T-CVR-R014-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r014_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R015",
+      "scenario_id": "CVR-R015-S01",
+      "scenario_title": "Canonical round trip",
+      "planned_test_id": "T-CVR-R015-S01",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r015_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "fixed-cv-recipes",
+      "requirement_id": "CVR-R015",
+      "scenario_id": "CVR-R015-S02",
+      "scenario_title": "Serialization performs no I/O",
+      "planned_test_id": "T-CVR-R015-S02",
+      "planned_test_target": "tests/unit/test_fixed_cv_scenarios.py::test_cvr_r015_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CV-ROUNDTRIP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R001",
+      "scenario_id": "MPE-R001-S01",
+      "scenario_title": "Discover backend capabilities",
+      "planned_test_id": "T-MPE-R001-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r001_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R001",
+      "scenario_id": "MPE-R001-S02",
+      "scenario_title": "Keep backend details opaque",
+      "planned_test_id": "T-MPE-R001-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r001_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R002",
+      "scenario_id": "MPE-R002-S01",
+      "scenario_title": "Initialize the approved baseline offline",
+      "planned_test_id": "T-MPE-R002-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r002_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R002",
+      "scenario_id": "MPE-R002-S02",
+      "scenario_title": "Reject an unapproved or mismatched artifact",
+      "planned_test_id": "T-MPE-R002-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r002_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REAL-CHECKSUM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R003",
+      "scenario_id": "MPE-R003-S01",
+      "scenario_title": "Encode and decode preserve inputs",
+      "planned_test_id": "T-MPE-R003-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r003_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R004",
+      "scenario_id": "MPE-R004-S01",
+      "scenario_title": "Box-only proposal",
+      "planned_test_id": "T-MPE-R004-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r004_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "HP-01",
+        "CV-OFF"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R004",
+      "scenario_id": "MPE-R004-S02",
+      "scenario_title": "Proposal with safe grid and coarse CV",
+      "planned_test_id": "T-MPE-R004-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r004_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R004",
+      "scenario_id": "MPE-R004-S03",
+      "scenario_title": "CV-direct proposal",
+      "planned_test_id": "T-MPE-R004-S03",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r004_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R005",
+      "scenario_id": "MPE-R005-S01",
+      "scenario_title": "Reject mismatched encoded state",
+      "planned_test_id": "T-MPE-R005-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r005_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "ROI-STALE-P"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R005",
+      "scenario_id": "MPE-R005-S02",
+      "scenario_title": "Release state after ROI change",
+      "planned_test_id": "T-MPE-R005-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r005_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "ROI-STALE-P"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R006",
+      "scenario_id": "MPE-R006-S01",
+      "scenario_title": "Generate native box candidates",
+      "planned_test_id": "T-MPE-R006-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r006_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R006",
+      "scenario_id": "MPE-R006-S02",
+      "scenario_title": "Backend returns fewer masks",
+      "planned_test_id": "T-MPE-R006-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r006_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R007",
+      "scenario_id": "MPE-R007-S01",
+      "scenario_title": "Enforce the maximum",
+      "planned_test_id": "T-MPE-R007-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r007_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R007",
+      "scenario_id": "MPE-R007-S02",
+      "scenario_title": "Reject incomplete policy configuration",
+      "planned_test_id": "T-MPE-R007-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r007_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R008",
+      "scenario_id": "MPE-R008-S01",
+      "scenario_title": "Reject an empty candidate",
+      "planned_test_id": "T-MPE-R008-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r008_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-00"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R008",
+      "scenario_id": "MPE-R008-S02",
+      "scenario_title": "Reject a near-full candidate",
+      "planned_test_id": "T-MPE-R008-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r008_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-00"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R008",
+      "scenario_id": "MPE-R008-S03",
+      "scenario_title": "Reject a point-violating candidate",
+      "planned_test_id": "T-MPE-R008-S03",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r008_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-POINT",
+        "VAL-POINT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R008",
+      "scenario_id": "MPE-R008-S04",
+      "scenario_title": "Preserve a crop-edge candidate for human decision",
+      "planned_test_id": "T-MPE-R008-S04",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r008_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-EDGE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R009",
+      "scenario_id": "MPE-R009-S01",
+      "scenario_title": "Deduplicate native masks",
+      "planned_test_id": "T-MPE-R009-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r009_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R009",
+      "scenario_id": "MPE-R009-S02",
+      "scenario_title": "Preserve meaningfully different masks",
+      "planned_test_id": "T-MPE-R009-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r009_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R010",
+      "scenario_id": "MPE-R010-S01",
+      "scenario_title": "Rank equal-quality candidates",
+      "planned_test_id": "T-MPE-R010-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r010_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R010",
+      "scenario_id": "MPE-R010-S02",
+      "scenario_title": "Reject cross-provider score voting",
+      "planned_test_id": "T-MPE-R010-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r010_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-CAP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R011",
+      "scenario_id": "MPE-R011-S01",
+      "scenario_title": "Generate one safe-grid variant",
+      "planned_test_id": "T-MPE-R011-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r011_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "GRID-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R011",
+      "scenario_id": "MPE-R011-S02",
+      "scenario_title": "Skip unsafe probes",
+      "planned_test_id": "T-MPE-R011-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r011_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "GRID-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R011",
+      "scenario_id": "MPE-R011-S03",
+      "scenario_title": "Thin stable intersection",
+      "planned_test_id": "T-MPE-R011-S03",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r011_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "GRID-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R012",
+      "scenario_id": "MPE-R012-S01",
+      "scenario_title": "Decode a coarse mask prompt",
+      "planned_test_id": "T-MPE-R012-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r012_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R012",
+      "scenario_id": "MPE-R012-S02",
+      "scenario_title": "Reject backend without mask-prompt support",
+      "planned_test_id": "T-MPE-R012-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r012_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R013",
+      "scenario_id": "MPE-R013-S01",
+      "scenario_title": "Allocate box and CV candidates",
+      "planned_test_id": "T-MPE-R013-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r013_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R013",
+      "scenario_id": "MPE-R013-S02",
+      "scenario_title": "Allocate no CV candidate",
+      "planned_test_id": "T-MPE-R013-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r013_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R013",
+      "scenario_id": "MPE-R013-S03",
+      "scenario_title": "Allocate a sole CV-assisted candidate",
+      "planned_test_id": "T-MPE-R013-S03",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r013_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R013",
+      "scenario_id": "MPE-R013-S04",
+      "scenario_title": "Allocate one box and one CV-assisted candidate",
+      "planned_test_id": "T-MPE-R013-S04",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r013_s04",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-COARSE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R013",
+      "scenario_id": "MPE-R013-S05",
+      "scenario_title": "Direct CV proposal",
+      "planned_test_id": "T-MPE-R013-S05",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r013_s05",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R014",
+      "scenario_id": "MPE-R014-S01",
+      "scenario_title": "Compute disagreement for three candidates",
+      "planned_test_id": "T-MPE-R014-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r014_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-UNCERTAINTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R014",
+      "scenario_id": "MPE-R014-S02",
+      "scenario_title": "Compute uncertainty for one candidate",
+      "planned_test_id": "T-MPE-R014-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r014_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-EDGE",
+        "CAND-UNCERTAINTY"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R015",
+      "scenario_id": "MPE-R015-S01",
+      "scenario_title": "Successful refinement call counts",
+      "planned_test_id": "T-MPE-R015-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r015_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REF-01",
+        "REF-02",
+        "PERF-REFINE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R015",
+      "scenario_id": "MPE-R015-S02",
+      "scenario_title": "Decoder failure during refinement",
+      "planned_test_id": "T-MPE-R015-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r015_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "MAN-BACKEND-FAIL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R016",
+      "scenario_id": "MPE-R016-S01",
+      "scenario_title": "Model candidate provenance",
+      "planned_test_id": "T-MPE-R016-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r016_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "HP-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R016",
+      "scenario_id": "MPE-R016-S02",
+      "scenario_title": "CV-direct provenance",
+      "planned_test_id": "T-MPE-R016-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r016_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CV-DIRECT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R017",
+      "scenario_id": "MPE-R017-S01",
+      "scenario_title": "Fuse three compatible candidates",
+      "planned_test_id": "T-MPE-R017-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r017_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "FUSE-01"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R017",
+      "scenario_id": "MPE-R017-S02",
+      "scenario_title": "Reject incompatible fusion inputs",
+      "planned_test_id": "T-MPE-R017-S02",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r017_s02",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "FUSE-02"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R017",
+      "scenario_id": "MPE-R017-S03",
+      "scenario_title": "Invalidate fusion on human input",
+      "planned_test_id": "T-MPE-R017-S03",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r017_s03",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "REF-03"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "mask-proposal-engine",
+      "requirement_id": "MPE-R018",
+      "scenario_id": "MPE-R018-S01",
+      "scenario_title": "All model outputs are unusable",
+      "planned_test_id": "T-MPE-R018-S01",
+      "planned_test_target": "tests/integration/test_mask_proposal_scenarios.py::test_mpe_r018_s01",
+      "test_level": "integration",
+      "e2e_case_ids": [
+        "CAND-00"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R001",
+      "scenario_id": "OFR-R001-S01",
+      "scenario_title": "CPU-only dependency inspection succeeds",
+      "planned_test_id": "T-OFR-R001-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r001_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-CPU"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R001",
+      "scenario_id": "OFR-R001-S02",
+      "scenario_title": "GPU dependency is introduced",
+      "planned_test_id": "T-OFR-R001-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r001_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-CPU"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R002",
+      "scenario_id": "OFR-R002-S01",
+      "scenario_title": "Clean machine has no network access",
+      "planned_test_id": "T-OFR-R002-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r002_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "SAVE-PATH",
+        "PKG-INSTALL",
+        "PKG-PATH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R002",
+      "scenario_id": "OFR-R002-S02",
+      "scenario_title": "Runtime attempts an online dependency",
+      "planned_test_id": "T-OFR-R002-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r002_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-NET"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R003",
+      "scenario_id": "OFR-R003-S01",
+      "scenario_title": "Consumer imports the wheel",
+      "planned_test_id": "T-OFR-R003-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r003_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-INSTALL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R004",
+      "scenario_id": "OFR-R004-S01",
+      "scenario_title": "Locked environment is reproduced",
+      "planned_test_id": "T-OFR-R004-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r004_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-INSTALL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R004",
+      "scenario_id": "OFR-R004-S02",
+      "scenario_title": "Dependency resolution drifts",
+      "planned_test_id": "T-OFR-R004-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r004_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-INSTALL"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R005",
+      "scenario_id": "OFR-R005-S01",
+      "scenario_title": "Manifest entry is complete",
+      "planned_test_id": "T-OFR-R005-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r005_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R005",
+      "scenario_id": "OFR-R005-S02",
+      "scenario_title": "Manifest field is missing",
+      "planned_test_id": "T-OFR-R005-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r005_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R006",
+      "scenario_id": "OFR-R006-S01",
+      "scenario_title": "Approved dependency is packaged",
+      "planned_test_id": "T-OFR-R006-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r006_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R006",
+      "scenario_id": "OFR-R006-S02",
+      "scenario_title": "Approval is absent or incompatible",
+      "planned_test_id": "T-OFR-R006-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r006_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R007",
+      "scenario_id": "OFR-R007-S01",
+      "scenario_title": "EdgeSAM lacks written authorization",
+      "planned_test_id": "T-OFR-R007-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r007_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R007",
+      "scenario_id": "OFR-R007-S02",
+      "scenario_title": "Prohibited GPL material is detected",
+      "planned_test_id": "T-OFR-R007-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r007_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R008",
+      "scenario_id": "OFR-R008-S01",
+      "scenario_title": "Official checkpoint matches",
+      "planned_test_id": "T-OFR-R008-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r008_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R008",
+      "scenario_id": "OFR-R008-S02",
+      "scenario_title": "Checkpoint checksum mismatches",
+      "planned_test_id": "T-OFR-R008-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r008_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "REAL-CHECKSUM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R009",
+      "scenario_id": "OFR-R009-S01",
+      "scenario_title": "Installed inventory matches release records",
+      "planned_test_id": "T-OFR-R009-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r009_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R009",
+      "scenario_id": "OFR-R009-S02",
+      "scenario_title": "Undocumented transitive dependency is installed",
+      "planned_test_id": "T-OFR-R009-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r009_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-COMPLIANCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R010",
+      "scenario_id": "OFR-R010-S01",
+      "scenario_title": "Reference benchmark is valid",
+      "planned_test_id": "T-OFR-R010-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r010_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PERF-REFINE",
+        "PERF-MODEL",
+        "PERF-WORKFLOW",
+        "REAL-REG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R010",
+      "scenario_id": "OFR-R010-S02",
+      "scenario_title": "Overlay or brush responsiveness exceeds the hard limit",
+      "planned_test_id": "T-OFR-R010-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r010_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PERF-UI"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R011",
+      "scenario_id": "OFR-R011-S01",
+      "scenario_title": "Accepted workflow completes offline",
+      "planned_test_id": "T-OFR-R011-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r011_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-E2E"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R011",
+      "scenario_id": "OFR-R011-S02",
+      "scenario_title": "Review workflow completes offline",
+      "planned_test_id": "T-OFR-R011-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r011_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "PKG-E2E"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R012",
+      "scenario_id": "OFR-R012-S01",
+      "scenario_title": "Evidence bundle is complete",
+      "planned_test_id": "T-OFR-R012-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r012_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R012",
+      "scenario_id": "OFR-R012-S02",
+      "scenario_title": "Required evidence is absent",
+      "planned_test_id": "T-OFR-R012-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r012_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "GOV-EVIDENCE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R013",
+      "scenario_id": "OFR-R013-S01",
+      "scenario_title": "New candidate fails after a prior release",
+      "planned_test_id": "T-OFR-R013-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r013_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "REL-ROLLBACK"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R014",
+      "scenario_id": "OFR-R014-S01",
+      "scenario_title": "All engineering gates pass",
+      "planned_test_id": "T-OFR-R014-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r014_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R014",
+      "scenario_id": "OFR-R014-S02",
+      "scenario_title": "Engineering gate is blocked or failed",
+      "planned_test_id": "T-OFR-R014-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r014_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R015",
+      "scenario_id": "OFR-R015-S01",
+      "scenario_title": "Domain evidence passes",
+      "planned_test_id": "T-OFR-R015-S01",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r015_s01",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "QUALITY-DOMAIN"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "offline-release",
+      "requirement_id": "OFR-R015",
+      "scenario_id": "OFR-R015-S02",
+      "scenario_title": "Domain evidence is unavailable",
+      "planned_test_id": "T-OFR-R015-S02",
+      "planned_test_target": "tests/packaging/test_offline_release_scenarios.py::test_ofr_r015_s02",
+      "test_level": "packaging",
+      "e2e_case_ids": [
+        "REL-VERDICT"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R001",
+      "scenario_id": "ROI-R001-S01",
+      "scenario_title": "Accept a one-pixel ROI",
+      "planned_test_id": "T-ROI-R001-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r001_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-CLAMP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R001",
+      "scenario_id": "ROI-R001-S02",
+      "scenario_title": "Reject reversed or empty bounds",
+      "planned_test_id": "T-ROI-R001-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r001_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R001",
+      "scenario_id": "ROI-R001-S03",
+      "scenario_title": "Reject non-finite or out-of-image bounds",
+      "planned_test_id": "T-ROI-R001-S03",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r001_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-INVALID"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R002",
+      "scenario_id": "ROI-R002-S01",
+      "scenario_title": "Compute an unclamped padded crop",
+      "planned_test_id": "T-ROI-R002-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r002_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-PAD"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R002",
+      "scenario_id": "ROI-R002-S02",
+      "scenario_title": "Round fractional padding outward",
+      "planned_test_id": "T-ROI-R002-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r002_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-CLAMP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R002",
+      "scenario_id": "ROI-R002-S03",
+      "scenario_title": "Clamp only the padded crop",
+      "planned_test_id": "T-ROI-R002-S03",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r002_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-CLAMP"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R003",
+      "scenario_id": "ROI-R003-S01",
+      "scenario_title": "Map the box prompt into a padded crop",
+      "planned_test_id": "T-ROI-R003-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r003_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-PAD"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R003",
+      "scenario_id": "ROI-R003-S02",
+      "scenario_title": "Preserve both rectangles in provenance",
+      "planned_test_id": "T-ROI-R003-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r003_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-PAD"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R004",
+      "scenario_id": "ROI-R004-S01",
+      "scenario_title": "Convert a full-image point to crop coordinates",
+      "planned_test_id": "T-ROI-R004-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r004_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "MOUSE-FG-BG"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R004",
+      "scenario_id": "ROI-R004-S02",
+      "scenario_title": "Reject a point outside the work crop",
+      "planned_test_id": "T-ROI-R004-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r004_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R004",
+      "scenario_id": "ROI-R004-S03",
+      "scenario_title": "Reject a fractional or non-finite point",
+      "planned_test_id": "T-ROI-R004-S03",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r004_s03",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R004",
+      "scenario_id": "ROI-R004-S04",
+      "scenario_title": "Keep model transforms backend-owned",
+      "planned_test_id": "T-ROI-R004-S04",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r004_s04",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R005",
+      "scenario_id": "ROI-R005-S01",
+      "scenario_title": "Integer translation round trip",
+      "planned_test_id": "T-ROI-R005-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r005_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R005",
+      "scenario_id": "ROI-R005-S02",
+      "scenario_title": "Backend model-space round trip",
+      "planned_test_id": "T-ROI-R005-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r005_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R006",
+      "scenario_id": "ROI-R006-S01",
+      "scenario_title": "Ignore the viewer thumbnail",
+      "planned_test_id": "T-ROI-R006-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r006_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R006",
+      "scenario_id": "ROI-R006-S02",
+      "scenario_title": "Extract a border crop",
+      "planned_test_id": "T-ROI-R006-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r006_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R007",
+      "scenario_id": "ROI-R007-S01",
+      "scenario_title": "Accept a valid crop mask",
+      "planned_test_id": "T-ROI-R007-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r007_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R007",
+      "scenario_id": "ROI-R007-S02",
+      "scenario_title": "Reject a wrong mask shape or dtype",
+      "planned_test_id": "T-ROI-R007-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r007_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R008",
+      "scenario_id": "ROI-R008-S01",
+      "scenario_title": "Commit an interior crop",
+      "planned_test_id": "T-ROI-R008-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r008_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "HP-01",
+        "QUALITY-SYNTH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R008",
+      "scenario_id": "ROI-R008-S02",
+      "scenario_title": "Commit a crop clamped at image borders",
+      "planned_test_id": "T-ROI-R008-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r008_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "QUALITY-SYNTH"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R009",
+      "scenario_id": "ROI-R009-S01",
+      "scenario_title": "Touch only the user ROI",
+      "planned_test_id": "T-ROI-R009-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r009_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-EDGE-SEM"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R009",
+      "scenario_id": "ROI-R009-S02",
+      "scenario_title": "Touch the padded crop edge",
+      "planned_test_id": "T-ROI-R009-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r009_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CAND-EDGE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R010",
+      "scenario_id": "ROI-R010-S01",
+      "scenario_title": "Object reaches the source-image boundary",
+      "planned_test_id": "T-ROI-R010-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r010_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "CAND-EDGE"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R011",
+      "scenario_id": "ROI-R011-S01",
+      "scenario_title": "Expand a crop-edge-risk ROI",
+      "planned_test_id": "T-ROI-R011-S01",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r011_s01",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-EXPAND"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    },
+    {
+      "capability": "roi-geometry",
+      "requirement_id": "ROI-R011",
+      "scenario_id": "ROI-R011-S02",
+      "scenario_title": "Expansion cannot enlarge at the image boundary",
+      "planned_test_id": "T-ROI-R011-S02",
+      "planned_test_target": "tests/unit/test_roi_geometry_scenarios.py::test_roi_r011_s02",
+      "test_level": "unit",
+      "e2e_case_ids": [
+        "ROI-EXPAND"
+      ],
+      "status": "planned",
+      "evidence_refs": []
+    }
+  ]
+}

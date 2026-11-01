@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "manifest_id": "segvision-v1-model-artifacts-pending",
+  "intended_use": "company CPU-only offline annotation and approved redistribution",
+  "entries": [
+    {
+      "artifact_id": "mobilesam-source-code",
+      "artifact_kind": "model_code",
+      "source_url": "https://github.com/ChaoningZhang/MobileSAM",
+      "source_revision": "pending-v1",
+      "artifact_url": null,
+      "sha256": null,
+      "license_facts": {
+        "license_id": "pending-review",
+        "source_ref": "pending-review",
+        "verified_by": "pending-review",
+        "verified_at": "2026-08-28T00:00:00Z"
+      },
+      "redistribution_status": "unknown",
+      "organizational_approval": {
+        "status": "pending",
+        "authority_ref": null,
+        "approved_at": null
+      },
+      "conversion": null,
+      "included_in_release": false
+    },
+    {
+      "artifact_id": "mobilesam-tinyvit-checkpoint",
+      "artifact_kind": "model_weights",
+      "source_url": "https://github.com/ChaoningZhang/MobileSAM",
+      "source_revision": "pending-v1",
+      "artifact_url": null,
+      "sha256": null,
+      "license_facts": {
+        "license_id": "pending-review",
+        "source_ref": "pending-review",
+        "verified_by": "pending-review",
+        "verified_at": "2026-08-28T00:00:00Z"
+      },
+      "redistribution_status": "unknown",
+      "organizational_approval": {
+        "status": "pending",
+        "authority_ref": null,
+        "approved_at": null
+      },
+      "conversion": null,
+      "included_in_release": false
+    }
+  ]
+}

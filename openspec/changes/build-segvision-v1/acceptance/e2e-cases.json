@@ -1,0 +1,4134 @@
+{
+  "schema_version": 1,
+  "change_id": "build-segvision-v1",
+  "source_document": "../e2e-acceptance.md",
+  "cases": [
+    {
+      "id": "HP-01",
+      "title": "Three-candidate accepted happy path",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R001",
+        "AOB-R005",
+        "MPE-R004",
+        "MPE-R006",
+        "MPE-R016",
+        "PST-R004",
+        "ROI-R008",
+        "SES-R011",
+        "UIW-R001",
+        "UIW-R002",
+        "UIW-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R001-S01",
+        "AOB-R005-S04",
+        "MPE-R004-S01",
+        "MPE-R006-S01",
+        "ROI-R008-S01",
+        "UIW-R001-S01",
+        "UIW-R011-S01",
+        "PST-R004-S01",
+        "SES-R011-S01",
+        "SES-R011-S02",
+        "SES-R011-S05",
+        "MPE-R016-S01",
+        "UIW-R002-S01"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_hp_01",
+      "preconditions": [
+        "The fixture and controlled setup for HP-01 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_hp_01 with execution_actor=scripted_test.",
+        "Inject ROI drag, wait for three candidates, select card 1, send Space, allow publication, then send N through public GUI events.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=HP-01."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "The event ledger exactly orders image_visible, ROI events, proposal/encode/candidates, selection, accept attempt/pass, commit, save, and next_image with strictly increasing sequence and monotonic time.",
+        "Exactly one encode produces three distinct compact cards; explicit scripted Accept commits the selected full mask; Next remains disabled until the versioned PNG and sidecar reload with matching hashes.",
+        "The sidecar records acceptance_actor=scripted_test, complete model/prompt/operation/policy provenance, and cannot count as Tier C human evidence."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/HP-01/oracle-results.json",
+        "cases/HP-01/backend-calls.jsonl",
+        "cases/HP-01/session-events.jsonl",
+        "cases/HP-01/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-00",
+      "title": "Zero-candidate manual fallback",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R005",
+        "MPE-R008",
+        "MPE-R018",
+        "UIW-R003",
+        "UIW-R006"
+      ],
+      "scenario_refs": [
+        "AOB-R005-S01",
+        "MPE-R018-S01",
+        "UIW-R003-S01",
+        "UIW-R006-S01",
+        "MPE-R008-S01",
+        "MPE-R008-S02"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_00",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-00 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_00 with execution_actor=scripted_test.",
+        "Execute the pinned zero-candidate manual fallback inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-00."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Return zero candidates with proposal diagnostics and expose manual-empty or Needs Review without fabricating cards."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-00/oracle-results.json",
+        "cases/CAND-00/backend-calls.jsonl",
+        "cases/CAND-00/session-events.jsonl",
+        "cases/CAND-00/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-01",
+      "title": "One-candidate display",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R005",
+        "MPE-R006",
+        "UIW-R003"
+      ],
+      "scenario_refs": [
+        "AOB-R005-S02",
+        "MPE-R006-S02",
+        "UIW-R003-S02"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_01",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-01 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_01 with execution_actor=scripted_test.",
+        "Execute the pinned one-candidate display inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-01."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Show exactly one card; keys 2 and 3 do not alter selection; no duplicate padding occurs."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-01/oracle-results.json",
+        "cases/CAND-01/backend-calls.jsonl",
+        "cases/CAND-01/session-events.jsonl",
+        "cases/CAND-01/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-02",
+      "title": "Two-candidate display",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R005",
+        "MPE-R013",
+        "UIW-R003"
+      ],
+      "scenario_refs": [
+        "AOB-R005-S03",
+        "MPE-R013-S02",
+        "UIW-R003-S03"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_02",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-02 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_02 with execution_actor=scripted_test.",
+        "Execute the pinned two-candidate display inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-02."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Show exactly two cards; key 3 is a safe no-op."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-02/oracle-results.json",
+        "cases/CAND-02/backend-calls.jsonl",
+        "cases/CAND-02/session-events.jsonl",
+        "cases/CAND-02/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-03",
+      "title": "Three-candidate switching",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R005",
+        "UIW-R003"
+      ],
+      "scenario_refs": [
+        "AOB-R005-S04",
+        "UIW-R003-S04"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_03",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-03 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_03 with execution_actor=scripted_test.",
+        "Execute the pinned three-candidate switching inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-03."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Keys 1, 2, and 3 select exactly the corresponding candidate while the canvas shows one overlay."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-03/oracle-results.json",
+        "cases/CAND-03/backend-calls.jsonl",
+        "cases/CAND-03/session-events.jsonl",
+        "cases/CAND-03/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-CAP",
+      "title": "Candidate validation dedupe and cap",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R005",
+        "MPE-R007",
+        "MPE-R009",
+        "MPE-R010",
+        "UIW-R003"
+      ],
+      "scenario_refs": [
+        "AOB-R005-S05",
+        "MPE-R007-S01",
+        "MPE-R009-S01",
+        "MPE-R009-S02",
+        "MPE-R010-S01",
+        "UIW-R003-S05",
+        "MPE-R007-S02",
+        "MPE-R010-S02"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_cap",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-CAP are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_cap with execution_actor=scripted_test.",
+        "Execute the pinned candidate validation dedupe and cap inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-CAP."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A larger pool is deterministically validated, deduplicated, ranked, and capped at three."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-CAP/oracle-results.json",
+        "cases/CAND-CAP/backend-calls.jsonl",
+        "cases/CAND-CAP/session-events.jsonl",
+        "cases/CAND-CAP/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-POINT",
+      "title": "Human-point candidate constraint",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R008",
+        "SES-R011"
+      ],
+      "scenario_refs": [
+        "MPE-R008-S03",
+        "SES-R011-S03"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_point",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-POINT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_point with execution_actor=scripted_test.",
+        "Execute the pinned human-point candidate constraint inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-POINT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A mask violating any human positive or negative point is rejected."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-POINT/oracle-results.json",
+        "cases/CAND-POINT/backend-calls.jsonl",
+        "cases/CAND-POINT/session-events.jsonl",
+        "cases/CAND-POINT/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-EDGE",
+      "title": "Crop-edge warning preserves mask",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R008",
+        "MPE-R014",
+        "ROI-R009",
+        "ROI-R010",
+        "SES-R011",
+        "UIW-R010"
+      ],
+      "scenario_refs": [
+        "MPE-R008-S04",
+        "MPE-R014-S02",
+        "ROI-R009-S02",
+        "ROI-R010-S01",
+        "SES-R011-S04",
+        "UIW-R010-S03"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_edge",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-EDGE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_edge with execution_actor=scripted_test.",
+        "Run work-crop-edge and source-image-edge fixtures; attempt Accept before and after required acknowledgements.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-EDGE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "crop_edge_risk_mask_roi exactly marks shown foreground on the one-pixel work-crop boundary and remains distinct from disagreement_mask_roi.",
+        "Accept without TOUCHES_WORK_CROP_EDGE acknowledgement fails; explicit acknowledgement permits validation and is recorded in the sidecar.",
+        "Source-image contact independently records IMAGE_BOUNDARY_TRUNCATED and never hallucinates out-of-image pixels."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-EDGE/oracle-results.json",
+        "cases/CAND-EDGE/backend-calls.jsonl",
+        "cases/CAND-EDGE/session-events.jsonl",
+        "cases/CAND-EDGE/outputs/masks"
+      ]
+    },
+    {
+      "id": "CAND-UNCERTAINTY",
+      "title": "Candidate disagreement and edge-layer separation",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R014",
+        "UIW-R010"
+      ],
+      "scenario_refs": [
+        "MPE-R014-S01",
+        "MPE-R014-S02",
+        "UIW-R010-S01"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_cand_uncertainty",
+      "preconditions": [
+        "The fixture and controlled setup for CAND-UNCERTAINTY are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_cand_uncertainty with execution_actor=scripted_test.",
+        "Evaluate fixed three-mask and one-mask fixtures and render disagreement and crop-edge layers.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CAND-UNCERTAINTY."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "For three shown masks, disagreement_mask_roi equals shown_union AND NOT shown_intersection byte-for-byte; for one shown mask it is all false.",
+        "disagreement_mask_roi, crop_edge_risk_mask_roi, and fusion one-vote uncertainty have distinct golden hashes and are never substituted for one another."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CAND-UNCERTAINTY/oracle-results.json",
+        "cases/CAND-UNCERTAINTY/candidate-hashes.json",
+        "cases/CAND-UNCERTAINTY/outputs/disagreement-mask.png",
+        "cases/CAND-UNCERTAINTY/outputs/crop-edge-risk-mask.png",
+        "cases/CAND-UNCERTAINTY/outputs/fusion-uncertainty-mask.png"
+      ]
+    },
+    {
+      "id": "GRID-01",
+      "title": "Safe-grid probe from stable interior",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R011"
+      ],
+      "scenario_refs": [
+        "MPE-R011-S01"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_grid_01",
+      "preconditions": [
+        "The fixture and controlled setup for GRID-01 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_grid_01 with execution_actor=scripted_test.",
+        "Execute the pinned safe-grid probe from stable interior inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GRID-01."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "At most two probes lie in the eroded stable intersection and add no encoder call."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GRID-01/oracle-results.json",
+        "cases/GRID-01/backend-calls.jsonl",
+        "cases/GRID-01/session-events.jsonl",
+        "cases/GRID-01/outputs/masks"
+      ]
+    },
+    {
+      "id": "GRID-02",
+      "title": "No safe-grid probe without interior",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R011"
+      ],
+      "scenario_refs": [
+        "MPE-R011-S02",
+        "MPE-R011-S03"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_grid_02",
+      "preconditions": [
+        "The fixture and controlled setup for GRID-02 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_grid_02 with execution_actor=scripted_test.",
+        "Execute the pinned no safe-grid probe without interior inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GRID-02."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "No auto point or extra decode occurs when stable interior is absent."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GRID-02/oracle-results.json",
+        "cases/GRID-02/backend-calls.jsonl",
+        "cases/GRID-02/session-events.jsonl",
+        "cases/GRID-02/outputs/masks"
+      ]
+    },
+    {
+      "id": "FUSE-01",
+      "title": "Opt-in majority fusion",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R017"
+      ],
+      "scenario_refs": [
+        "MPE-R017-S01"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_fuse_01",
+      "preconditions": [
+        "The fixture and controlled setup for FUSE-01 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_fuse_01 with execution_actor=scripted_test.",
+        "Execute the pinned opt-in majority fusion inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=FUSE-01."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Foreground is vote count at least two and uncertainty is vote count one; result is not OR."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/FUSE-01/oracle-results.json",
+        "cases/FUSE-01/backend-calls.jsonl",
+        "cases/FUSE-01/session-events.jsonl",
+        "cases/FUSE-01/outputs/masks"
+      ]
+    },
+    {
+      "id": "FUSE-02",
+      "title": "Fusion rejects mismatched inputs",
+      "tier": "A",
+      "category": "candidate",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R017"
+      ],
+      "scenario_refs": [
+        "MPE-R017-S02"
+      ],
+      "test_target": "tests/e2e/test_candidates.py::test_fuse_02",
+      "preconditions": [
+        "The fixture and controlled setup for FUSE-02 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_candidates.py::test_fuse_02 with execution_actor=scripted_test.",
+        "Execute the pinned fusion rejects mismatched inputs inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=FUSE-02."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Shape, revision, or crop mismatch causes typed validation failure without fallback output."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/FUSE-02/oracle-results.json",
+        "cases/FUSE-02/backend-calls.jsonl",
+        "cases/FUSE-02/session-events.jsonl",
+        "cases/FUSE-02/outputs/masks"
+      ]
+    },
+    {
+      "id": "REF-01",
+      "title": "Multi-round selected-candidate refinement",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "MPE-R015",
+        "SES-R003",
+        "SES-R006",
+        "UIW-R004",
+        "UIW-R005"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S01",
+        "MPE-R015-S01",
+        "SES-R006-S01",
+        "SES-R006-S02",
+        "UIW-R005-S01",
+        "UIW-R005-S02",
+        "SES-R003-S01",
+        "UIW-R004-S01"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_ref_01",
+      "preconditions": [
+        "The fixture and controlled setup for REF-01 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_ref_01 with execution_actor=scripted_test.",
+        "Execute the pinned multi-round selected-candidate refinement inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REF-01."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Refinement keeps the selected state, original box, accumulated points, and adds zero encoder calls."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REF-01/oracle-results.json",
+        "cases/REF-01/backend-calls.jsonl",
+        "cases/REF-01/session-events.jsonl",
+        "cases/REF-01/outputs/masks"
+      ]
+    },
+    {
+      "id": "REF-02",
+      "title": "Candidate state isolation",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "MPE-R015",
+        "UIW-R005"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S01",
+        "MPE-R015-S01",
+        "UIW-R005-S03"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_ref_02",
+      "preconditions": [
+        "The fixture and controlled setup for REF-02 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_ref_02 with execution_actor=scripted_test.",
+        "Execute the pinned candidate state isolation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REF-02."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Refinement after switching candidates uses only the newly selected candidate state."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REF-02/oracle-results.json",
+        "cases/REF-02/backend-calls.jsonl",
+        "cases/REF-02/session-events.jsonl",
+        "cases/REF-02/outputs/masks"
+      ]
+    },
+    {
+      "id": "REF-03",
+      "title": "Human point invalidates automation",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "MPE-R017",
+        "SES-R007",
+        "UIW-R005"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S02",
+        "MPE-R017-S03",
+        "SES-R007-S01",
+        "UIW-R005-S04"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_ref_03",
+      "preconditions": [
+        "The fixture and controlled setup for REF-03 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_ref_03 with execution_actor=scripted_test.",
+        "Execute the pinned human point invalidates automation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REF-03."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "The first human point invalidates auto-grid and fusion while preserving human prompts."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REF-03/oracle-results.json",
+        "cases/REF-03/backend-calls.jsonl",
+        "cases/REF-03/session-events.jsonl",
+        "cases/REF-03/outputs/masks"
+      ]
+    },
+    {
+      "id": "REF-UNSUPPORTED",
+      "title": "Non-model refinement rejection",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "CVR-R013",
+        "SES-R005",
+        "UIW-R004"
+      ],
+      "scenario_refs": [
+        "CVR-R013-S02",
+        "SES-R005-S02",
+        "UIW-R004-S02",
+        "UIW-R004-S03"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_ref_unsupported",
+      "preconditions": [
+        "The fixture and controlled setup for REF-UNSUPPORTED are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_ref_unsupported with execution_actor=scripted_test.",
+        "Execute the pinned non-model refinement rejection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REF-UNSUPPORTED."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "CV-direct and manual candidates reject refine with UnsupportedOperation and no lazy encode."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REF-UNSUPPORTED/oracle-results.json",
+        "cases/REF-UNSUPPORTED/backend-calls.jsonl",
+        "cases/REF-UNSUPPORTED/session-events.jsonl",
+        "cases/REF-UNSUPPORTED/outputs/masks"
+      ]
+    },
+    {
+      "id": "EDIT-01",
+      "title": "Local mask operations",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "PST-R008",
+        "SES-R008",
+        "UIW-R007"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S04",
+        "PST-R008-S01",
+        "PST-R008-S02",
+        "SES-R008-S01",
+        "UIW-R007-S01"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_edit_01",
+      "preconditions": [
+        "The fixture and controlled setup for EDIT-01 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_edit_01 with execution_actor=scripted_test.",
+        "Execute the pinned local mask operations inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=EDIT-01."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Brush, erase, grow, shrink, and fill match golden masks without backend calls or input mutation."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/EDIT-01/oracle-results.json",
+        "cases/EDIT-01/backend-calls.jsonl",
+        "cases/EDIT-01/session-events.jsonl",
+        "cases/EDIT-01/outputs/masks"
+      ]
+    },
+    {
+      "id": "EDIT-02",
+      "title": "Undo to model checkpoint",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "SES-R009",
+        "UIW-R007",
+        "UIW-R008"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S04",
+        "SES-R009-S01",
+        "UIW-R008-S02",
+        "SES-R009-S02",
+        "UIW-R007-S02",
+        "UIW-R008-S01",
+        "UIW-R008-S03"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_edit_02",
+      "preconditions": [
+        "The fixture and controlled setup for EDIT-02 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_edit_02 with execution_actor=scripted_test.",
+        "Execute the pinned undo to model checkpoint inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=EDIT-02."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Point tools remain disabled during local edit; a late model result cannot overwrite the edit, and Undo restores the exact checkpoint without decode.",
+        "Undo with no earlier checkpoint is a safe no-op with unchanged revision, candidate hash, and backend ledger."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/EDIT-02/oracle-results.json",
+        "cases/EDIT-02/backend-calls.jsonl",
+        "cases/EDIT-02/session-events.jsonl",
+        "cases/EDIT-02/outputs/masks"
+      ]
+    },
+    {
+      "id": "EDIT-GROW",
+      "title": "One-pixel morphology",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "SES-R008"
+      ],
+      "scenario_refs": [
+        "SES-R008-S02"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_edit_grow",
+      "preconditions": [
+        "The fixture and controlled setup for EDIT-GROW are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_edit_grow with execution_actor=scripted_test.",
+        "Execute the pinned one-pixel morphology inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=EDIT-GROW."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A single grow or shrink uses the frozen crop-pixel 3x3 eight-connected operation."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/EDIT-GROW/oracle-results.json",
+        "cases/EDIT-GROW/backend-calls.jsonl",
+        "cases/EDIT-GROW/session-events.jsonl",
+        "cases/EDIT-GROW/outputs/masks"
+      ]
+    },
+    {
+      "id": "EDIT-FILL",
+      "title": "Hole filling semantics",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "SES-R008"
+      ],
+      "scenario_refs": [
+        "SES-R008-S03"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_edit_fill",
+      "preconditions": [
+        "The fixture and controlled setup for EDIT-FILL are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_edit_fill with execution_actor=scripted_test.",
+        "Execute the pinned hole filling semantics inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=EDIT-FILL."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Only background components disconnected from the crop boundary are filled."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/EDIT-FILL/oracle-results.json",
+        "cases/EDIT-FILL/backend-calls.jsonl",
+        "cases/EDIT-FILL/session-events.jsonl",
+        "cases/EDIT-FILL/outputs/masks"
+      ]
+    },
+    {
+      "id": "VAL-POINT",
+      "title": "Accept rejects prompt violation",
+      "tier": "A",
+      "category": "refine-edit",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R001",
+        "MPE-R008",
+        "SES-R011",
+        "UIW-R001",
+        "UIW-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R001-S03",
+        "MPE-R008-S03",
+        "SES-R011-S03",
+        "UIW-R011-S02",
+        "UIW-R001-S03"
+      ],
+      "test_target": "tests/e2e/test_refine_and_edit.py::test_val_point",
+      "preconditions": [
+        "The fixture and controlled setup for VAL-POINT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_refine_and_edit.py::test_val_point with execution_actor=scripted_test.",
+        "Execute the pinned accept rejects prompt violation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=VAL-POINT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Invalid Accept records accept_attempted and accept_validation_failed with the typed reason, records no accept_validation_passed, keeps the timer running, and creates no output."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/VAL-POINT/oracle-results.json",
+        "cases/VAL-POINT/backend-calls.jsonl",
+        "cases/VAL-POINT/session-events.jsonl",
+        "cases/VAL-POINT/outputs/masks"
+      ]
+    },
+    {
+      "id": "CV-OFF",
+      "title": "Disabled CV bypass",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R007",
+        "CVR-R005",
+        "MPE-R004"
+      ],
+      "scenario_refs": [
+        "AOB-R007-S04",
+        "CVR-R005-S01",
+        "CVR-R005-S02",
+        "MPE-R004-S01"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_off",
+      "preconditions": [
+        "The fixture and controlled setup for CV-OFF are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_off with execution_actor=scripted_test.",
+        "Execute the pinned disabled cv bypass inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-OFF."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Disabled or missing recipe produces zero CV calls and one SAM proposal encode."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-OFF/oracle-results.json",
+        "cases/CV-OFF/cv-calls.jsonl",
+        "cases/CV-OFF/backend-calls.jsonl",
+        "cases/CV-OFF/outputs/recipes"
+      ]
+    },
+    {
+      "id": "CV-DIRECT",
+      "title": "Direct CV proposal",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R007",
+        "CVR-R011",
+        "CVR-R012",
+        "CVR-R013",
+        "MPE-R004",
+        "MPE-R013",
+        "MPE-R016",
+        "PST-R003",
+        "UIW-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R007-S01",
+        "CVR-R011-S01",
+        "CVR-R012-S03",
+        "CVR-R013-S01",
+        "CVR-R013-S03",
+        "MPE-R004-S03",
+        "MPE-R013-S05",
+        "MPE-R016-S02",
+        "PST-R003-S02",
+        "UIW-R011-S03"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_direct",
+      "preconditions": [
+        "The fixture and controlled setup for CV-DIRECT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_direct with execution_actor=scripted_test.",
+        "Execute the pinned direct cv proposal inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-DIRECT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Direct returns a non-refinable candidate with zero model calls and still requires explicit Accept."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-DIRECT/oracle-results.json",
+        "cases/CV-DIRECT/cv-calls.jsonl",
+        "cases/CV-DIRECT/backend-calls.jsonl",
+        "cases/CV-DIRECT/outputs/recipes"
+      ]
+    },
+    {
+      "id": "CV-COARSE",
+      "title": "Coarse CV mask-prompt bridge",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R007",
+        "CVR-R011",
+        "CVR-R012",
+        "CVR-R014",
+        "MPE-R004",
+        "MPE-R012",
+        "MPE-R013"
+      ],
+      "scenario_refs": [
+        "AOB-R007-S02",
+        "CVR-R011-S02",
+        "CVR-R011-S03",
+        "CVR-R012-S02",
+        "CVR-R014-S01",
+        "MPE-R004-S02",
+        "MPE-R012-S01",
+        "MPE-R012-S02",
+        "MPE-R013-S01",
+        "MPE-R013-S03",
+        "MPE-R013-S04"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_coarse",
+      "preconditions": [
+        "The fixture and controlled setup for CV-COARSE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_coarse with execution_actor=scripted_test.",
+        "Run coarse fixtures with two, one, and zero native survivors, then inject mask-bridge failure.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-COARSE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "The run performs one encode, calls mask_prompt_from_binary exactly once with the exact coarse-mask SHA-256, keeps the RGB crop as image input, and passes no derived automatic points.",
+        "A surviving model-decoded result is source sam_cv; raw coarse CV never becomes a card. sam_cv is compactly card 3 after two candidates, card 2 after one, and card 1 when alone, with no empty slot.",
+        "Mask-prompt conversion/decode failure records bridge diagnostics, shows no raw CV candidate, preserves box/manual fallback, and never adds another encode."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-COARSE/oracle-results.json",
+        "cases/CV-COARSE/cv-calls.jsonl",
+        "cases/CV-COARSE/backend-calls.jsonl",
+        "cases/CV-COARSE/outputs/recipes"
+      ]
+    },
+    {
+      "id": "CV-INVALID",
+      "title": "Invalid CV fallback",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R007",
+        "CVR-R009",
+        "CVR-R010",
+        "CVR-R012"
+      ],
+      "scenario_refs": [
+        "AOB-R007-S03",
+        "CVR-R009-S01",
+        "CVR-R009-S02",
+        "CVR-R010-S01",
+        "CVR-R012-S01",
+        "CVR-R010-S02"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_invalid",
+      "preconditions": [
+        "The fixture and controlled setup for CV-INVALID are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_invalid with execution_actor=scripted_test.",
+        "Execute the pinned invalid cv fallback inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-INVALID."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Invalid diagnostics are recorded and normal SAM proposal runs once."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-INVALID/oracle-results.json",
+        "cases/CV-INVALID/cv-calls.jsonl",
+        "cases/CV-INVALID/backend-calls.jsonl",
+        "cases/CV-INVALID/outputs/recipes"
+      ]
+    },
+    {
+      "id": "CV-ROUNDTRIP",
+      "title": "Recipe serialization and validation",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "CVR-R001",
+        "CVR-R002",
+        "CVR-R003",
+        "CVR-R004",
+        "CVR-R015"
+      ],
+      "scenario_refs": [
+        "CVR-R001-S01",
+        "CVR-R001-S02",
+        "CVR-R001-S03",
+        "CVR-R004-S02",
+        "CVR-R015-S01",
+        "CVR-R015-S02",
+        "CVR-R002-S01",
+        "CVR-R002-S02",
+        "CVR-R003-S01",
+        "CVR-R003-S02"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_roundtrip",
+      "preconditions": [
+        "The fixture and controlled setup for CV-ROUNDTRIP are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_roundtrip with execution_actor=scripted_test.",
+        "Execute the pinned recipe serialization and validation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-ROUNDTRIP."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Canonical round trip preserves hash while unsupported version and class mismatch fail without mutation."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-ROUNDTRIP/oracle-results.json",
+        "cases/CV-ROUNDTRIP/cv-calls.jsonl",
+        "cases/CV-ROUNDTRIP/backend-calls.jsonl",
+        "cases/CV-ROUNDTRIP/outputs/recipes"
+      ]
+    },
+    {
+      "id": "CV-DETERMINISM",
+      "title": "Recipe deterministic execution",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "CVR-R006",
+        "CVR-R007",
+        "CVR-R008"
+      ],
+      "scenario_refs": [
+        "CVR-R006-S01",
+        "CVR-R006-S02",
+        "CVR-R006-S03",
+        "CVR-R007-S01",
+        "CVR-R007-S02",
+        "CVR-R008-S01",
+        "CVR-R008-S02"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_determinism",
+      "preconditions": [
+        "The fixture and controlled setup for CV-DETERMINISM are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_determinism with execution_actor=scripted_test.",
+        "Execute the pinned recipe deterministic execution inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-DETERMINISM."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Identical crop, recipe, and locked runtime produce identical mask, gate, diagnostics, and hash."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-DETERMINISM/oracle-results.json",
+        "cases/CV-DETERMINISM/cv-calls.jsonl",
+        "cases/CV-DETERMINISM/backend-calls.jsonl",
+        "cases/CV-DETERMINISM/outputs/recipes"
+      ]
+    },
+    {
+      "id": "CV-UI",
+      "title": "No per-image recipe tuning",
+      "tier": "A",
+      "category": "cv",
+      "mandatory": true,
+      "requirement_refs": [
+        "CVR-R008",
+        "UIW-R016"
+      ],
+      "scenario_refs": [
+        "CVR-R008-S02",
+        "UIW-R016-S01"
+      ],
+      "test_target": "tests/e2e/test_cv_recipes.py::test_cv_ui",
+      "preconditions": [
+        "The fixture and controlled setup for CV-UI are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_cv_recipes.py::test_cv_ui with execution_actor=scripted_test.",
+        "Execute the pinned no per-image recipe tuning inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=CV-UI."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "GUI exposes recipe identity but no per-image color or morphology controls."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/CV-UI/oracle-results.json",
+        "cases/CV-UI/cv-calls.jsonl",
+        "cases/CV-UI/backend-calls.jsonl",
+        "cases/CV-UI/outputs/recipes"
+      ]
+    },
+    {
+      "id": "MAN-EMPTY",
+      "title": "Manual empty lifecycle",
+      "tier": "A",
+      "category": "manual-fallback",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "PST-R003",
+        "SES-R010",
+        "UIW-R006"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S03",
+        "PST-R003-S03",
+        "SES-R010-S02",
+        "UIW-R006-S01",
+        "UIW-R006-S02"
+      ],
+      "test_target": "tests/e2e/test_manual_fallback.py::test_man_empty",
+      "preconditions": [
+        "The fixture and controlled setup for MAN-EMPTY are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_manual_fallback.py::test_man_empty with execution_actor=scripted_test.",
+        "Execute the pinned manual empty lifecycle inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=MAN-EMPTY."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Empty manual candidate cannot Accept until edited; valid manual commit adds no backend calls."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/MAN-EMPTY/oracle-results.json",
+        "cases/MAN-EMPTY/backend-calls.jsonl",
+        "cases/MAN-EMPTY/session-events.jsonl",
+        "cases/MAN-EMPTY/outputs/masks"
+      ]
+    },
+    {
+      "id": "MAN-ERASE",
+      "title": "Erased-to-empty rejection",
+      "tier": "A",
+      "category": "manual-fallback",
+      "mandatory": true,
+      "requirement_refs": [
+        "SES-R008",
+        "UIW-R007"
+      ],
+      "scenario_refs": [
+        "SES-R008-S01",
+        "UIW-R007-S03"
+      ],
+      "test_target": "tests/e2e/test_manual_fallback.py::test_man_erase",
+      "preconditions": [
+        "The fixture and controlled setup for MAN-ERASE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_manual_fallback.py::test_man_erase with execution_actor=scripted_test.",
+        "Execute the pinned erased-to-empty rejection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=MAN-ERASE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "An all-background manual result cannot pass Accept validation."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/MAN-ERASE/oracle-results.json",
+        "cases/MAN-ERASE/backend-calls.jsonl",
+        "cases/MAN-ERASE/session-events.jsonl",
+        "cases/MAN-ERASE/outputs/masks"
+      ]
+    },
+    {
+      "id": "MAN-BACKEND-FAIL",
+      "title": "Manual recovery from backend failure",
+      "tier": "A",
+      "category": "manual-fallback",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R006",
+        "MPE-R015",
+        "SES-R010",
+        "SES-R013",
+        "UIW-R006"
+      ],
+      "scenario_refs": [
+        "AOB-R006-S03",
+        "MPE-R015-S02",
+        "SES-R010-S01",
+        "SES-R013-S01",
+        "UIW-R006-S03"
+      ],
+      "test_target": "tests/e2e/test_manual_fallback.py::test_man_backend_fail",
+      "preconditions": [
+        "The fixture and controlled setup for MAN-BACKEND-FAIL are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_manual_fallback.py::test_man_backend_fail with execution_actor=scripted_test.",
+        "Execute the pinned manual recovery from backend failure inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=MAN-BACKEND-FAIL."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Timeout emits required_operation_timeout with exact operation and budget, leaves the GUI responsive, and permits manual completion or explicit review without automatic disposition.",
+        "A failed refinement retains the previously selected candidate and publishes no fabricated or partial candidate."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/MAN-BACKEND-FAIL/oracle-results.json",
+        "cases/MAN-BACKEND-FAIL/backend-calls.jsonl",
+        "cases/MAN-BACKEND-FAIL/session-events.jsonl",
+        "cases/MAN-BACKEND-FAIL/outputs/masks"
+      ]
+    },
+    {
+      "id": "MAN-REFINE",
+      "title": "Manual refinement prohibition",
+      "tier": "A",
+      "category": "manual-fallback",
+      "mandatory": true,
+      "requirement_refs": [
+        "SES-R005",
+        "UIW-R004"
+      ],
+      "scenario_refs": [
+        "SES-R005-S02",
+        "UIW-R004-S03"
+      ],
+      "test_target": "tests/e2e/test_manual_fallback.py::test_man_refine",
+      "preconditions": [
+        "The fixture and controlled setup for MAN-REFINE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_manual_fallback.py::test_man_refine with execution_actor=scripted_test.",
+        "Execute the pinned manual refinement prohibition inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=MAN-REFINE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Manual candidates disable point tools and reject refine without lazy encoding."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/MAN-REFINE/oracle-results.json",
+        "cases/MAN-REFINE/backend-calls.jsonl",
+        "cases/MAN-REFINE/session-events.jsonl",
+        "cases/MAN-REFINE/outputs/masks"
+      ]
+    },
+    {
+      "id": "ROI-PAD",
+      "title": "Deterministic ten-percent padding",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "ROI-R002",
+        "ROI-R003"
+      ],
+      "scenario_refs": [
+        "ROI-R002-S01",
+        "ROI-R003-S01",
+        "ROI-R003-S02"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_pad",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-PAD are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_pad with execution_actor=scripted_test.",
+        "Execute the pinned deterministic ten-percent padding inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-PAD."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A 100x100 ROI at [100,100,200,200] yields crop [90,90,210,210] while retaining the original prompt box."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-PAD/oracle-results.json",
+        "cases/ROI-PAD/backend-calls.jsonl",
+        "cases/ROI-PAD/session-events.jsonl",
+        "cases/ROI-PAD/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-CLAMP",
+      "title": "Fractional border padding",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "ROI-R001",
+        "ROI-R002"
+      ],
+      "scenario_refs": [
+        "ROI-R001-S01",
+        "ROI-R002-S02",
+        "ROI-R002-S03"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_clamp",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-CLAMP are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_clamp with execution_actor=scripted_test.",
+        "Execute the pinned fractional border padding inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-CLAMP."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Padding uses floor for left/top, ceil for right/bottom, then clamps to image bounds."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-CLAMP/oracle-results.json",
+        "cases/ROI-CLAMP/backend-calls.jsonl",
+        "cases/ROI-CLAMP/session-events.jsonl",
+        "cases/ROI-CLAMP/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-INVALID",
+      "title": "Invalid ROI rejection",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "ROI-R001"
+      ],
+      "scenario_refs": [
+        "ROI-R001-S02",
+        "ROI-R001-S03"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_invalid",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-INVALID are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_invalid with execution_actor=scripted_test.",
+        "Execute the pinned invalid roi rejection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-INVALID."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "NaN, infinite, zero-area, negative-area, or out-of-bounds ROI fails before backend calls."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-INVALID/oracle-results.json",
+        "cases/ROI-INVALID/backend-calls.jsonl",
+        "cases/ROI-INVALID/session-events.jsonl",
+        "cases/ROI-INVALID/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-STALE-P",
+      "title": "Stale proposal rejection",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R001",
+        "AOB-R004",
+        "AOB-R008",
+        "MPE-R005",
+        "SES-R004",
+        "UIW-R002",
+        "UIW-R015"
+      ],
+      "scenario_refs": [
+        "AOB-R001-S02",
+        "AOB-R004-S01",
+        "AOB-R008-S01",
+        "SES-R004-S01",
+        "SES-R004-S02",
+        "UIW-R002-S02",
+        "UIW-R015-S01",
+        "MPE-R005-S01",
+        "MPE-R005-S02"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_stale_p",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-STALE-P are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_stale_p with execution_actor=scripted_test.",
+        "Execute the pinned stale proposal rejection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-STALE-P."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "ROI relock emits job_cancel_requested and then either job_cancelled or stale_result_rejected for the prior proposal; the late result never becomes selectable and its handles raise StaleRevision."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-STALE-P/oracle-results.json",
+        "cases/ROI-STALE-P/backend-calls.jsonl",
+        "cases/ROI-STALE-P/session-events.jsonl",
+        "cases/ROI-STALE-P/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-STALE-R",
+      "title": "Stale refine rejection",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R001",
+        "AOB-R004",
+        "AOB-R008",
+        "SES-R004",
+        "UIW-R015"
+      ],
+      "scenario_refs": [
+        "AOB-R001-S02",
+        "AOB-R004-S01",
+        "AOB-R008-S02",
+        "SES-R004-S02",
+        "UIW-R015-S02"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_stale_r",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-STALE-R are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_stale_r with execution_actor=scripted_test.",
+        "Execute the pinned stale refine rejection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-STALE-R."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "ROI relock emits job_cancel_requested and then either job_cancelled or stale_result_rejected for the prior refinement; the late result never changes the canvas or current candidate hash."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-STALE-R/oracle-results.json",
+        "cases/ROI-STALE-R/backend-calls.jsonl",
+        "cases/ROI-STALE-R/session-events.jsonl",
+        "cases/ROI-STALE-R/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-EXPAND",
+      "title": "Expand ROI revision and timer",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "ROI-R011",
+        "UIW-R002",
+        "UIW-R009"
+      ],
+      "scenario_refs": [
+        "ROI-R011-S01",
+        "ROI-R011-S02",
+        "UIW-R002-S03",
+        "UIW-R009-S03"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_expand",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-EXPAND are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_expand with execution_actor=scripted_test.",
+        "Execute the pinned expand roi revision and timer inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-EXPAND."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Expand creates a new revision and crop without resetting first_roi_locked."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-EXPAND/oracle-results.json",
+        "cases/ROI-EXPAND/backend-calls.jsonl",
+        "cases/ROI-EXPAND/session-events.jsonl",
+        "cases/ROI-EXPAND/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-EDGE-SEM",
+      "title": "User ROI contact is not crop contact",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "ROI-R009",
+        "UIW-R010"
+      ],
+      "scenario_refs": [
+        "ROI-R009-S01",
+        "UIW-R010-S02"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_edge_sem",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-EDGE-SEM are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_edge_sem with execution_actor=scripted_test.",
+        "Execute the pinned user roi contact is not crop contact inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-EDGE-SEM."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Touching only user ROI does not emit the work-crop edge warning."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-EDGE-SEM/oracle-results.json",
+        "cases/ROI-EDGE-SEM/backend-calls.jsonl",
+        "cases/ROI-EDGE-SEM/session-events.jsonl",
+        "cases/ROI-EDGE-SEM/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "ROI-DIRECT",
+      "title": "Direct CV after ROI expansion",
+      "tier": "A",
+      "category": "roi-revision",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R008",
+        "CVR-R012",
+        "UIW-R002"
+      ],
+      "scenario_refs": [
+        "AOB-R008-S03",
+        "CVR-R012-S03",
+        "UIW-R002-S03"
+      ],
+      "test_target": "tests/e2e/test_roi_revision.py::test_roi_direct",
+      "preconditions": [
+        "The fixture and controlled setup for ROI-DIRECT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_roi_revision.py::test_roi_direct with execution_actor=scripted_test.",
+        "Execute the pinned direct cv after roi expansion inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=ROI-DIRECT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "An expanded revision that remains CV-direct performs zero encoder calls."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/ROI-DIRECT/oracle-results.json",
+        "cases/ROI-DIRECT/backend-calls.jsonl",
+        "cases/ROI-DIRECT/session-events.jsonl",
+        "cases/ROI-DIRECT/gui-states.jsonl"
+      ]
+    },
+    {
+      "id": "SAVE-OK",
+      "title": "Successful pair-consistent save",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R002",
+        "PST-R003",
+        "PST-R004",
+        "PST-R006",
+        "PST-R009",
+        "UIW-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S03",
+        "PST-R002-S01",
+        "PST-R002-S02",
+        "PST-R002-S03",
+        "PST-R003-S01",
+        "PST-R004-S01",
+        "PST-R004-S03",
+        "PST-R006-S01",
+        "PST-R009-S01",
+        "PST-R009-S02",
+        "UIW-R011-S01"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_ok",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-OK are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_ok with execution_actor=scripted_test.",
+        "Execute the pinned successful pair-consistent save inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-OK."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "The adapter writes unique temporary PNG and sidecar files, flushes, closes, validates schema/shape/hash, publishes a new versioned or content-addressed PNG, and atomically publishes the sidecar pointer last.",
+        "The accepted loader returns exactly one full-image uint8 {0,255} pair whose filename, hash, shape, status, provenance, and full-image coordinates match the CommitResult."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-OK/oracle-results.json",
+        "cases/SAVE-OK/filesystem-events.jsonl",
+        "cases/SAVE-OK/session-events.jsonl",
+        "cases/SAVE-OK/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-FAIL-TEMP-PNG",
+      "title": "PNG temporary write failure",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R005",
+        "PST-R011",
+        "UIW-R012"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S01",
+        "PST-R005-S01",
+        "PST-R011-S01",
+        "UIW-R012-S01",
+        "UIW-R012-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_fail_temp_png",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-FAIL-TEMP-PNG are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_fail_temp_png with execution_actor=scripted_test.",
+        "Execute the pinned png temporary write failure inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-FAIL-TEMP-PNG."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "A temporary PNG write failure publishes no new final artifact, preserves the exact pending CommitResult, enters SAVE_FAILED, disables Next, and retry succeeds without inference."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-FAIL-TEMP-PNG/oracle-results.json",
+        "cases/SAVE-FAIL-TEMP-PNG/filesystem-events.jsonl",
+        "cases/SAVE-FAIL-TEMP-PNG/session-events.jsonl",
+        "cases/SAVE-FAIL-TEMP-PNG/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-FAIL-TEMP-JSON",
+      "title": "Sidecar temporary write failure",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R005",
+        "PST-R011",
+        "UIW-R012"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S01",
+        "PST-R005-S02",
+        "PST-R011-S01",
+        "UIW-R012-S01",
+        "UIW-R012-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_fail_temp_json",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-FAIL-TEMP-JSON are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_fail_temp_json with execution_actor=scripted_test.",
+        "Execute the pinned sidecar temporary write failure inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-FAIL-TEMP-JSON."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "A temporary sidecar write failure exposes no new accepted pair, preserves the exact pending CommitResult, enters SAVE_FAILED, disables Next, and retry succeeds without inference."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-FAIL-TEMP-JSON/oracle-results.json",
+        "cases/SAVE-FAIL-TEMP-JSON/filesystem-events.jsonl",
+        "cases/SAVE-FAIL-TEMP-JSON/session-events.jsonl",
+        "cases/SAVE-FAIL-TEMP-JSON/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-FAIL-VERIFY",
+      "title": "Temporary artifact verification failure",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R003",
+        "PST-R005",
+        "PST-R011",
+        "UIW-R012"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S01",
+        "PST-R003-S04",
+        "PST-R005-S02",
+        "PST-R011-S01",
+        "UIW-R012-S01",
+        "UIW-R012-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_fail_verify",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-FAIL-VERIFY are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_fail_verify with execution_actor=scripted_test.",
+        "Execute the pinned temporary artifact verification failure inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-FAIL-VERIFY."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "A temporary parse/schema/shape/hash verification failure publishes neither commit marker nor loader-visible pair, preserves the pending result, and succeeds only after clean retry."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-FAIL-VERIFY/oracle-results.json",
+        "cases/SAVE-FAIL-VERIFY/filesystem-events.jsonl",
+        "cases/SAVE-FAIL-VERIFY/session-events.jsonl",
+        "cases/SAVE-FAIL-VERIFY/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-FAIL-PNG-PUBLISH",
+      "title": "PNG publication failure",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R011",
+        "UIW-R012"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S01",
+        "PST-R011-S01",
+        "UIW-R012-S01",
+        "UIW-R012-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_fail_png_publish",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-FAIL-PNG-PUBLISH are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_fail_png_publish with execution_actor=scripted_test.",
+        "Execute the pinned png publication failure inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-FAIL-PNG-PUBLISH."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "A new versioned PNG publication failure leaves any prior pair byte-valid and current, exposes no new pair, preserves the pending result, and retries without inference."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-FAIL-PNG-PUBLISH/oracle-results.json",
+        "cases/SAVE-FAIL-PNG-PUBLISH/filesystem-events.jsonl",
+        "cases/SAVE-FAIL-PNG-PUBLISH/session-events.jsonl",
+        "cases/SAVE-FAIL-PNG-PUBLISH/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-FAIL-JSON-PUBLISH",
+      "title": "Sidecar publication failure",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R004",
+        "PST-R005",
+        "PST-R010",
+        "PST-R011",
+        "UIW-R012"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S01",
+        "PST-R004-S04",
+        "PST-R005-S03",
+        "PST-R011-S01",
+        "UIW-R012-S01",
+        "UIW-R012-S02",
+        "PST-R005-S04",
+        "PST-R010-S01"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_fail_json_publish",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-FAIL-JSON-PUBLISH are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_fail_json_publish with execution_actor=scripted_test.",
+        "Execute the pinned sidecar publication failure inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-FAIL-JSON-PUBLISH."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "If a new versioned PNG publishes but sidecar-pointer publication fails, the prior sidecar and PNG remain the current loader-valid pair; the unused PNG is ignored or quarantined.",
+        "Retry publishes the new sidecar pointer with matching hash and supersession metadata without replacing the PNG referenced by the prior record."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-FAIL-JSON-PUBLISH/oracle-results.json",
+        "cases/SAVE-FAIL-JSON-PUBLISH/filesystem-events.jsonl",
+        "cases/SAVE-FAIL-JSON-PUBLISH/session-events.jsonl",
+        "cases/SAVE-FAIL-JSON-PUBLISH/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-ORPHAN",
+      "title": "Crash orphan handling",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R006",
+        "PST-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S02",
+        "PST-R006-S02",
+        "PST-R006-S03",
+        "PST-R011-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_orphan",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-ORPHAN are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_orphan with execution_actor=scripted_test.",
+        "Execute the pinned crash orphan handling inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-ORPHAN."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A final PNG without a matching accepted sidecar, and a sidecar whose referenced PNG is missing, are rejected by accepted loader and training enumeration."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-ORPHAN/oracle-results.json",
+        "cases/SAVE-ORPHAN/filesystem-events.jsonl",
+        "cases/SAVE-ORPHAN/session-events.jsonl",
+        "cases/SAVE-ORPHAN/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-CORRUPT",
+      "title": "Published artifact corruption",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R006",
+        "PST-R007",
+        "PST-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S04",
+        "PST-R006-S03",
+        "PST-R006-S04",
+        "PST-R006-S05",
+        "PST-R007-S04",
+        "PST-R011-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_corrupt",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-CORRUPT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_corrupt with execution_actor=scripted_test.",
+        "Execute the pinned published artifact corruption inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-CORRUPT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "The loader rejects missing PNG, altered bytes, wrong filename/hash/schema/shape/dtype/nonbinary values, unsupported schema, and review-only artifacts; accepted counts remain zero for every matrix row."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-CORRUPT/oracle-results.json",
+        "cases/SAVE-CORRUPT/filesystem-events.jsonl",
+        "cases/SAVE-CORRUPT/session-events.jsonl",
+        "cases/SAVE-CORRUPT/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-OVERWRITE",
+      "title": "Existing annotation preservation",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "PST-R004",
+        "PST-R010"
+      ],
+      "scenario_refs": [
+        "PST-R004-S02",
+        "PST-R004-S04",
+        "PST-R010-S02"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_overwrite",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-OVERWRITE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_overwrite with execution_actor=scripted_test.",
+        "Execute the pinned existing annotation preservation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-OVERWRITE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Default save raises AnnotationAlreadyExists and preserves the original pair byte-for-byte.",
+        "Authorized supersession uses a distinct versioned/content-addressed PNG; sidecar failure preserves the old pair, and retry points to the new hash with supersession metadata."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-OVERWRITE/oracle-results.json",
+        "cases/SAVE-OVERWRITE/filesystem-events.jsonl",
+        "cases/SAVE-OVERWRITE/session-events.jsonl",
+        "cases/SAVE-OVERWRITE/outputs/annotations"
+      ]
+    },
+    {
+      "id": "SAVE-PATH",
+      "title": "Safe output path derivation",
+      "tier": "A",
+      "category": "persistence",
+      "mandatory": true,
+      "requirement_refs": [
+        "OFR-R002",
+        "PST-R002"
+      ],
+      "scenario_refs": [
+        "PST-R002-S01",
+        "OFR-R002-S01"
+      ],
+      "test_target": "tests/e2e/test_persistence_faults.py::test_save_path",
+      "preconditions": [
+        "The fixture and controlled setup for SAVE-PATH are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_persistence_faults.py::test_save_path with execution_actor=scripted_test.",
+        "Execute the pinned safe output path derivation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=SAVE-PATH."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Traversal-like image identifiers cannot escape the configured output root."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/SAVE-PATH/oracle-results.json",
+        "cases/SAVE-PATH/filesystem-events.jsonl",
+        "cases/SAVE-PATH/session-events.jsonl",
+        "cases/SAVE-PATH/outputs/annotations"
+      ]
+    },
+    {
+      "id": "REVIEW-STATES",
+      "title": "Needs Review from active states",
+      "tier": "A",
+      "category": "review",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002",
+        "SES-R012",
+        "UIW-R001",
+        "UIW-R013"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S06",
+        "SES-R012-S01",
+        "UIW-R013-S01",
+        "UIW-R013-S04",
+        "UIW-R001-S02"
+      ],
+      "test_target": "tests/e2e/test_needs_review.py::test_review_states",
+      "preconditions": [
+        "The fixture and controlled setup for REVIEW-STATES are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_needs_review.py::test_review_states with execution_actor=scripted_test.",
+        "Parameterize every allowed and forbidden state, including SAVE_FAILED, and request Needs Review.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REVIEW-STATES."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Only ROI_LOCKED, PROPOSING, PROPOSAL_READY, MANUAL_EMPTY, REFINE_PENDING, REFINED_READY, LOCAL_EDITING, and SAVE_FAILED may request review; unsafe/terminal states reject it.",
+        "A valid request cancels or stales work, enters REVIEW_SAVING, and reaches NEEDS_REVIEW with Next enabled only after durable review publication; it never creates training output.",
+        "Changing SAVE_FAILED to Needs Review preserves prior valid-Accept timing diagnostically while within_30_accept remains false."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REVIEW-STATES/oracle-results.json",
+        "cases/REVIEW-STATES/session-events.jsonl",
+        "cases/REVIEW-STATES/filesystem-events.jsonl",
+        "cases/REVIEW-STATES/outputs/review"
+      ]
+    },
+    {
+      "id": "REVIEW-SAVE-FAIL",
+      "title": "Needs Review publication failure and retry",
+      "tier": "A",
+      "category": "review",
+      "mandatory": true,
+      "requirement_refs": [
+        "PST-R007",
+        "UIW-R013"
+      ],
+      "scenario_refs": [
+        "PST-R007-S03",
+        "UIW-R013-S02"
+      ],
+      "test_target": "tests/e2e/test_needs_review.py::test_review_save_fail",
+      "preconditions": [
+        "The fixture and controlled setup for REVIEW-SAVE-FAIL are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_needs_review.py::test_review_save_fail with execution_actor=scripted_test.",
+        "Inject review publication failure, attempt N, remove the fault, and retry the identical ReviewResult.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REVIEW-SAVE-FAIL."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A review publish fault transitions REVIEW_SAVING to REVIEW_SAVE_FAILED, keeps Next disabled, and exposes neither an accepted pair nor a durable review record.",
+        "Retry publishes the identical review result, transitions to terminal NEEDS_REVIEW, enables Next, and remains training_eligible=false."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REVIEW-SAVE-FAIL/oracle-results.json",
+        "cases/REVIEW-SAVE-FAIL/session-events.jsonl",
+        "cases/REVIEW-SAVE-FAIL/filesystem-events.jsonl",
+        "cases/REVIEW-SAVE-FAIL/outputs/review"
+      ]
+    },
+    {
+      "id": "REVIEW-DRAFT",
+      "title": "Review draft isolation",
+      "tier": "A",
+      "category": "review",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R009",
+        "PST-R007"
+      ],
+      "scenario_refs": [
+        "AOB-R009-S04",
+        "PST-R007-S01",
+        "PST-R007-S02",
+        "PST-R007-S04"
+      ],
+      "test_target": "tests/e2e/test_needs_review.py::test_review_draft",
+      "preconditions": [
+        "The fixture and controlled setup for REVIEW-DRAFT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_needs_review.py::test_review_draft with execution_actor=scripted_test.",
+        "Execute the pinned review draft isolation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REVIEW-DRAFT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Optional draft remains in review namespace and is invisible to the training loader."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REVIEW-DRAFT/oracle-results.json",
+        "cases/REVIEW-DRAFT/session-events.jsonl",
+        "cases/REVIEW-DRAFT/filesystem-events.jsonl",
+        "cases/REVIEW-DRAFT/outputs/review"
+      ]
+    },
+    {
+      "id": "REVIEW-TIMEOUT",
+      "title": "Timeout review accounting",
+      "tier": "A",
+      "category": "review",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002",
+        "AOB-R003",
+        "SES-R012",
+        "UIW-R013",
+        "UIW-R014"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S05",
+        "AOB-R003-S03",
+        "SES-R012-S02",
+        "UIW-R013-S03",
+        "UIW-R014-S03"
+      ],
+      "test_target": "tests/e2e/test_needs_review.py::test_review_timeout",
+      "preconditions": [
+        "The fixture and controlled setup for REVIEW-TIMEOUT are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_needs_review.py::test_review_timeout with execution_actor=scripted_test.",
+        "Execute the pinned timeout review accounting inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REVIEW-TIMEOUT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "required_operation_timeout records the exact operation and budget but does not choose a disposition; a later explicit review increments timeout and review counts without increasing accepted-under-30."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REVIEW-TIMEOUT/oracle-results.json",
+        "cases/REVIEW-TIMEOUT/session-events.jsonl",
+        "cases/REVIEW-TIMEOUT/filesystem-events.jsonl",
+        "cases/REVIEW-TIMEOUT/outputs/review"
+      ]
+    },
+    {
+      "id": "REVIEW-EMPTY",
+      "title": "Empty mask review",
+      "tier": "A",
+      "category": "review",
+      "mandatory": true,
+      "requirement_refs": [
+        "SES-R010",
+        "SES-R012",
+        "UIW-R013"
+      ],
+      "scenario_refs": [
+        "SES-R010-S02",
+        "SES-R012-S01",
+        "UIW-R013-S01"
+      ],
+      "test_target": "tests/e2e/test_needs_review.py::test_review_empty",
+      "preconditions": [
+        "The fixture and controlled setup for REVIEW-EMPTY are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_needs_review.py::test_review_empty with execution_actor=scripted_test.",
+        "Execute the pinned empty mask review inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REVIEW-EMPTY."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "An empty manual state may be reviewed but never accepted."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REVIEW-EMPTY/oracle-results.json",
+        "cases/REVIEW-EMPTY/session-events.jsonl",
+        "cases/REVIEW-EMPTY/filesystem-events.jsonl",
+        "cases/REVIEW-EMPTY/outputs/review"
+      ]
+    },
+    {
+      "id": "TIME-BOUNDARY",
+      "title": "Strict thirty-second boundary",
+      "tier": "A",
+      "category": "timing",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S01"
+      ],
+      "test_target": "tests/e2e/test_timing.py::test_time_boundary",
+      "preconditions": [
+        "The fixture and controlled setup for TIME-BOUNDARY are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_timing.py::test_time_boundary with execution_actor=scripted_test.",
+        "Execute the pinned strict thirty-second boundary inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=TIME-BOUNDARY."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Only validation at 29,999 ms passes the strict under-30 flag; 30,000 and 30,001 fail."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/TIME-BOUNDARY/oracle-results.json",
+        "cases/TIME-BOUNDARY/session-events.jsonl",
+        "cases/TIME-BOUNDARY/performance.json"
+      ]
+    },
+    {
+      "id": "TIME-INVALID",
+      "title": "Invalid Accept does not stop timer",
+      "tier": "A",
+      "category": "timing",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002",
+        "UIW-R014"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S02",
+        "UIW-R014-S02"
+      ],
+      "test_target": "tests/e2e/test_timing.py::test_time_invalid",
+      "preconditions": [
+        "The fixture and controlled setup for TIME-INVALID are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_timing.py::test_time_invalid with execution_actor=scripted_test.",
+        "Execute the pinned invalid accept does not stop timer inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=TIME-INVALID."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "An invalid attempt at 20 seconds followed by valid Accept at 31 seconds reports 31 seconds and fails SLO."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/TIME-INVALID/oracle-results.json",
+        "cases/TIME-INVALID/session-events.jsonl",
+        "cases/TIME-INVALID/performance.json"
+      ]
+    },
+    {
+      "id": "TIME-ROI",
+      "title": "ROI redraw preserves timer origin",
+      "tier": "A",
+      "category": "timing",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002",
+        "UIW-R014"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S03",
+        "UIW-R014-S01"
+      ],
+      "test_target": "tests/e2e/test_timing.py::test_time_roi",
+      "preconditions": [
+        "The fixture and controlled setup for TIME-ROI are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_timing.py::test_time_roi with execution_actor=scripted_test.",
+        "Execute the pinned roi redraw preserves timer origin inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=TIME-ROI."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Annotation time remains based on first ROI lock after redraw or expansion."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/TIME-ROI/oracle-results.json",
+        "cases/TIME-ROI/session-events.jsonl",
+        "cases/TIME-ROI/performance.json"
+      ]
+    },
+    {
+      "id": "TIME-REVIEW",
+      "title": "Review timing semantics",
+      "tier": "A",
+      "category": "timing",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002",
+        "UIW-R013"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S05",
+        "UIW-R013-S03"
+      ],
+      "test_target": "tests/e2e/test_timing.py::test_time_review",
+      "preconditions": [
+        "The fixture and controlled setup for TIME-REVIEW are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_timing.py::test_time_review with execution_actor=scripted_test.",
+        "Execute the pinned review timing semantics inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=TIME-REVIEW."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Review records decision time, null annotation time, and false within-30 Accept."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/TIME-REVIEW/oracle-results.json",
+        "cases/TIME-REVIEW/session-events.jsonl",
+        "cases/TIME-REVIEW/performance.json"
+      ]
+    },
+    {
+      "id": "TIME-SAVE",
+      "title": "Save latency separated from annotation time",
+      "tier": "A",
+      "category": "timing",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S04"
+      ],
+      "test_target": "tests/e2e/test_timing.py::test_time_save",
+      "preconditions": [
+        "The fixture and controlled setup for TIME-SAVE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_timing.py::test_time_save with execution_actor=scripted_test.",
+        "Execute the pinned save latency separated from annotation time inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=TIME-SAVE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Valid Accept time is measured at validation pass while Accepted and Next wait for save completion."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/TIME-SAVE/oracle-results.json",
+        "cases/TIME-SAVE/session-events.jsonl",
+        "cases/TIME-SAVE/performance.json"
+      ]
+    },
+    {
+      "id": "TIME-AGG",
+      "title": "Aggregate outcome accounting",
+      "tier": "A",
+      "category": "timing",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R003"
+      ],
+      "scenario_refs": [
+        "AOB-R003-S01",
+        "AOB-R003-S02",
+        "AOB-R003-S03"
+      ],
+      "test_target": "tests/e2e/test_timing.py::test_time_agg",
+      "preconditions": [
+        "The fixture and controlled setup for TIME-AGG are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_timing.py::test_time_agg with execution_actor=scripted_test.",
+        "Advance the controlled clock through the exact four-session fixture and recompute metrics only from events.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=TIME-AGG."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "For the exact fixture of 20-second Accept, 31-second Accept, 10-second Review, and timeout-then-Review: total=4, accepted=2, accepted_under_30=1, needs_review=2, sessions_with_timeout=1, unresolved=0.",
+        "Timeout is an overlapping diagnostic flag; all-image and accepted-conditional denominators and distributions are recomputed from the event ledger.",
+        "A separate timeout-at-cutoff subrun counts timeout=1 and unresolved=1 with no decision time, while retaining the image in total-presented."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/TIME-AGG/oracle-results.json",
+        "cases/TIME-AGG/session-events.jsonl",
+        "cases/TIME-AGG/performance.json"
+      ]
+    },
+    {
+      "id": "PERF-UI",
+      "title": "Reference UI responsiveness",
+      "tier": "B",
+      "category": "performance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R011",
+        "OFR-R010"
+      ],
+      "scenario_refs": [
+        "AOB-R011-S01",
+        "OFR-R010-S02"
+      ],
+      "test_target": "tests/e2e/test_reference_performance.py::test_perf_ui",
+      "preconditions": [
+        "The fixture and controlled setup for PERF-UI are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_reference_performance.py::test_perf_ui with execution_actor=reference_machine_runner.",
+        "Execute the pinned reference ui responsiveness inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PERF-UI."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "One thousand interactions produce input-to-frame p95 strictly below 100 ms."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PERF-UI/oracle-results.json",
+        "cases/PERF-UI/performance.json",
+        "cases/PERF-UI/run-manifest.json"
+      ]
+    },
+    {
+      "id": "PERF-REFINE",
+      "title": "Reference cached refinement",
+      "tier": "B",
+      "category": "performance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R012",
+        "MPE-R015",
+        "OFR-R010"
+      ],
+      "scenario_refs": [
+        "AOB-R012-S01",
+        "MPE-R015-S01",
+        "OFR-R010-S01"
+      ],
+      "test_target": "tests/e2e/test_reference_performance.py::test_perf_refine",
+      "preconditions": [
+        "The fixture and controlled setup for PERF-REFINE are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_reference_performance.py::test_perf_refine with execution_actor=reference_machine_runner.",
+        "Execute the pinned reference cached refinement inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PERF-REFINE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Refinement adds zero encoder calls and reports the one-second best-effort target without hiding a miss."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PERF-REFINE/oracle-results.json",
+        "cases/PERF-REFINE/performance.json",
+        "cases/PERF-REFINE/run-manifest.json"
+      ]
+    },
+    {
+      "id": "PERF-MODEL",
+      "title": "Cold and warm model benchmark",
+      "tier": "B",
+      "category": "performance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R012",
+        "OFR-R010"
+      ],
+      "scenario_refs": [
+        "AOB-R012-S01",
+        "AOB-R012-S02",
+        "OFR-R010-S01"
+      ],
+      "test_target": "tests/e2e/test_reference_performance.py::test_perf_model",
+      "preconditions": [
+        "The fixture and controlled setup for PERF-MODEL are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_reference_performance.py::test_perf_model with execution_actor=reference_machine_runner.",
+        "Execute the pinned cold and warm model benchmark inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PERF-MODEL."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Load, encode, decode, candidate, RAM, and occupancy metrics are reported separately without ROI-area inference.",
+        "Timing from shared or unfingerprinted CI is retained only as diagnostic data and cannot satisfy the Tier B performance gate."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PERF-MODEL/oracle-results.json",
+        "cases/PERF-MODEL/performance.json",
+        "cases/PERF-MODEL/run-manifest.json"
+      ]
+    },
+    {
+      "id": "PERF-WORKFLOW",
+      "title": "Reference workflow decision-time hard gate",
+      "tier": "B",
+      "category": "performance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R002",
+        "AOB-R012",
+        "OFR-R010"
+      ],
+      "scenario_refs": [
+        "AOB-R002-S01",
+        "AOB-R012-S01",
+        "OFR-R010-S01"
+      ],
+      "test_target": "tests/e2e/test_reference_performance.py::test_perf_workflow",
+      "preconditions": [
+        "The fixture and controlled setup for PERF-WORKFLOW are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_reference_performance.py::test_perf_workflow with execution_actor=reference_machine_runner.",
+        "Execute every prescribed supported workflow on the approved physical reference target and record decision time.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PERF-WORKFLOW."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Controlled boundary probes prove the strictly-less-than operator at 29999, 30000, and 30001 ms before the reference workflow gate is evaluated.",
+        "Every prescribed scripted supported-case decision is strictly less than 30000 ms on the approved physical reference target; equality or any slower sample fails the hard gate.",
+        "The report binds reference-target, profile, model, runtime, fixture, thread-policy, and per-case event hashes and does not use shared-CI timing."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PERF-WORKFLOW/oracle-results.json",
+        "cases/PERF-WORKFLOW/performance.json",
+        "cases/PERF-WORKFLOW/session-events.jsonl",
+        "cases/PERF-WORKFLOW/run-manifest.json",
+        "cases/PERF-WORKFLOW/reference-target.json"
+      ]
+    },
+    {
+      "id": "KEY-123",
+      "title": "Candidate keyboard selection",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R004",
+        "AOB-R010",
+        "UIW-R009"
+      ],
+      "scenario_refs": [
+        "AOB-R004-S02",
+        "AOB-R010-S01",
+        "UIW-R009-S01"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_key_123",
+      "preconditions": [
+        "The fixture and controlled setup for KEY-123 are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_key_123 with execution_actor=scripted_test.",
+        "Execute the pinned candidate keyboard selection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=KEY-123."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Real key events select matching existing cards and missing card keys are safe no-ops."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/KEY-123/oracle-results.json",
+        "cases/KEY-123/gui-states.jsonl",
+        "cases/KEY-123/session-events.jsonl",
+        "cases/KEY-123/screenshots"
+      ]
+    },
+    {
+      "id": "MOUSE-FG-BG",
+      "title": "Foreground and background mouse prompts",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R004",
+        "AOB-R010",
+        "ROI-R004",
+        "UIW-R005"
+      ],
+      "scenario_refs": [
+        "AOB-R004-S02",
+        "AOB-R010-S01",
+        "ROI-R004-S01",
+        "UIW-R005-S01",
+        "UIW-R005-S02"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_mouse_fg_bg",
+      "preconditions": [
+        "The fixture and controlled setup for MOUSE-FG-BG are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_mouse_fg_bg with execution_actor=scripted_test.",
+        "Execute the pinned foreground and background mouse prompts inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=MOUSE-FG-BG."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Real left and right clicks create correctly transformed FG and BG prompts with previous state."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/MOUSE-FG-BG/oracle-results.json",
+        "cases/MOUSE-FG-BG/gui-states.jsonl",
+        "cases/MOUSE-FG-BG/session-events.jsonl",
+        "cases/MOUSE-FG-BG/screenshots"
+      ]
+    },
+    {
+      "id": "KEY-LOCAL",
+      "title": "Local edit controls",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R004",
+        "AOB-R010",
+        "UIW-R009"
+      ],
+      "scenario_refs": [
+        "AOB-R004-S02",
+        "AOB-R010-S02",
+        "UIW-R009-S02"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_key_local",
+      "preconditions": [
+        "The fixture and controlled setup for KEY-LOCAL are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_key_local with execution_actor=scripted_test.",
+        "Execute the pinned local edit controls inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=KEY-LOCAL."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Real brush, erase, shrink, grow, and fill actions match golden masks without backend calls."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/KEY-LOCAL/oracle-results.json",
+        "cases/KEY-LOCAL/gui-states.jsonl",
+        "cases/KEY-LOCAL/session-events.jsonl",
+        "cases/KEY-LOCAL/screenshots"
+      ]
+    },
+    {
+      "id": "KEY-XZ",
+      "title": "Expand and undo controls",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R010",
+        "UIW-R009"
+      ],
+      "scenario_refs": [
+        "AOB-R010-S02",
+        "UIW-R009-S03"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_key_xz",
+      "preconditions": [
+        "The fixture and controlled setup for KEY-XZ are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_key_xz with execution_actor=scripted_test.",
+        "Execute the pinned expand and undo controls inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=KEY-XZ."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Undo restores a checkpoint without decode; Expand updates revision without timer reset."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/KEY-XZ/oracle-results.json",
+        "cases/KEY-XZ/gui-states.jsonl",
+        "cases/KEY-XZ/session-events.jsonl",
+        "cases/KEY-XZ/screenshots"
+      ]
+    },
+    {
+      "id": "KEY-SPACE-N",
+      "title": "Accept and Next gating",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R010",
+        "UIW-R009",
+        "UIW-R011",
+        "UIW-R013"
+      ],
+      "scenario_refs": [
+        "AOB-R010-S03",
+        "UIW-R009-S04",
+        "UIW-R011-S01",
+        "UIW-R011-S02",
+        "UIW-R013-S04"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_key_space_n",
+      "preconditions": [
+        "The fixture and controlled setup for KEY-SPACE-N are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_key_space_n with execution_actor=scripted_test.",
+        "Execute the pinned accept and next gating inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=KEY-SPACE-N."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Real Space events attempt and validate Accept; invalid attempts do not stop/reset the timer. Real N is rejected until durable ACCEPTED or NEEDS_REVIEW, including SAVE_FAILED/REVIEW_SAVE_FAILED."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/KEY-SPACE-N/oracle-results.json",
+        "cases/KEY-SPACE-N/gui-states.jsonl",
+        "cases/KEY-SPACE-N/session-events.jsonl",
+        "cases/KEY-SPACE-N/screenshots"
+      ]
+    },
+    {
+      "id": "KEY-CAP",
+      "title": "Capability-driven tool state",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R010",
+        "UIW-R004"
+      ],
+      "scenario_refs": [
+        "AOB-R010-S04",
+        "UIW-R004-S02",
+        "UIW-R004-S03"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_key_cap",
+      "preconditions": [
+        "The fixture and controlled setup for KEY-CAP are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_key_cap with execution_actor=scripted_test.",
+        "Execute the pinned capability-driven tool state inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=KEY-CAP."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Point tools are disabled with an explanation for non-refinable candidates while local tools remain enabled."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/KEY-CAP/oracle-results.json",
+        "cases/KEY-CAP/gui-states.jsonl",
+        "cases/KEY-CAP/session-events.jsonl",
+        "cases/KEY-CAP/screenshots"
+      ]
+    },
+    {
+      "id": "GUI-SCOPE",
+      "title": "Frozen v1 GUI scope",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R010",
+        "UIW-R016"
+      ],
+      "scenario_refs": [
+        "AOB-R010-S05",
+        "UIW-R016-S01",
+        "UIW-R016-S02"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_gui_scope",
+      "preconditions": [
+        "The fixture and controlled setup for GUI-SCOPE are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_gui_scope with execution_actor=scripted_test.",
+        "Execute the pinned frozen v1 gui scope inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GUI-SCOPE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "No text, DINO, per-image color sliders, multi-class tabs, default fusion, or auto-Accept is present."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GUI-SCOPE/oracle-results.json",
+        "cases/GUI-SCOPE/gui-states.jsonl",
+        "cases/GUI-SCOPE/session-events.jsonl",
+        "cases/GUI-SCOPE/screenshots"
+      ]
+    },
+    {
+      "id": "GUI-RESP",
+      "title": "GUI responsiveness during inference",
+      "tier": "A",
+      "category": "gui",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R011",
+        "UIW-R015"
+      ],
+      "scenario_refs": [
+        "AOB-R011-S02",
+        "UIW-R015-S03"
+      ],
+      "test_target": "tests/gui/test_annotation_workflow.py::test_gui_resp",
+      "preconditions": [
+        "The fixture and controlled setup for GUI-RESP are present in the hashed fixture manifest.",
+        "Scripted backend, CV, clock, and filesystem dependencies are deterministic, and scripted Accept cannot claim Tier C human evidence."
+      ],
+      "steps": [
+        "Invoke tests/gui/test_annotation_workflow.py::test_gui_resp with execution_actor=scripted_test.",
+        "Execute the pinned gui responsiveness during inference inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GUI-RESP."
+      ],
+      "actor_provenance": {
+        "execution_actor": "scripted_test",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Pan, zoom, redraw, and review remain responsive while an encode barrier is active."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GUI-RESP/oracle-results.json",
+        "cases/GUI-RESP/gui-states.jsonl",
+        "cases/GUI-RESP/session-events.jsonl",
+        "cases/GUI-RESP/screenshots"
+      ]
+    },
+    {
+      "id": "REAL-REG",
+      "title": "Pinned MobileSAM regression",
+      "tier": "B",
+      "category": "real-backend",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R004",
+        "AOB-R012",
+        "MPE-R001",
+        "MPE-R002",
+        "MPE-R003",
+        "OFR-R008",
+        "OFR-R010"
+      ],
+      "scenario_refs": [
+        "AOB-R004-S03",
+        "AOB-R012-S01",
+        "MPE-R002-S01",
+        "OFR-R010-S01",
+        "MPE-R001-S01",
+        "MPE-R001-S02",
+        "MPE-R003-S01",
+        "OFR-R008-S01"
+      ],
+      "test_target": "tests/e2e/test_mobile_sam_regression.py::test_real_reg",
+      "preconditions": [
+        "The fixture and controlled setup for REAL-REG are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_mobile_sam_regression.py::test_real_reg with execution_actor=reference_machine_runner.",
+        "Execute the pinned pinned mobilesam regression inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REAL-REG."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Pinned model/runtime fixtures satisfy output tolerance, proposal encode once, refine encode zero, and full provenance."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REAL-REG/oracle-results.json",
+        "cases/REAL-REG/backend-calls.jsonl",
+        "cases/REAL-REG/quality-report.json",
+        "cases/REAL-REG/run-manifest.json"
+      ]
+    },
+    {
+      "id": "REAL-CHECKSUM",
+      "title": "Checkpoint checksum rejection",
+      "tier": "B",
+      "category": "real-backend",
+      "mandatory": true,
+      "requirement_refs": [
+        "MPE-R002",
+        "OFR-R008"
+      ],
+      "scenario_refs": [
+        "MPE-R002-S02",
+        "OFR-R008-S02"
+      ],
+      "test_target": "tests/e2e/test_mobile_sam_regression.py::test_real_checksum",
+      "preconditions": [
+        "The fixture and controlled setup for REAL-CHECKSUM are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_mobile_sam_regression.py::test_real_checksum with execution_actor=reference_machine_runner.",
+        "Execute the pinned checkpoint checksum rejection inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REAL-CHECKSUM."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Mismatched checkpoint fails before deserialization and is quarantined without mirror fallback."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REAL-CHECKSUM/oracle-results.json",
+        "cases/REAL-CHECKSUM/backend-calls.jsonl",
+        "cases/REAL-CHECKSUM/quality-report.json",
+        "cases/REAL-CHECKSUM/run-manifest.json"
+      ]
+    },
+    {
+      "id": "QUALITY-SYNTH",
+      "title": "Synthetic exact quality",
+      "tier": "B",
+      "category": "real-backend",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R004",
+        "ROI-R008"
+      ],
+      "scenario_refs": [
+        "AOB-R004-S03",
+        "ROI-R008-S01",
+        "ROI-R008-S02"
+      ],
+      "test_target": "tests/e2e/test_mobile_sam_regression.py::test_quality_synth",
+      "preconditions": [
+        "The fixture and controlled setup for QUALITY-SYNTH are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_mobile_sam_regression.py::test_quality_synth with execution_actor=reference_machine_runner.",
+        "Execute the pinned synthetic exact quality inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=QUALITY-SYNTH."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "Synthetic geometry/commit fixtures produce exact masks, IoU 1, and boundary error 0 solely as engineering regression; the report is ineligible for domain validation."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/QUALITY-SYNTH/oracle-results.json",
+        "cases/QUALITY-SYNTH/backend-calls.jsonl",
+        "cases/QUALITY-SYNTH/quality-report.json",
+        "cases/QUALITY-SYNTH/run-manifest.json"
+      ]
+    },
+    {
+      "id": "QUALITY-DOMAIN",
+      "title": "Representative domain validation",
+      "tier": "C",
+      "category": "domain-quality",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R013",
+        "OFR-R015"
+      ],
+      "scenario_refs": [
+        "AOB-R013-S01",
+        "OFR-R015-S01"
+      ],
+      "test_target": "tests/e2e/test_domain_verdict.py::test_quality_domain",
+      "preconditions": [
+        "The fixture and controlled setup for QUALITY-DOMAIN are present in the hashed fixture manifest.",
+        "Approved representative data, gold, real annotator sessions, independent reviews, authority, and signoff are present and hash-bound; the domain-input manifest carries attributable annotation_policy_approval bound to the exact immutable policy ID and SHA-256."
+      ],
+      "steps": [
+        "Invoke tests/e2e/test_domain_verdict.py::test_quality_domain with execution_actor=real_annotator_and_independent_reviewer.",
+        "Execute the pinned representative domain validation inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=QUALITY-DOMAIN."
+      ],
+      "actor_provenance": {
+        "execution_actor": "real_annotator_and_independent_reviewer",
+        "acceptance_actor": "interactive_user",
+        "human_evidence": "real_annotator_and_independent_reviewer"
+      },
+      "oracles": [
+        "Domain-input readiness fails unless annotation_policy_approval is attributable, approved, and bound to the exact immutable policy ID and SHA-256; approved data, gold, reviewer, timing, boundary, review, timeout, and wrong-Accept metrics then all pass the profile."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/QUALITY-DOMAIN/oracle-results.json",
+        "cases/QUALITY-DOMAIN/quality-report.json",
+        "cases/QUALITY-DOMAIN/performance.json",
+        "cases/QUALITY-DOMAIN/run-manifest.json"
+      ]
+    },
+    {
+      "id": "PKG-INSTALL",
+      "title": "Clean Windows offline install",
+      "tier": "B",
+      "category": "offline-package",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R016",
+        "OFR-R002",
+        "OFR-R003",
+        "OFR-R004"
+      ],
+      "scenario_refs": [
+        "AOB-R016-S01",
+        "OFR-R002-S01",
+        "OFR-R003-S01",
+        "OFR-R004-S01",
+        "OFR-R004-S02"
+      ],
+      "test_target": "tests/packaging/test_offline_release.py::test_pkg_install",
+      "preconditions": [
+        "The fixture and controlled setup for PKG-INSTALL are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/packaging/test_offline_release.py::test_pkg_install with execution_actor=reference_machine_runner.",
+        "Execute the pinned clean windows offline install inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PKG-INSTALL."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Bundle installs, imports, and launches without network, login, CUDA, or preexisting caches."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PKG-INSTALL/oracle-results.json",
+        "cases/PKG-INSTALL/run-manifest.json",
+        "cases/PKG-INSTALL/filesystem-events.jsonl",
+        "cases/PKG-INSTALL/outputs/package-audit"
+      ]
+    },
+    {
+      "id": "PKG-E2E",
+      "title": "Packaged real-backend annotation",
+      "tier": "B",
+      "category": "offline-package",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R016",
+        "OFR-R011"
+      ],
+      "scenario_refs": [
+        "AOB-R016-S02",
+        "OFR-R011-S01",
+        "OFR-R011-S02"
+      ],
+      "test_target": "tests/packaging/test_offline_release.py::test_pkg_e2e",
+      "preconditions": [
+        "The fixture and controlled setup for PKG-E2E are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/packaging/test_offline_release.py::test_pkg_e2e with execution_actor=reference_machine_runner.",
+        "On the offline target, execute one accepted and one review workflow, restart, and reload each.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PKG-E2E."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "scripted_test",
+        "human_evidence": "scripted_not_human"
+      },
+      "oracles": [
+        "With networking disabled and empty caches, the package completes both Accept-save-restart-reload and Needs-Review-restart-reload.",
+        "Accepted reload matches hashes; review reload is training_eligible=false and absent from accepted loader; neither path needs login, CUDA, or remote service."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PKG-E2E/oracle-results.json",
+        "cases/PKG-E2E/run-manifest.json",
+        "cases/PKG-E2E/filesystem-events.jsonl",
+        "cases/PKG-E2E/outputs/package-audit"
+      ]
+    },
+    {
+      "id": "PKG-CPU",
+      "title": "CPU-only process audit",
+      "tier": "B",
+      "category": "offline-package",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R016",
+        "OFR-R001"
+      ],
+      "scenario_refs": [
+        "AOB-R016-S03",
+        "OFR-R001-S01",
+        "OFR-R001-S02"
+      ],
+      "test_target": "tests/packaging/test_offline_release.py::test_pkg_cpu",
+      "preconditions": [
+        "The fixture and controlled setup for PKG-CPU are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/packaging/test_offline_release.py::test_pkg_cpu with execution_actor=reference_machine_runner.",
+        "Execute the pinned cpu-only process audit inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PKG-CPU."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "No CUDA provider or required GPU DLL loads and inference remains on CPU with no socket connection."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PKG-CPU/oracle-results.json",
+        "cases/PKG-CPU/run-manifest.json",
+        "cases/PKG-CPU/filesystem-events.jsonl",
+        "cases/PKG-CPU/outputs/package-audit"
+      ]
+    },
+    {
+      "id": "PKG-PATH",
+      "title": "Unicode and space path support",
+      "tier": "B",
+      "category": "offline-package",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R016",
+        "OFR-R002"
+      ],
+      "scenario_refs": [
+        "AOB-R016-S01",
+        "OFR-R002-S01"
+      ],
+      "test_target": "tests/packaging/test_offline_release.py::test_pkg_path",
+      "preconditions": [
+        "The fixture and controlled setup for PKG-PATH are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/packaging/test_offline_release.py::test_pkg_path with execution_actor=reference_machine_runner.",
+        "Execute the pinned unicode and space path support inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PKG-PATH."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Read-only app path and writable Unicode data path support model lookup and pair save."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PKG-PATH/oracle-results.json",
+        "cases/PKG-PATH/run-manifest.json",
+        "cases/PKG-PATH/filesystem-events.jsonl",
+        "cases/PKG-PATH/outputs/package-audit"
+      ]
+    },
+    {
+      "id": "PKG-COMPLIANCE",
+      "title": "Release compliance bundle",
+      "tier": "B",
+      "category": "offline-package",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R016",
+        "OFR-R005",
+        "OFR-R006",
+        "OFR-R007",
+        "OFR-R009"
+      ],
+      "scenario_refs": [
+        "AOB-R016-S04",
+        "OFR-R005-S01",
+        "OFR-R005-S02",
+        "OFR-R006-S01",
+        "OFR-R006-S02",
+        "OFR-R007-S01",
+        "OFR-R007-S02",
+        "OFR-R009-S01",
+        "OFR-R009-S02"
+      ],
+      "test_target": "tests/packaging/test_offline_release.py::test_pkg_compliance",
+      "preconditions": [
+        "The fixture and controlled setup for PKG-COMPLIANCE are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/packaging/test_offline_release.py::test_pkg_compliance with execution_actor=reference_machine_runner.",
+        "Execute the pinned release compliance bundle inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PKG-COMPLIANCE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "The clean installed inventory exactly matches lockfile, SBOM, notices, model/artifact manifest, hashes, and approved licenses.",
+        "Missing or incompatible authorization, undocumented transitives, EdgeSAM without written permission, or prohibited GPL material fails Tier B non-zero."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PKG-COMPLIANCE/oracle-results.json",
+        "cases/PKG-COMPLIANCE/run-manifest.json",
+        "cases/PKG-COMPLIANCE/filesystem-events.jsonl",
+        "cases/PKG-COMPLIANCE/outputs/package-audit"
+      ]
+    },
+    {
+      "id": "PKG-NET",
+      "title": "No required outbound network",
+      "tier": "B",
+      "category": "offline-package",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R016",
+        "OFR-R002"
+      ],
+      "scenario_refs": [
+        "AOB-R016-S03",
+        "OFR-R002-S02"
+      ],
+      "test_target": "tests/packaging/test_offline_release.py::test_pkg_net",
+      "preconditions": [
+        "The fixture and controlled setup for PKG-NET are present in the hashed fixture manifest.",
+        "The approved reference target, pinned model/runtime, fixture manifest, and thread policy match the run manifest."
+      ],
+      "steps": [
+        "Invoke tests/packaging/test_offline_release.py::test_pkg_net with execution_actor=reference_machine_runner.",
+        "Execute the pinned no required outbound network inputs through public interfaces to the declared observation point.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=PKG-NET."
+      ],
+      "actor_provenance": {
+        "execution_actor": "reference_machine_runner",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Cold launch, proposal, and save complete with outbound traffic blocked and zero required connections."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/PKG-NET/oracle-results.json",
+        "cases/PKG-NET/run-manifest.json",
+        "cases/PKG-NET/filesystem-events.jsonl",
+        "cases/PKG-NET/outputs/package-audit"
+      ]
+    },
+    {
+      "id": "GOV-DAG",
+      "title": "Dependency DAG and task-state enforcement",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AUT-R002",
+        "AUT-R003",
+        "AUT-R004"
+      ],
+      "scenario_refs": [
+        "AUT-R002-S01",
+        "AUT-R002-S02",
+        "AUT-R003-S01",
+        "AUT-R004-S01",
+        "AUT-R004-S02"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_dag",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-DAG are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_dag with execution_actor=acceptance_controller.",
+        "Validate a good graph, then inject duplicate, missing-dependency, cyclic, and illegal-runnable variants.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-DAG."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "The semantic validator rejects duplicate IDs, unknown dependencies, cycles, illegal states, and runnable tasks whose dependencies have not passed; a valid DAG schedules only dependency-ready tasks."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-DAG/oracle-results.json",
+        "cases/GOV-DAG/task-graph.json",
+        "cases/GOV-DAG/execution-state.json",
+        "cases/GOV-DAG/semantic-validation.json"
+      ]
+    },
+    {
+      "id": "GOV-INCOMPLETE",
+      "title": "Incomplete task and false-completion rejection",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AUT-R003",
+        "AUT-R007",
+        "AUT-R008",
+        "AUT-R010"
+      ],
+      "scenario_refs": [
+        "AUT-R003-S02",
+        "AUT-R007-S01",
+        "AUT-R007-S02",
+        "AUT-R008-S01",
+        "AUT-R008-S02",
+        "AUT-R010-S01",
+        "AUT-R010-S02"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_incomplete",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-INCOMPLETE are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_incomplete with execution_actor=acceptance_controller.",
+        "Remove each required task contract or evidence element and attempt task and milestone completion.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-INCOMPLETE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A task missing commands, evidence, pass criteria, rollback, or an executable required test cannot become passed and cannot satisfy milestone completion.",
+        "A shared-contract change runs focused and affected regression gates; output existence alone never marks completion."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-INCOMPLETE/oracle-results.json",
+        "cases/GOV-INCOMPLETE/task-graph.json",
+        "cases/GOV-INCOMPLETE/evidence-validation.json",
+        "cases/GOV-INCOMPLETE/test-results.json"
+      ]
+    },
+    {
+      "id": "GOV-RETRY",
+      "title": "Bounded retry and fail-closed fallback",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R018",
+        "AUT-R011",
+        "AUT-R012",
+        "AUT-R013"
+      ],
+      "scenario_refs": [
+        "AUT-R011-S01",
+        "AUT-R011-S02",
+        "AUT-R012-S01",
+        "AUT-R012-S02",
+        "AUT-R013-S01",
+        "AUT-R013-S02",
+        "AOB-R018-S03"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_retry",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-RETRY are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_retry with execution_actor=acceptance_controller.",
+        "Run distinct-hypothesis retries to limit, then exercise artifact, checksum, license, and CV fallbacks.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-RETRY."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Each retry records a distinct hypothesis and evidence, attempt limits are enforced, and an original failure remains visible.",
+        "Checksum or license failures receive no bypass; unavailable artifacts and non-beneficial CV recipes take only their specified safe fallback."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-RETRY/oracle-results.json",
+        "cases/GOV-RETRY/retry-history.json",
+        "cases/GOV-RETRY/artifact-ledger.jsonl",
+        "cases/GOV-RETRY/blocker.json"
+      ]
+    },
+    {
+      "id": "GOV-BLOCK-CONTINUE",
+      "title": "Structured blocker and independent-work continuation",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AUT-R019",
+        "AUT-R020",
+        "AUT-R021",
+        "AUT-R023"
+      ],
+      "scenario_refs": [
+        "AUT-R019-S01",
+        "AUT-R019-S02",
+        "AUT-R020-S01",
+        "AUT-R020-S02",
+        "AUT-R021-S01",
+        "AUT-R023-S01"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_block_continue",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-BLOCK-CONTINUE are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_block_continue with execution_actor=acceptance_controller.",
+        "Block one branch, emit a structured blocker, and let all independent runnable nodes finish.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-BLOCK-CONTINUE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "A valid blocker names exact task, gate, evidence, attempted alternatives, missing authority/input, safe no-response state, and remaining runnable tasks.",
+        "The controller continues every independent task and uses implementation_complete_release_blocked only when applicable implementation work is complete."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-BLOCK-CONTINUE/oracle-results.json",
+        "cases/GOV-BLOCK-CONTINUE/execution-state.json",
+        "cases/GOV-BLOCK-CONTINUE/blocker.json",
+        "cases/GOV-BLOCK-CONTINUE/schedule.jsonl"
+      ]
+    },
+    {
+      "id": "GOV-RESUME",
+      "title": "Resume and checkpoint invalidation",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AUT-R022"
+      ],
+      "scenario_refs": [
+        "AUT-R022-S01",
+        "AUT-R022-S02"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_resume",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-RESUME are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_resume with execution_actor=acceptance_controller.",
+        "Resume valid checkpoints, mutate one bound input, and follow invalidation through dependents.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-RESUME."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Resume skips only hash-valid passed checkpoints and deterministically invalidates and reruns each changed checkpoint and dependent in DAG order."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-RESUME/oracle-results.json",
+        "cases/GOV-RESUME/checkpoint-hashes.json",
+        "cases/GOV-RESUME/invalidation-graph.json",
+        "cases/GOV-RESUME/execution-state.json"
+      ]
+    },
+    {
+      "id": "GOV-OWNERSHIP",
+      "title": "Ownership isolation and protected-data safety",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AUT-R005",
+        "AUT-R006",
+        "AUT-R016"
+      ],
+      "scenario_refs": [
+        "AUT-R005-S01",
+        "AUT-R005-S02",
+        "AUT-R006-S01",
+        "AUT-R006-S02",
+        "AUT-R016-S01",
+        "AUT-R016-S02"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_ownership",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-OWNERSHIP are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_ownership with execution_actor=acceptance_controller.",
+        "Schedule independent and overlapping tasks against clean, dirty, and protected paths.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-OWNERSHIP."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Non-overlapping tasks may run in parallel; overlapping ownership serializes, and a user-dirty overlap blocks before mutation.",
+        "Test artifacts remain task-scoped and existing accepted annotations or user files are never overwritten, reset, cleaned, or used as disposable fixtures."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-OWNERSHIP/oracle-results.json",
+        "cases/GOV-OWNERSHIP/ownership-plan.json",
+        "cases/GOV-OWNERSHIP/filesystem-events.jsonl",
+        "cases/GOV-OWNERSHIP/protected-path-hashes.json"
+      ]
+    },
+    {
+      "id": "GOV-EVIDENCE",
+      "title": "Evidence completeness and feature-retention audit",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R014",
+        "AOB-R015",
+        "AUT-R009",
+        "OFR-R012"
+      ],
+      "scenario_refs": [
+        "AUT-R009-S01",
+        "AUT-R009-S02",
+        "AOB-R014-S01",
+        "AOB-R014-S02",
+        "AOB-R015-S01",
+        "AOB-R015-S02",
+        "AOB-R015-S03",
+        "OFR-R012-S01",
+        "OFR-R012-S02"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_evidence",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-EVIDENCE are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_evidence with execution_actor=acceptance_controller.",
+        "Audit complete, missing, inconsistent, dirty, secret-bearing, synthetic-domain, and feature-retention evidence.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-EVIDENCE."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Missing, mismatched, dirty-state-omitting, secret-bearing, or hash-invalid evidence fails validation and cannot produce a pass verdict.",
+        "A default feature is retained only with bound action/time improvement and no frozen boundary regression; synthetic quality cannot satisfy a domain gate."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-EVIDENCE/oracle-results.json",
+        "cases/GOV-EVIDENCE/evidence-validation.json",
+        "cases/GOV-EVIDENCE/hash-audit.json",
+        "cases/GOV-EVIDENCE/feature-retention-report.json"
+      ]
+    },
+    {
+      "id": "GOV-PROHIBITIONS",
+      "title": "Scope and evidence-prohibition enforcement",
+      "tier": "A",
+      "category": "governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R018",
+        "AUT-R001",
+        "AUT-R017",
+        "AUT-R018"
+      ],
+      "scenario_refs": [
+        "AUT-R001-S01",
+        "AUT-R017-S01",
+        "AUT-R017-S02",
+        "AUT-R018-S01",
+        "AUT-R018-S02",
+        "AOB-R018-S04"
+      ],
+      "test_target": "tests/governance/test_autonomous_controller.py::test_gov_prohibitions",
+      "preconditions": [
+        "The fixture and controlled setup for GOV-PROHIBITIONS are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_autonomous_controller.py::test_gov_prohibitions with execution_actor=acceptance_controller.",
+        "Inject each forbidden dependency, behavior, evidence shortcut, and source-priority override.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=GOV-PROHIBITIONS."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Frozen source precedence rejects lower-priority drift; prohibited runtimes, automatic Accept, default fusion, unapproved artifacts, skipped tests, weakened thresholds, and fabricated evidence all fail closed."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/GOV-PROHIBITIONS/oracle-results.json",
+        "cases/GOV-PROHIBITIONS/dependency-audit.json",
+        "cases/GOV-PROHIBITIONS/scope-audit.json",
+        "cases/GOV-PROHIBITIONS/policy-checks.json"
+      ]
+    },
+    {
+      "id": "REL-VERDICT",
+      "title": "Release verdict and classification matrix",
+      "tier": "A",
+      "category": "release-governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AOB-R013",
+        "AOB-R017",
+        "AOB-R018",
+        "AUT-R023",
+        "AUT-R024",
+        "OFR-R014",
+        "OFR-R015"
+      ],
+      "scenario_refs": [
+        "AOB-R013-S02",
+        "AOB-R013-S03",
+        "AOB-R013-S04",
+        "AOB-R017-S01",
+        "AOB-R017-S02",
+        "AOB-R017-S03",
+        "AOB-R017-S04",
+        "AOB-R018-S01",
+        "AOB-R018-S02",
+        "AUT-R023-S02",
+        "AUT-R023-S03",
+        "AUT-R024-S01",
+        "AUT-R024-S02",
+        "OFR-R014-S01",
+        "OFR-R014-S02",
+        "OFR-R015-S02"
+      ],
+      "test_target": "tests/governance/test_release_controller.py::test_rel_verdict",
+      "preconditions": [
+        "The fixture and controlled setup for REL-VERDICT are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_release_controller.py::test_rel_verdict with execution_actor=acceptance_controller.",
+        "Evaluate the complete engineering and domain pass, fail, and blocked gate matrix.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REL-VERDICT."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "The full engineering/domain pass, fail, and blocked matrix emits only canonical verdicts, classifications, project states, gate IDs, blocker refs, and non-null applicable hashes.",
+        "Tier C absence never blocks an engineering-target pass; a domain failure may retain engineering_accepted only when every Tier A/B gate remains passed."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REL-VERDICT/oracle-results.json",
+        "cases/REL-VERDICT/release-verdict.json",
+        "cases/REL-VERDICT/gate-matrix.json",
+        "cases/REL-VERDICT/evidence-validation.json"
+      ]
+    },
+    {
+      "id": "REL-ROLLBACK",
+      "title": "Immutable release and narrow rollback",
+      "tier": "A",
+      "category": "release-governance",
+      "mandatory": true,
+      "requirement_refs": [
+        "AUT-R014",
+        "AUT-R015",
+        "OFR-R013"
+      ],
+      "scenario_refs": [
+        "AUT-R014-S01",
+        "AUT-R014-S02",
+        "AUT-R015-S01",
+        "AUT-R015-S02",
+        "OFR-R013-S01"
+      ],
+      "test_target": "tests/governance/test_release_controller.py::test_rel_rollback",
+      "preconditions": [
+        "The fixture and controlled setup for REL-ROLLBACK are present in the hashed fixture manifest.",
+        "The controller uses an isolated task and evidence workspace whose schemas, graph, profile, policy, and source inputs are hash-bound."
+      ],
+      "steps": [
+        "Invoke tests/governance/test_release_controller.py::test_rel_rollback with execution_actor=acceptance_controller.",
+        "Fail a successor task and release, apply narrow rollback, and re-hash prior and user artifacts.",
+        "Evaluate every oracle from structured state, ledgers, and hashes and write case_id=REL-ROLLBACK."
+      ],
+      "actor_provenance": {
+        "execution_actor": "acceptance_controller",
+        "acceptance_actor": "not_applicable",
+        "human_evidence": "none"
+      },
+      "oracles": [
+        "Rollback uses a narrow reverse patch or task commit, preserves unrelated and user-owned work, and leaves the prior release bundle and evidence byte-identical when a successor fails."
+      ],
+      "evidence": [
+        "scenario-results.json",
+        "cases/REL-ROLLBACK/oracle-results.json",
+        "cases/REL-ROLLBACK/before-after-hashes.json",
+        "cases/REL-ROLLBACK/rollback-log.json",
+        "cases/REL-ROLLBACK/filesystem-events.jsonl"
+      ]
+    }
+  ]
+}

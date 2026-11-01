@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/review-sidecar.schema.json",
+  "title": "SegVision Needs Review Sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "training_eligible", "actor", "image_id", "source_sha256", "user_roi_full", "crop_rect_full", "revision", "reason", "annotation_policy", "timing", "draft", "published_at"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "needs_review"},
+    "training_eligible": {"const": false},
+    "actor": {"enum": ["interactive_user", "scripted_test"]},
+    "image_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "user_roi_full": {"$ref": "#/$defs/rect"},
+    "crop_rect_full": {"$ref": "#/$defs/rect"},
+    "revision": {"type": "integer", "minimum": 1},
+    "reason": {"type": "string", "minLength": 1},
+    "annotation_policy": {"type": "object", "required": ["policy_id", "sha256"], "properties": {"policy_id": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}}, "additionalProperties": false},
+    "timing": {"type": "object", "required": ["decision_time_ms", "first_valid_accept_time_ms", "annotation_time_ms", "had_timeout"], "properties": {"decision_time_ms": {"type": "number", "minimum": 0}, "first_valid_accept_time_ms": {"type": ["number", "null"], "minimum": 0}, "annotation_time_ms": {"type": ["number", "null"], "minimum": 0}, "had_timeout": {"type": "boolean"}}, "additionalProperties": false},
+    "draft": {"type": ["object", "null"], "properties": {"filename": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "height": {"type": "integer", "minimum": 1}, "width": {"type": "integer", "minimum": 1}, "ancestry": {"type": "array", "items": {"type": "object"}}, "operations": {"type": "array", "items": {"type": "object"}}}, "required": ["filename", "sha256", "height", "width", "ancestry", "operations"], "additionalProperties": false},
+    "published_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {"rect": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false, "minItems": 4, "maxItems": 4}}
+}

@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/evidence.schema.json",
+  "title": "SegVision Acceptance Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "change_id",
+    "subject_kind",
+    "task_or_scenario_id",
+    "status",
+    "task_graph_sha256",
+    "e2e_cases_sha256",
+    "traceability_sha256",
+    "scenario_results_sha256",
+    "acceptance_profile_sha256",
+    "annotation_policy_sha256",
+    "fixtures_manifest_sha256",
+    "reference_machine_manifest_sha256",
+    "domain_inputs_manifest_sha256",
+    "dependency_checkpoints",
+    "source",
+    "environment",
+    "inputs",
+    "commands",
+    "tests",
+    "artifacts",
+    "tool_versions",
+    "warnings",
+    "policy_checks",
+    "retry_history",
+    "started_at",
+    "finished_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^sv-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$"},
+    "change_id": {"const": "build-segvision-v1"},
+    "subject_kind": {"enum": ["task", "e2e_case", "release_gate", "benchmark"]},
+    "task_or_scenario_id": {"type": "string", "minLength": 2},
+    "status": {
+      "enum": [
+        "passed",
+        "failed",
+        "rejected",
+        "blocked_external_input",
+        "blocked_license",
+        "blocked_reference_hardware"
+      ]
+    },
+    "task_state": {
+      "enum": [
+        "passed",
+        "failed_retryable",
+        "blocked_external_input",
+        "blocked_license",
+        "blocked_reference_hardware",
+        "rejected"
+      ]
+    },
+    "task_graph_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "e2e_cases_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "traceability_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "scenario_results_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "acceptance_profile_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "annotation_policy_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "fixtures_manifest_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "reference_machine_manifest_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "domain_inputs_manifest_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "dependency_checkpoints": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revision", "dirty_paths", "file_tree_sha256", "openspec_sha256"],
+      "properties": {
+        "revision": {"type": ["string", "null"]},
+        "dirty_paths": {"type": "array", "items": {"type": "string"}},
+        "file_tree_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+        "openspec_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": ["os", "cpu", "ram_bytes", "python", "dependency_lock_state", "dependency_lock_sha256"],
+      "properties": {
+        "os": {"type": "string"},
+        "cpu": {"type": "string"},
+        "ram_bytes": {"type": "integer", "minimum": 1},
+        "python": {"type": "string"},
+        "dependency_lock_state": {"enum": ["not_created_yet", "locked"]},
+        "dependency_lock_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+        "backend": {"type": ["string", "null"]},
+        "checkpoint_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"}
+      },
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {"properties": {"dependency_lock_state": {"const": "locked"}}, "required": ["dependency_lock_state"]},
+          "then": {"properties": {"dependency_lock_sha256": {"type": "string"}}},
+          "else": {"properties": {"dependency_lock_sha256": {"type": "null"}}}
+        }
+      ]
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/hashedPath"}
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["command", "exit_code", "stdout_sha256", "stderr_sha256"],
+        "properties": {
+          "command": {"type": "string"},
+          "exit_code": {"type": "integer"},
+          "stdout_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+          "stderr_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["suite", "status", "passed", "failed", "skipped", "xfailed", "evidence_ref"],
+        "properties": {
+          "suite": {"type": "string", "minLength": 1},
+          "status": {"enum": ["passed", "failed", "blocked"]},
+          "passed": {"type": "integer", "minimum": 0},
+          "failed": {"type": "integer", "minimum": 0},
+          "skipped": {"type": "integer", "minimum": 0},
+          "xfailed": {"type": "integer", "minimum": 0},
+          "evidence_ref": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/hashedPath"}
+    },
+    "metrics": {"type": "object"},
+    "tool_versions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "policy_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_tests_skipped",
+        "thresholds_weakened",
+        "external_evidence_fabricated",
+        "out_of_scope_writes",
+        "prohibited_runtime_added"
+      ],
+      "properties": {
+        "required_tests_skipped": {"const": false},
+        "thresholds_weakened": {"const": false},
+        "external_evidence_fabricated": {"const": false},
+        "out_of_scope_writes": {"const": false},
+        "prohibited_runtime_added": {"const": false}
+      }
+    },
+    "retry_history": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attempt", "hypothesis", "corrective_action", "result", "evidence_refs"],
+        "properties": {
+          "attempt": {"type": "integer", "minimum": 1, "maximum": 3},
+          "hypothesis": {"type": "string", "minLength": 3},
+          "corrective_action": {"type": "string", "minLength": 3},
+          "result": {"type": "string", "minLength": 3},
+          "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "checkpoint": {
+      "type": ["object", "null"],
+      "properties": {
+        "checkpoint_id": {"type": "string", "minLength": 1},
+        "commit_id": {"type": ["string", "null"]},
+        "patch_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"}
+      },
+      "required": ["checkpoint_id", "commit_id", "patch_sha256"],
+      "additionalProperties": false
+    },
+    "blocker_ref": {"type": ["string", "null"], "pattern": "^BLK-[A-Z0-9-]+$"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "passed"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "commands": {"items": {"properties": {"exit_code": {"const": 0}}}},
+          "tests": {
+            "items": {
+              "properties": {
+                "status": {"const": "passed"},
+                "failed": {"const": 0},
+                "skipped": {"const": 0},
+                "xfailed": {"const": 0}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"subject_kind": {"const": "task"}}, "required": ["subject_kind"]},
+      "then": {
+        "required": ["task_state", "checkpoint", "blocker_ref"],
+        "allOf": [
+          {
+            "if": {"properties": {"status": {"const": "passed"}}, "required": ["status"]},
+            "then": {"properties": {"task_state": {"const": "passed"}, "checkpoint": {"type": "object"}, "blocker_ref": {"type": "null"}}}
+          },
+          {
+            "if": {"properties": {"status": {"const": "blocked_external_input"}}, "required": ["status"]},
+            "then": {"properties": {"task_state": {"const": "blocked_external_input"}, "blocker_ref": {"type": "string"}, "checkpoint": {"type": "null"}}}
+          },
+          {
+            "if": {"properties": {"status": {"const": "blocked_license"}}, "required": ["status"]},
+            "then": {"properties": {"task_state": {"const": "blocked_license"}, "blocker_ref": {"type": "string"}, "checkpoint": {"type": "null"}}}
+          },
+          {
+            "if": {"properties": {"status": {"const": "blocked_reference_hardware"}}, "required": ["status"]},
+            "then": {"properties": {"task_state": {"const": "blocked_reference_hardware"}, "blocker_ref": {"type": "string"}, "checkpoint": {"type": "null"}}}
+          },
+          {
+            "if": {"properties": {"status": {"const": "failed"}}, "required": ["status"]},
+            "then": {"properties": {"task_state": {"enum": ["failed_retryable", "rejected"]}, "checkpoint": {"type": "null"}}}
+          },
+          {
+            "if": {"properties": {"status": {"const": "rejected"}}, "required": ["status"]},
+            "then": {"properties": {"task_state": {"const": "rejected"}, "checkpoint": {"type": "null"}}}
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"enum": ["blocked_external_input", "blocked_license", "blocked_reference_hardware"]}},
+        "required": ["status"]
+      },
+      "then": {"required": ["blocker_ref"], "properties": {"blocker_ref": {"type": "string"}}}
+    }
+  ],
+  "$defs": {
+    "hashedPath": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

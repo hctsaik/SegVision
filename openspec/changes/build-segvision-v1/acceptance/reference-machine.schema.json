@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/reference-machine.schema.json",
+  "title": "SegVision Reference Machine Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "approval_status", "role", "machine_kind", "os", "cpu", "ram_bytes", "python", "thread_policy", "network_isolation", "cuda_absent", "clean_install_target", "approved_by", "approved_at"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"type": "string", "minLength": 3},
+    "approval_status": {"enum": ["pending", "approved", "rejected"]},
+    "role": {"enum": ["performance_reference", "offline_clean_install"]},
+    "machine_kind": {"enum": ["physical", "virtual_clean_install"]},
+    "os": {"type": "string", "minLength": 3},
+    "cpu": {"type": "string", "minLength": 3},
+    "ram_bytes": {"type": "integer", "minimum": 1},
+    "python": {"type": "string", "minLength": 3},
+    "thread_policy": {"type": "object", "additionalProperties": false, "required": ["torch_threads", "opencv_threads", "blas_threads"], "properties": {"torch_threads": {"type": "integer", "minimum": 1}, "opencv_threads": {"type": "integer", "minimum": 1}, "blas_threads": {"type": "integer", "minimum": 1}}},
+    "network_isolation": {"const": true},
+    "cuda_absent": {"const": true},
+    "clean_install_target": {"type": "boolean"},
+    "approved_by": {"type": ["string", "null"]},
+    "approved_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "allOf": [
+    {"if": {"properties": {"approval_status": {"const": "approved"}}}, "then": {"properties": {"approved_by": {"type": "string", "minLength": 1}, "approved_at": {"type": "string"}}}},
+    {"if": {"properties": {"role": {"const": "performance_reference"}}}, "then": {"properties": {"machine_kind": {"const": "physical"}}}}
+  ]
+}

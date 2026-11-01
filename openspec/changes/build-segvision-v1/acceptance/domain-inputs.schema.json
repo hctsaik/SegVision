@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/domain-inputs.schema.json",
+  "title": "SegVision Domain Input and Approval Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "status", "target_candidate_id", "annotation_policy_id", "annotation_policy_sha256", "annotation_policy_approval", "representative_images", "independent_gold", "annotator_sessions", "independent_reviews", "data_authority", "release_signoff"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"type": "string", "minLength": 3},
+    "status": {"enum": ["pending_external_input", "ready", "rejected"]},
+    "target_candidate_id": {"type": ["string", "null"]},
+    "annotation_policy_id": {"type": "string", "minLength": 3},
+    "annotation_policy_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "annotation_policy_approval": {"$ref": "#/$defs/approval"},
+    "representative_images": {"$ref": "#/$defs/collection"},
+    "independent_gold": {"$ref": "#/$defs/collection"},
+    "annotator_sessions": {"$ref": "#/$defs/collection"},
+    "independent_reviews": {"$ref": "#/$defs/collection"},
+    "data_authority": {"$ref": "#/$defs/approval"},
+    "release_signoff": {"$ref": "#/$defs/approval"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "ready"}}},
+      "then": {
+        "properties": {
+          "target_candidate_id": {"type": "string", "minLength": 1},
+          "annotation_policy_sha256": {"type": "string"},
+          "annotation_policy_approval": {"properties": {"status": {"const": "approved"}, "authority_ref": {"type": "string", "minLength": 1}, "approved_at": {"type": "string"}}},
+          "representative_images": {"properties": {"count": {"minimum": 100}, "manifest_sha256": {"type": "string"}, "provenance_ref": {"type": "string", "minLength": 1}, "independent_from_agent": {"const": true}}},
+          "independent_gold": {"properties": {"count": {"minimum": 30}, "manifest_sha256": {"type": "string"}, "provenance_ref": {"type": "string", "minLength": 1}, "independent_from_agent": {"const": true}}},
+          "annotator_sessions": {"properties": {"count": {"minimum": 100}, "manifest_sha256": {"type": "string"}, "provenance_ref": {"type": "string", "minLength": 1}, "independent_from_agent": {"const": true}}},
+          "independent_reviews": {"properties": {"count": {"minimum": 30}, "manifest_sha256": {"type": "string"}, "provenance_ref": {"type": "string", "minLength": 1}, "independent_from_agent": {"const": true}}},
+          "data_authority": {"properties": {"status": {"const": "approved"}, "authority_ref": {"type": "string", "minLength": 1}, "approved_at": {"type": "string"}}},
+          "release_signoff": {"properties": {"status": {"const": "approved"}, "authority_ref": {"type": "string", "minLength": 1}, "approved_at": {"type": "string"}}}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "collection": {"type": "object", "required": ["count", "manifest_sha256", "provenance_ref", "independent_from_agent"], "properties": {"count": {"type": "integer", "minimum": 0}, "manifest_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"}, "provenance_ref": {"type": ["string", "null"]}, "independent_from_agent": {"type": "boolean"}}, "additionalProperties": false},
+    "approval": {"type": "object", "required": ["status", "authority_ref", "approved_at"], "properties": {"status": {"enum": ["pending", "approved", "rejected"]}, "authority_ref": {"type": ["string", "null"]}, "approved_at": {"type": ["string", "null"], "format": "date-time"}}, "additionalProperties": false}
+  }
+}

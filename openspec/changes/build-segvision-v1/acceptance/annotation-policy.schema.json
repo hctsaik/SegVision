@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://segvision.local/schemas/annotation-policy.schema.json",
+  "title": "SegVision Annotation Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_id", "scope", "rules", "override_policy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "policy_id": {"const": "segvision-visible-pixels-default-v1"},
+    "scope": {"const": "one selected physical foreground object per image"},
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visible_pixels_only", "hallucinate_occluded_region", "include_visible_disconnected_pieces_of_same_object", "retain_visible_background_holes", "include_cast_shadow", "include_reflection_outside_physical_object", "transparent_material", "image_boundary", "ambiguous_boundary", "multiple_objects_inside_roi"],
+      "properties": {
+        "visible_pixels_only": {"const": true},
+        "hallucinate_occluded_region": {"const": false},
+        "include_visible_disconnected_pieces_of_same_object": {"const": true},
+        "retain_visible_background_holes": {"const": true},
+        "include_cast_shadow": {"const": false},
+        "include_reflection_outside_physical_object": {"const": false},
+        "transparent_material": {"const": "annotate the visible physical material silhouette; retain clearly visible interior background holes"},
+        "image_boundary": {"const": "clip to visible image extent and record truncation acknowledgement"},
+        "ambiguous_boundary": {"const": "prefer Needs Review over guessed Accept"},
+        "multiple_objects_inside_roi": {"const": "annotate only the single selected foreground object"}
+      }
+    },
+    "override_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class_specific_override_requires_versioned_policy", "per_image_hidden_override_allowed", "override_must_be_recorded_in_sidecar"],
+      "properties": {
+        "class_specific_override_requires_versioned_policy": {"const": true},
+        "per_image_hidden_override_allowed": {"const": false},
+        "override_must_be_recorded_in_sidecar": {"const": true}
+      }
+    }
+  }
+}

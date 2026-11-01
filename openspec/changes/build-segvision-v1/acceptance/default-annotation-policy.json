@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "policy_id": "segvision-visible-pixels-default-v1",
+  "scope": "one selected physical foreground object per image",
+  "rules": {
+    "visible_pixels_only": true,
+    "hallucinate_occluded_region": false,
+    "include_visible_disconnected_pieces_of_same_object": true,
+    "retain_visible_background_holes": true,
+    "include_cast_shadow": false,
+    "include_reflection_outside_physical_object": false,
+    "transparent_material": "annotate the visible physical material silhouette; retain clearly visible interior background holes",
+    "image_boundary": "clip to visible image extent and record truncation acknowledgement",
+    "ambiguous_boundary": "prefer Needs Review over guessed Accept",
+    "multiple_objects_inside_roi": "annotate only the single selected foreground object"
+  },
+  "override_policy": {
+    "class_specific_override_requires_versioned_policy": true,
+    "per_image_hidden_override_allowed": false,
+    "override_must_be_recorded_in_sidecar": true
+  }
+}
