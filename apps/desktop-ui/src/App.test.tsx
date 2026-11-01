@@ -1,6 +1,6 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { App, editRegionToCrop, operatorMessage, strokePointsToCrop } from "./App";
 import type { HostClient, Snapshot } from "./host";
 import { useViewStore } from "./store";
@@ -79,6 +79,10 @@ function deferred<T>() {
 }
 
 describe("App", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("converts full-image brush samples into crop coordinates", () => {
     expect(
       strokePointsToCrop(
@@ -371,6 +375,146 @@ describe("App", () => {
     await userEvent.click(editButton);
     expect(useViewStore.getState().tool).toBe("edit-region");
     expect(screen.getByTestId("two-point-box-instruction")).toHaveTextContent("請點第一個角");
+  });
+
+  it("edits inside a local work area without locking or proposing a SAM ROI", async () => {
+    class TestImage extends EventTarget {
+      naturalWidth = 32;
+      naturalHeight = 24;
+      complete = true;
+      src = "";
+    }
+    vi.stubGlobal("Image", TestImage);
+
+    const opened = snap({
+      workflow_state: "IMAGE_OPEN",
+      revision: 0,
+      candidates: [],
+      selected_candidate_id: null,
+      assets: { source_image: "source", thumbnail: null, mask: null },
+      controls: { roi: true, local_edit: false },
+    });
+    const manual = snap({
+      ...opened,
+      workflow_state: "MANUAL_EMPTY",
+      user_roi_full: [4, 5, 19, 16],
+      crop_rect_full: [0, 0, 32, 24],
+      candidates: [
+        {
+          candidate_id: "manual-empty",
+          source: "manual_empty",
+          capabilities: { can_refine: false, can_local_edit: true, can_commit: false },
+          mask_token: "manual-empty-mask",
+        },
+      ],
+      selected_candidate_id: "manual-empty",
+      controls: { roi: true, local_edit: true },
+    });
+    const edited = snap({
+      ...manual,
+      workflow_state: "LOCAL_EDITING",
+      revision: 1,
+      candidates: [
+        {
+          candidate_id: "manual-edited",
+          source: "manual_edit",
+          capabilities: { can_refine: false, can_local_edit: true, can_commit: true },
+          mask_token: "manual-edited-mask",
+        },
+      ],
+      selected_candidate_id: "manual-edited",
+    });
+    const client = host(opened);
+    client.sessionsManualEmpty = vi.fn(async () => manual);
+    client.sessionsEdit = vi.fn(async () => edited);
+    useViewStore.setState({
+      snapshot: opened,
+      tool: "roi",
+      engine: "ready",
+      uiError: null,
+      items: [],
+      currentItemId: null,
+      grantId: null,
+      datasetId: null,
+      outputGrantId: null,
+      outputDisplayName: null,
+      viewport: { zoom: 1, panX: 0, panY: 0, dpr: 1 },
+    });
+
+    render(<App host={client} />);
+    const canvas = screen.getByTestId("annotation-canvas");
+    await waitFor(() => expect(canvas).toHaveAttribute("data-image-width", "32"));
+    act(() => useViewStore.getState().setViewport({ zoom: 1, panX: 0, panY: 0, dpr: 1 }));
+    vi.spyOn(canvas, "getBoundingClientRect").mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 32,
+      height: 24,
+      right: 32,
+      bottom: 24,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
+    const pointer = (type: string, x: number, y: number) => {
+      const event = new MouseEvent(type, { bubbles: true, clientX: x, clientY: y, button: 0 });
+      Object.defineProperties(event, { pointerId: { value: 7 } });
+      fireEvent(canvas, event);
+    };
+
+    await userEvent.click(screen.getByTestId("tool-edit-region"));
+    await act(async () => {
+      pointer("pointerdown", 4, 5);
+      pointer("pointerup", 4, 5);
+    });
+    expect(screen.getByTestId("two-point-corner-1")).toBeInTheDocument();
+    await act(async () => {
+      pointer("pointerdown", 18, 15);
+      pointer("pointerup", 18, 15);
+    });
+    expect(screen.getByTestId("edit-region-overlay")).toBeInTheDocument();
+    expect(client.sessionsLockRoi).not.toHaveBeenCalled();
+    expect(client.sessionsPropose).not.toHaveBeenCalled();
+    expect(client.sessionsManualEmpty).not.toHaveBeenCalled();
+
+    await userEvent.click(screen.getByTestId("tool-brush"));
+    await userEvent.click(screen.getByTestId("brush-radius-2"));
+    await act(async () => {
+      pointer("pointerdown", 3, 6);
+      pointer("pointerup", 3, 6);
+    });
+
+    await waitFor(() => expect(client.sessionsEdit).toHaveBeenCalledTimes(1));
+    expect(client.sessionsManualEmpty).toHaveBeenCalledWith("s1", 0, [4, 5, 19, 16]);
+    expect(client.sessionsEdit).toHaveBeenCalledWith(
+      "s1",
+      0,
+      "brush",
+      [[3, 6]],
+      2,
+      [4, 5, 19, 16],
+    );
+    expect(client.sessionsLockRoi).not.toHaveBeenCalled();
+    expect(client.sessionsPropose).not.toHaveBeenCalled();
+
+    // A later SAM crop can be disjoint from this UI-only work area. `null`
+    // would mean an unrestricted edit to the sidecar, so that stroke must be
+    // dropped rather than sent without its clip.
+    act(() =>
+      useViewStore.getState().applySnapshot(
+        snap({
+          ...edited,
+          revision: 2,
+          crop_rect_full: [20, 0, 32, 24],
+        }),
+      ),
+    );
+    await act(async () => {
+      pointer("pointerdown", 22, 6);
+      pointer("pointerup", 22, 6);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    expect(client.sessionsEdit).toHaveBeenCalledTimes(1);
   });
 
   it("keeps SAM point tools visible with a Chinese reason after manual editing", async () => {

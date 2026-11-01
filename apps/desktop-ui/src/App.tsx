@@ -1102,6 +1102,10 @@ export function App({ host }: { host?: HostClient }) {
               const cropPoints = strokePointsToCrop(points, active.crop_rect_full);
               if (cropPoints.length === 0) return active;
               const clipRect = editRegionToCrop(editRegion, active.crop_rect_full);
+              // `null` means an unrestricted edit to the sidecar. If a user
+              // explicitly drew a work area, a missing crop intersection
+              // must fail closed instead of accidentally removing the clip.
+              if (editRegion && !clipRect) return active;
               return client.sessionsEdit(
                 active.protocol_session_id,
                 active.revision,
