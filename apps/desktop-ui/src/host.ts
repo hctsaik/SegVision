@@ -93,7 +93,10 @@ export type HostClient = {
   engineRestart?(): Promise<{ state: string; restarted: boolean }>;
   pickerOpenFolder(kind: FolderGrantKind): Promise<{ grant_id: string; display_name: string }>;
   datasetsOpen(grantId: string): Promise<{ dataset_id: string; class_id: string; item_count: number }>;
-  datasetsListItems(datasetId: string): Promise<{ items: DatasetItemSummary[] }>;
+  datasetsListItems(datasetId: string, cursor?: string | null): Promise<{
+    items: DatasetItemSummary[];
+    next_cursor: string | null;
+  }>;
   datasetsWorkStatus?(datasetId: string): Promise<Record<string, unknown>>;
   sessionsCreate(datasetId: string, itemId: string, prototypeMatch?: boolean): Promise<Snapshot>;
   sessionsGet(sessionId: string): Promise<Snapshot>;
@@ -266,7 +269,8 @@ export function createE2EHost(baseUrl: string, secret: string, datasetPath: stri
     engineRestart: () => post("/v1/engine/restart", {}),
     pickerOpenFolder: async (kind) => ({ grant_id: `e2e-${kind}`, display_name: `e2e-${kind}` }),
     datasetsOpen: (grantId) => post("/v1/datasets/open", { grant_id: grantId, base_revision: 0 }),
-    datasetsListItems: (datasetId) => get(`/v1/datasets/${datasetId}/items`),
+    datasetsListItems: (datasetId, cursor) =>
+      get(`/v1/datasets/${datasetId}/items${cursor == null ? "" : `?cursor=${encodeURIComponent(cursor)}`}`),
     sessionsCreate: (datasetId, itemId, prototypeMatch = false) =>
       post("/v1/sessions", {
         dataset_id: datasetId,
@@ -366,7 +370,8 @@ export function createTauriHost(): HostClient {
     engineRestart: () => tauriInvoke("engine_restart", {}),
     pickerOpenFolder: (kind) => tauriInvoke("picker_open_folder", { kind }),
     datasetsOpen: (grantId) => tauriInvoke("datasets_open", { grant_id: grantId }),
-    datasetsListItems: (datasetId) => tauriInvoke("datasets_list_items", { dataset_id: datasetId }),
+    datasetsListItems: (datasetId, cursor) =>
+      tauriInvoke("datasets_list_items", { dataset_id: datasetId, cursor: cursor ?? null }),
     datasetsWorkStatus: (datasetId) => tauriInvoke("datasets_work_status", { dataset_id: datasetId }),
     sessionsCreate: (datasetId, itemId, prototypeMatch = false) =>
       tauriInvoke("sessions_create", {
@@ -563,7 +568,7 @@ export function createCimShellHost(baseUrl: string, secret: string): HostClient 
       return { grant_id: kind, display_name: folderDisplayName(path) };
     },
     datasetsOpen: (grantId) => live().datasetsOpen(grantId),
-    datasetsListItems: (datasetId) => live().datasetsListItems(datasetId),
+    datasetsListItems: (datasetId, cursor) => live().datasetsListItems(datasetId, cursor),
     sessionsCreate: (datasetId, itemId, prototypeMatch) =>
       live().sessionsCreate(datasetId, itemId, prototypeMatch),
     sessionsGet: (sessionId) => live().sessionsGet(sessionId),

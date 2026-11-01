@@ -43,6 +43,7 @@ function host(snapshot: Snapshot): HostClient {
     datasetsOpen: vi.fn(async () => ({ dataset_id: "d", class_id: "part", item_count: 1 })),
     datasetsListItems: vi.fn(async () => ({
       items: [{ item_id: "i1", image_id: "part", display_name: "part.png", class_id: "part" }],
+      next_cursor: null,
     })),
     sessionsCreate: vi.fn(async () => snapshot),
     sessionsGet: vi.fn(async () => snapshot),
@@ -127,6 +128,123 @@ describe("App", () => {
     expect(JSON.stringify(useViewStore.getState())).not.toMatch(/C:\\|\/home\//);
     expect(screen.getByText("part.png")).toBeInTheDocument();
     expect(screen.getByTestId("region-empty")).toHaveTextContent(/點兩個角建立黃框/);
+  });
+
+  it("loads additional dataset pages and reports loaded versus total items", async () => {
+    useViewStore.setState({
+      snapshot: null,
+      grantId: null,
+      datasetId: null,
+      items: [],
+      currentItemId: null,
+      uiError: null,
+      outputGrantId: null,
+      outputDisplayName: null,
+    });
+    const client = host(snap({ workflow_state: "IMAGE_OPEN", revision: 0, candidates: [] }));
+    client.datasetsOpen = vi.fn(async () => ({ dataset_id: "d", class_id: "part", item_count: 3 }));
+    client.datasetsListItems = vi.fn()
+      .mockResolvedValueOnce({
+        items: [
+          { item_id: "i1", image_id: "first", display_name: "first.png", class_id: "part" },
+          { item_id: "i2", image_id: "second", display_name: "second.png", class_id: "part" },
+        ],
+        next_cursor: "2",
+      })
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i3", image_id: "third", display_name: "third.png", class_id: "part" }],
+        next_cursor: null,
+      });
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("open-dataset"));
+    await waitFor(() => expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 2 / 3"));
+    expect(screen.queryByText("third.png")).toBeNull();
+
+    await userEvent.click(screen.getByTestId("load-more-items"));
+
+    expect(await screen.findByText("third.png")).toBeInTheDocument();
+    expect(screen.getByTestId("dataset-page-status")).toHaveTextContent("已載入 3 / 3");
+    expect(screen.queryByTestId("load-more-items")).toBeNull();
+    expect(client.datasetsListItems).toHaveBeenNthCalledWith(2, "d", "2");
+  });
+
+  it("continues Next across a dataset page boundary", async () => {
+    useViewStore.setState({
+      snapshot: null,
+      grantId: null,
+      datasetId: null,
+      items: [],
+      currentItemId: null,
+      uiError: null,
+      outputGrantId: null,
+      outputDisplayName: null,
+    });
+    const client = host(snap());
+    client.datasetsOpen = vi.fn(async () => ({ dataset_id: "d", class_id: "part", item_count: 2 }));
+    client.datasetsListItems = vi.fn()
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i1", image_id: "first", display_name: "first.png", class_id: "part" }],
+        next_cursor: "1",
+      })
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i2", image_id: "second", display_name: "second.png", class_id: "part" }],
+        next_cursor: null,
+      });
+    client.sessionsCreate = vi.fn()
+      .mockResolvedValueOnce(snap({ protocol_session_id: "s1", controls: { next: true } }))
+      .mockResolvedValueOnce(snap({ protocol_session_id: "s2", controls: { next: true } }));
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("open-dataset"));
+    await waitFor(() => expect(useViewStore.getState().currentItemId).toBe("i1"));
+    await waitFor(() => expect(client.sessionsCreate).toHaveBeenCalledTimes(1));
+    await userEvent.click(screen.getByTestId("next-image"));
+
+    await waitFor(() => expect(useViewStore.getState().currentItemId).toBe("i2"));
+    expect(client.datasetsListItems).toHaveBeenNthCalledWith(2, "d", "1");
+    expect(client.sessionsCreate).toHaveBeenLastCalledWith("d", "i2", false);
+  });
+
+  it("keeps paging past completed items until Next finds unfinished work", async () => {
+    useViewStore.setState({
+      snapshot: null,
+      grantId: null,
+      datasetId: null,
+      items: [],
+      currentItemId: null,
+      uiError: null,
+      outputGrantId: null,
+      outputDisplayName: null,
+    });
+    const client = host(snap());
+    client.datasetsOpen = vi.fn(async () => ({ dataset_id: "d", class_id: "part", item_count: 3 }));
+    client.datasetsListItems = vi.fn()
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i1", image_id: "first", display_name: "first.png", class_id: "part", status: "accepted" }],
+        next_cursor: "1",
+      })
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i2", image_id: "second", display_name: "second.png", class_id: "part", status: "accepted" }],
+        next_cursor: "2",
+      })
+      .mockResolvedValueOnce({
+        items: [{ item_id: "i3", image_id: "third", display_name: "third.png", class_id: "part" }],
+        next_cursor: null,
+      });
+    client.sessionsCreate = vi.fn()
+      .mockResolvedValueOnce(snap({ protocol_session_id: "s1", controls: { next: true } }))
+      .mockResolvedValueOnce(snap({ protocol_session_id: "s3", controls: { next: true } }));
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("open-dataset"));
+    await waitFor(() => expect(useViewStore.getState().currentItemId).toBe("i1"));
+    await waitFor(() => expect(client.sessionsCreate).toHaveBeenCalledTimes(1));
+    await userEvent.click(screen.getByTestId("next-image"));
+
+    await waitFor(() => expect(useViewStore.getState().currentItemId).toBe("i3"));
+    expect(client.datasetsListItems).toHaveBeenCalledTimes(3);
+    expect(client.sessionsCreate).toHaveBeenLastCalledWith("d", "i3", false);
   });
 
   it("shows sidecar job status from the Tauri snapshot", () => {
@@ -523,6 +641,7 @@ describe("App", () => {
         { item_id: "i1", image_id: "first", display_name: "first.png", class_id: "part" },
         { item_id: "i2", image_id: "second", display_name: "second.png", class_id: "part" },
       ],
+      next_cursor: null,
     }));
     client.sessionsCreate = vi.fn((_datasetId, itemId) =>
       itemId === "i1" ? first.promise : second.promise,

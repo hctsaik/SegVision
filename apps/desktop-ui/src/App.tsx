@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnnotationCanvas } from "./canvas";
-import { resolveHost, type HostClient, type Snapshot } from "./host";
+import { resolveHost, type DatasetItemSummary, type HostClient, type Snapshot } from "./host";
 import {
   backendLabel,
   candidateSourceLabel,
@@ -155,6 +155,7 @@ export function App({ host }: { host?: HostClient }) {
   const snapshot = useViewStore((s) => s.snapshot);
   const engine = useViewStore((s) => s.engine);
   const items = useViewStore((s) => s.items);
+  const datasetItemCount = useViewStore((s) => s.datasetItemCount);
   const outputGrantId = useViewStore((s) => s.outputGrantId);
   const outputDisplayName = useViewStore((s) => s.outputDisplayName);
   const currentItemId = useViewStore((s) => s.currentItemId);
@@ -183,6 +184,10 @@ export function App({ host }: { host?: HostClient }) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [itemSearch, setItemSearch] = useState("");
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [loadingItems, setLoadingItems] = useState(false);
+  const [openingDataset, setOpeningDataset] = useState(false);
+  const [advancingItem, setAdvancingItem] = useState(false);
   // Frozen regions are intentionally kept in a small, explicit picker (a
   // "Dropbox") so unlocking never silently targets the last region.
   const [selectedFrozenRegionId, setSelectedFrozenRegionId] = useState<string | null>(null);
@@ -201,6 +206,10 @@ export function App({ host }: { host?: HostClient }) {
   const timerOrigin = useRef<{ session: string; wall: number } | null>(null);
   const currentItem = items.find((item) => item.item_id === currentItemId) ?? null;
   const navigationEpoch = useRef(0);
+  const datasetEpoch = useRef(0);
+  const pageCursor = useRef<string | null>(null);
+  const pageRequest = useRef<Promise<DatasetItemSummary[]> | null>(null);
+  const advancingItemRef = useRef(false);
   const mutationQueue = useRef<Promise<void>>(Promise.resolve());
   const outputPickerEpoch = useRef(0);
   const selectedCandidate = snapshot?.candidates.find(
@@ -220,7 +229,7 @@ export function App({ host }: { host?: HostClient }) {
     });
   }, [items, itemSearch, statusFilter]);
   const progress = useMemo(() => {
-    const counts = { total: items.length, accepted: 0, draft: 0, review: 0, failure: 0 };
+    const counts = { accepted: 0, draft: 0, review: 0, failure: 0 };
     for (const item of items) {
       if (item.status === "accepted") counts.accepted += 1;
       if (item.status === "draft") counts.draft += 1;
@@ -363,20 +372,61 @@ export function App({ host }: { host?: HostClient }) {
     }
   }
 
+  async function loadNextDatasetPage(): Promise<DatasetItemSummary[]> {
+    if (pageRequest.current) return pageRequest.current;
+    const state = useViewStore.getState();
+    const datasetId = state.datasetId;
+    const cursor = pageCursor.current;
+    if (!datasetId || !cursor) return [];
+
+    const requestEpoch = datasetEpoch.current;
+    setLoadingItems(true);
+    const request = (async () => {
+      try {
+        const page = await client.datasetsListItems(datasetId, cursor);
+        const latest = useViewStore.getState();
+        if (requestEpoch !== datasetEpoch.current || latest.datasetId !== datasetId) return [];
+        if (page.next_cursor === cursor) throw new Error("dataset cursor did not advance");
+        pageCursor.current = page.next_cursor;
+        setNextCursor(page.next_cursor);
+        latest.appendDatasetItems(page.items);
+        return page.items;
+      } catch (error) {
+        if (requestEpoch === datasetEpoch.current) setUiError(operatorMessage(error));
+        return [];
+      } finally {
+        if (requestEpoch === datasetEpoch.current) setLoadingItems(false);
+      }
+    })();
+    pageRequest.current = request;
+    const result = await request;
+    if (pageRequest.current === request) pageRequest.current = null;
+    return result;
+  }
+
   async function openDataset() {
     const epoch = ++navigationEpoch.current;
+    const openEpoch = ++datasetEpoch.current;
+    pageRequest.current = null;
+    setLoadingItems(false);
+    setOpeningDataset(true);
     mutationQueue.current = Promise.resolve();
     try {
       setUiError(null);
       const grant = await client.pickerOpenFolder("dataset");
       const opened = await client.datasetsOpen(grant.grant_id);
       const listed = await client.datasetsListItems(opened.dataset_id);
-      if (epoch !== navigationEpoch.current) return;
-      setDataset(grant.grant_id, opened.dataset_id, listed.items);
+      if (epoch !== navigationEpoch.current || openEpoch !== datasetEpoch.current) return;
+      pageCursor.current = listed.next_cursor;
+      setNextCursor(listed.next_cursor);
+      setLoadingItems(false);
+      setDataset(grant.grant_id, opened.dataset_id, listed.items, opened.item_count);
       const first = listed.items[0];
       if (first) await openItem(first.item_id);
     } catch (error) {
       if (epoch === navigationEpoch.current) setUiError(operatorMessage(error));
+    } finally {
+      if (openEpoch === datasetEpoch.current) setOpeningDataset(false);
     }
   }
 
@@ -483,17 +533,41 @@ export function App({ host }: { host?: HostClient }) {
     return { roi: [...roi], classId };
   }
 
-  function openNextItem() {
-    const order = filteredItems.length > 0 ? filteredItems : items;
-    const currentIndex = order.findIndex((item) => item.item_id === currentItemId);
-    const next = order
-      .slice(currentIndex + 1)
-      .find((item) => item.status !== "accepted" && item.status !== "needs-review") ?? null;
-    if (!next) return;
-    const state = useViewStore.getState();
-    const carried =
-      state.dinoPrototype || !state.reuseLastRoi ? undefined : carriedRoiFrom(state.snapshot);
-    void openItem(next.item_id, carried);
+  async function openNextItem() {
+    if (advancingItemRef.current) return;
+    advancingItemRef.current = true;
+    const epoch = navigationEpoch.current;
+    setAdvancingItem(true);
+    try {
+      while (true) {
+        const state = useViewStore.getState();
+        const query = itemSearch.trim().toLowerCase();
+        const matchingItems = state.items.filter((item) => {
+          const matchesStatus = statusFilter === "all" || (item.status ?? "unstarted") === statusFilter;
+          const matchesSearch = !query || `${item.display_name} ${item.image_id}`.toLowerCase().includes(query);
+          return matchesStatus && matchesSearch;
+        });
+        const order = matchingItems.length > 0 ? matchingItems : state.items;
+        const currentIndex = order.findIndex((item) => item.item_id === currentItemId);
+        const next = order
+          .slice(currentIndex + 1)
+          .find((item) => item.status !== "accepted" && item.status !== "needs-review");
+        if (next) {
+          const carried =
+            state.dinoPrototype || !state.reuseLastRoi ? undefined : carriedRoiFrom(state.snapshot);
+          await openItem(next.item_id, carried);
+          return;
+        }
+        if (!pageCursor.current) return;
+        const cursorBefore = pageCursor.current;
+        const appended = await loadNextDatasetPage();
+        if (epoch !== navigationEpoch.current) return;
+        if (appended.length === 0 && cursorBefore === pageCursor.current) return;
+      }
+    } finally {
+      advancingItemRef.current = false;
+      setAdvancingItem(false);
+    }
   }
 
   async function resolveDirtyNavigation(action: "save" | "discard" | "cancel") {
@@ -743,8 +817,8 @@ export function App({ host }: { host?: HostClient }) {
             {elapsed.toFixed(1)}s
           </span>
         ) : null}
-        <button className="btn header-btn" data-testid="open-dataset" onClick={() => void openDataset()}>
-          開啟圖片資料夾
+        <button className="btn header-btn" data-testid="open-dataset" disabled={openingDataset} onClick={() => void openDataset()}>
+          {openingDataset ? "載入資料夾…" : "開啟圖片資料夾"}
         </button>
         <button className="btn header-btn" data-testid="choose-output" onClick={() => void chooseOutputFolder()}>
           {outputGrantId ? "更改儲存資料夾" : "儲存資料夾"}
@@ -834,7 +908,7 @@ export function App({ host }: { host?: HostClient }) {
             data-testid="item-search"
             className="item-search"
             value={itemSearch}
-            placeholder="搜尋檔名"
+            placeholder="搜尋已載入影像"
             onChange={(event) => setItemSearch(event.target.value)}
           />
           <select data-testid="status-filter" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
@@ -846,8 +920,11 @@ export function App({ host }: { host?: HostClient }) {
             <option value="save-failed">儲存失敗</option>
             <option value="conflict-or-corrupt">衝突/損壞</option>
           </select>
+          <div data-testid="dataset-page-status" className="muted-line">
+            {`已載入 ${items.length} / ${datasetItemCount ?? items.length} 張`}
+          </div>
           <div data-testid="work-progress" className="muted-line">
-            {`共 ${progress.total} · 已接受 ${progress.accepted} · 草稿 ${progress.draft} · 待複核 ${progress.review} · 未解決 ${progress.failure}`}
+            {`已接受 ${progress.accepted} · 草稿 ${progress.draft} · 待複核 ${progress.review} · 未解決 ${progress.failure}（已載入項目）`}
           </div>
           <ul data-testid="item-list">
             {filteredItems.map((item) => (
@@ -864,7 +941,21 @@ export function App({ host }: { host?: HostClient }) {
                 </button>
               </li>
             ))}
+            {items.length > 0 && filteredItems.length === 0 ? (
+              <li className="muted-line" role="status">目前已載入的影像沒有符合條件的項目。</li>
+            ) : null}
           </ul>
+          {nextCursor ? (
+            <button
+              type="button"
+              className="btn load-more-items"
+              data-testid="load-more-items"
+              disabled={loadingItems || openingDataset || advancingItem}
+              onClick={() => void loadNextDatasetPage()}
+            >
+              {loadingItems ? "載入中…" : "載入更多影像"}
+            </button>
+          ) : null}
         </div>
         <div className="rail-session">
           <div className="section-label">工作階段</div>
@@ -1549,7 +1640,7 @@ export function App({ host }: { host?: HostClient }) {
           <button
             data-testid="next-image"
             className="btn"
-            disabled={!snapshot?.controls.next}
+            disabled={!snapshot?.controls.next || advancingItem}
             title={!snapshot?.controls.next ? "先儲存或待覆核" : undefined}
             onClick={openNextItem}
           >

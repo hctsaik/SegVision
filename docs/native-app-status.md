@@ -1,6 +1,7 @@
 # SegVision 功能、進度與測試說明
 
-> 日期：2026-08-29  
+> 日期：2026-11-02
+>
 > 這份文件記錄**現況**，不是完成宣告。Chromium Playwright 流程已有可重現的影像／ROI／遮罩／Accept 持久化驗證；真正 Tauri 視窗仍未完成同等 E2E。
 
 ---
@@ -34,7 +35,7 @@ SegVision 是 **Windows x64、CPU-only、離線** 的靜態圖二值標註工具
 
 | 層 | 路徑 | 責任 |
 | --- | --- | --- |
-| 協定 | `packages/desktop-protocol/` | OpenAPI 1.0、事件 schema、錯誤碼 |
+| 協定 | `packages/desktop-protocol/` | OpenAPI 1.1、事件 schema、錯誤碼 |
 | Sidecar | `src/segvision/application/`、`src/segvision/transport/desktop_api/` | session、revision、job、asset |
 | UI | `apps/desktop-ui/` | Canvas、候選卡、快捷鍵 |
 | Host | `apps/desktop-host/src-tauri/` | 檔案選擇器、proxy、`segvision-asset://` |
@@ -67,11 +68,11 @@ segvision pyside6
 | --- | --- |
 | v1 Python 核心（ROI、最多 3 候選、refinement、local edit、Accept / Needs Review） | 已有既有 pytest / GUI / E2E |
 | OpenSpec change `adopt-react-tauri-desktop`（proposal / design / specs / tasks） | 規格齊，`openspec validate` 曾通過 |
-| 桌面協定 1.0（含 `lock_roi` / `select` / `undo` / `close` 等） | 已落地 |
+| 桌面協定 1.1（含 `lock_roi` / `select` / `undo` / `close` 等） | 已落地 |
 | Python sidecar（health、資料集、session、binary asset、Accept / Review） | 已落地 |
-| React UI + Vitest | 已驗證資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、以及 host-private 持久化路徑不會留在 store |
+| React UI + Vitest | 62 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store，以及資料集 cursor 續載、跨頁下一張與 host query 編碼 |
 | Chromium Playwright E2E | `tests/desktop-e2e` 已驗證實際受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash，以及 Accept 產生輸出 pair |
-| Tauri host 編譯與資產 proxy | `cargo test` 通過，`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin 與 output grant proxy 有單元／編譯驗證 |
+| Tauri host 編譯與資產 proxy | `cargo test` 3 項通過；`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin、output grant proxy 與 cursor command 編譯驗證 |
 | 預設啟動改為 Native App | `segvision-gui` → `segvision.desktop:main` |
 
 ### 3.2 尚未完成的 Native App 門檻
@@ -81,8 +82,8 @@ segvision pyside6
 1. **Native App 開發路徑已接上官方 MobileSAM TinyViT CPU**：Tauri 以 `--prefer-real` 啟動 sidecar，runtime 先核對本機評估授權、provenance 與 checkpoint SHA-256，再建立官方 `SamPredictor`。目前核准範圍僅為本機 CPU 評估，`release_approved=false`；缺檔、hash／授權不符時會明確退回 fake backend 並回報 setup blocker，不得據此宣告 release approval。
 2. **資料集掃描有意限制為直接檔案或一層子目錄。** 更深的樹狀資料集仍應選擇實際含影像的子資料夾，避免任意遞迴掃描。
 3. **尚未用真實 Tauri 視窗跑完整 E2E。** 現有自動化是 Chromium + Vite + sidecar（`?e2e=1`），因此尚未覆蓋 Tauri picker、custom protocol 與不同 DPR 的整合。
-4. **大型影像仍缺完整 pan／zoom／DPR UI。** Canvas 現在能正確取得原生座標，但畫布仍固定 800×500，尚未提供完整導覽。
-5. **資料集清單目前未處理超過第一頁的 cursor。** 大型資料集仍可能只看到第一批項目。
+4. **Canvas 已有 pan／zoom／DPR 導覽與座標單元測試**；真正 Tauri 視窗的不同 DPI 與大圖互動仍未完成端到端驗收。
+5. **資料集已按 cursor 續載**：React 清單顯示已載入／總數，可載入後續頁；「下一張」會跨頁尋找未完成項目。目前搜尋與狀態篩選只涵蓋已載入的項目，載入更多頁後會擴大範圍。
 6. **沒有離線安裝包 / 乾淨 VM 驗收。**
 7. OpenSpec `tasks.md` 仍幾乎全是未勾選；parity 未過時就把預設切到 Native App，是依你後來的指示，與原規格「先對等再切預設」不一致。
 
@@ -213,7 +214,6 @@ Erase 有按鈕，沒有快捷鍵。
 ## 8. 下一步（若要把「能給人測」做完）
 
 1. 用真實 Tauri 視窗跑一條 Open dataset → output grant → ROI → Accept E2E，覆蓋 picker、`segvision-asset://`、CORS 與不同 DPR  
-2. 補齊大型影像的 pan／zoom／DPR 導覽，以及資料集 cursor paging  
-3. 補齊 sidecar crash/restart 事件與恢復流程的桌面測試  
-4. 依實際資料集需求決定是否擴大目前的一層掃描限制  
-5. 通過後再談核准 MobileSAM、離線安裝包與 parity 勾選
+2. 補齊 sidecar crash/restart 事件與恢復流程的桌面測試
+3. 依實際資料集需求決定是否擴大目前的一層掃描限制
+4. 通過後再談核准 MobileSAM、離線安裝包與 parity 勾選

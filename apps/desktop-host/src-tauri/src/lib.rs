@@ -349,11 +349,19 @@ fn datasets_open(state: State<AppState>, grant_id: String) -> Result<Value, Stri
 }
 
 #[tauri::command]
-fn datasets_list_items(state: State<AppState>, dataset_id: String) -> Result<Value, String> {
+fn datasets_list_items(
+    state: State<AppState>,
+    dataset_id: String,
+    cursor: Option<String>,
+) -> Result<Value, String> {
+    let cursor_query = cursor
+        .as_deref()
+        .map(|value| format!("?cursor={}", urlencoding::encode(value)))
+        .unwrap_or_default();
     proxy(
         &state,
         "GET",
-        &format!("/v1/datasets/{dataset_id}/items"),
+        &format!("/v1/datasets/{dataset_id}/items{cursor_query}"),
         None,
         &[],
     )

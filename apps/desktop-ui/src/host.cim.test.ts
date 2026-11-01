@@ -54,6 +54,25 @@ describe("CIM folder picker", () => {
     }
   });
 
+  it("URL-encodes cursors when listing the next sidecar page", async () => {
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL) =>
+      new Response(JSON.stringify({ items: [], next_cursor: null }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const host = createE2EHost("http://127.0.0.1:9", "secret", "", "");
+      await host.datasetsListItems("dataset-1", "page/2 + next");
+      expect(String(fetchMock.mock.calls[0]?.[0])).toBe(
+        "http://127.0.0.1:9/v1/datasets/dataset-1/items?cursor=page%2F2%20%2B%20next",
+      );
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("posts prompt and frozen-region mutations to the desktop API", async () => {
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, _init?: RequestInit) =>
       new Response(JSON.stringify({ protocol_session_id: "s1", revision: 2 }), {
@@ -114,6 +133,21 @@ describe("CIM folder picker", () => {
       x: 30,
       y: 40,
       guard: true,
+    });
+  });
+
+  it("passes dataset cursors through the native host command", async () => {
+    const invoke = vi.fn(async (_command: string, _args?: Record<string, unknown>) => ({ items: [], next_cursor: null }));
+    (window as unknown as { __TAURI_INTERNALS__: { invoke: typeof invoke } }).__TAURI_INTERNALS__ = {
+      invoke,
+    };
+    const host = createTauriHost();
+
+    await host.datasetsListItems("dataset-1", "32");
+
+    expect(invoke).toHaveBeenCalledWith("datasets_list_items", {
+      datasetId: "dataset-1",
+      cursor: "32",
     });
   });
 });

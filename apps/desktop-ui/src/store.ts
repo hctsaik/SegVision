@@ -37,6 +37,7 @@ type ViewState = {
   engine: "ready" | "engine_unavailable" | "recovering";
   grantId: string | null;
   datasetId: string | null;
+  datasetItemCount: number | null;
   outputGrantId: string | null;
   outputDisplayName: string | null;
   items: DatasetItemSummary[];
@@ -56,7 +57,8 @@ type ViewState = {
   fitImage: (imageWidth: number, imageHeight: number) => void;
   frameRoi: (roi: Rect) => void;
   actualSize: (imageWidth: number, imageHeight: number) => void;
-  setDataset: (grantId: string, datasetId: string, items: DatasetItemSummary[]) => void;
+  setDataset: (grantId: string, datasetId: string, items: DatasetItemSummary[], itemCount: number) => void;
+  appendDatasetItems: (items: DatasetItemSummary[]) => void;
   setOutputGrant: (grantId: string | null, displayName: string | null) => void;
   beginItem: (itemId: string) => void;
   setCurrentItemId: (itemId: string | null) => void;
@@ -82,6 +84,7 @@ export const useViewStore = create<ViewState>((set) => ({
   engine: "ready",
   grantId: null,
   datasetId: null,
+  datasetItemCount: null,
   outputGrantId: null,
   outputDisplayName: null,
   items: [],
@@ -147,8 +150,18 @@ export const useViewStore = create<ViewState>((set) => ({
         state.viewport.dpr,
       ),
     })),
-  setDataset: (grantId, datasetId, items) =>
-    set({ grantId, datasetId, items, currentItemId: null, snapshot: null }),
+  setDataset: (grantId, datasetId, items, datasetItemCount) =>
+    set({ grantId, datasetId, datasetItemCount, items, currentItemId: null, snapshot: null }),
+  appendDatasetItems: (items) =>
+    set((state) => {
+      const seen = new Set(state.items.map((item) => item.item_id));
+      const additions = items.filter((item) => {
+        if (seen.has(item.item_id)) return false;
+        seen.add(item.item_id);
+        return true;
+      });
+      return additions.length > 0 ? { items: [...state.items, ...additions] } : state;
+    }),
   setOutputGrant: (outputGrantId, outputDisplayName) => set({ outputGrantId, outputDisplayName }),
   beginItem: (currentItemId) => set({ currentItemId, snapshot: null }),
   setCurrentItemId: (currentItemId) => set({ currentItemId }),
