@@ -494,7 +494,7 @@ class DesktopApplication:
         if not sess.output_root:
             return None, None
         accepted = AcceptedStore(sess.output_root)
-        return accepted, ReviewStore(accepted.review_root)
+        return accepted, ReviewStore(sess.output_root)
 
     def lock_roi(
         self,

@@ -742,6 +742,16 @@ def test_needs_review_not_training_eligible(client: TestClient, dataset: Path, t
     assert reviewed.status_code == 200, reviewed.text
     assert reviewed.json()["workflow_state"] == "NEEDS_REVIEW"
     assert reviewed.json()["persist"]["training_eligible"] is False
+    review_sidecar = out / "review" / "part.json"
+    assert review_sidecar.is_file()
+    review_record = json.loads(review_sidecar.read_text(encoding="utf-8"))
+    assert review_record["status"] == "needs_review"
+    assert review_record["training_eligible"] is False
+    assert review_record["reason"] == "uncertain edge"
+    assert review_record["draft"] is not None
+    assert (out / "review" / review_record["draft"]["filename"]).is_file()
+    assert not list(out.glob("*.json")), "Needs Review must not publish an accepted sidecar"
+    assert not list(out.glob("*.png")), "Needs Review must not publish an accepted mask"
 
 
 def test_idempotent_request_id(client: TestClient, dataset: Path):

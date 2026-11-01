@@ -805,6 +805,55 @@ describe("App", () => {
     expect(client.sessionsAccept).not.toHaveBeenCalled();
   });
 
+  it("shows the durable non-training Needs Review outcome and allows the next image", async () => {
+    const before = snap({ controls: { accept: true, needs_review: true, next: false } });
+    const reviewed = snap({
+      workflow_state: "NEEDS_REVIEW",
+      revision: 2,
+      persist: { kind: "needs_review", training_eligible: false },
+      controls: { accept: false, needs_review: false, next: true },
+    });
+    useViewStore.setState({
+      snapshot: before,
+      outputGrantId: "out",
+      outputDisplayName: "review-output",
+      uiError: null,
+      items: [],
+    });
+    const client = host(before);
+    client.sessionsNeedsReview = vi.fn(async () => reviewed);
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("needs-review"));
+
+    expect(await screen.findByTestId("review-saved-bar")).toHaveTextContent(/已送交複核/);
+    expect(screen.getByTestId("review-saved-bar")).toHaveTextContent(/未納入訓練/);
+    expect(screen.getByTestId("next-after-review")).toBeEnabled();
+    expect(client.sessionsNeedsReview).toHaveBeenCalledWith("s1", 1, "needs review", "out");
+  });
+
+  it("does not show a saved outcome when Accept persistence fails", async () => {
+    const before = snap({ controls: { accept: true, needs_review: true, next: false } });
+    useViewStore.setState({
+      snapshot: before,
+      outputGrantId: "out",
+      outputDisplayName: "output",
+      uiError: null,
+      items: [],
+    });
+    const client = host(before);
+    client.sessionsAccept = vi.fn(async () => {
+      throw new Error("disk full");
+    });
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("accept"));
+
+    expect(await screen.findByRole("alert")).toBeInTheDocument();
+    expect(screen.queryByTestId("saved-bar")).not.toBeInTheDocument();
+    expect(screen.queryByText("已儲存遮罩。")).not.toBeInTheDocument();
+  });
+
   it("removes host-private persistence paths before storing a snapshot", () => {
     const privatePath = "C:\\private-output\\part.json";
     useViewStore.getState().applySnapshot({

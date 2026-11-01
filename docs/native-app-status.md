@@ -70,8 +70,8 @@ segvision pyside6
 | OpenSpec change `adopt-react-tauri-desktop`（proposal / design / specs / tasks） | 規格齊，`openspec validate` 曾通過 |
 | 桌面協定 1.1（含 `lock_roi` / `select` / `undo` / `close` 等） | 已落地 |
 | Python sidecar（health、資料集、session、binary asset、Accept / Review） | 已落地 |
-| React UI + Vitest | 63 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store，以及資料集 cursor 續載、跨頁下一張、載入全清單後搜尋與 host query 編碼 |
-| Chromium Playwright E2E | `tests/desktop-e2e` 已驗證實際受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash，以及 Accept 產生輸出 pair |
+| React UI + Vitest | 66 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
+| Chromium Playwright E2E | `tests/desktop-e2e` 驗證受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash；另分別驗證 Accept PNG+sidecar 與 Needs Review metadata/draft/hash、`training_eligible=false` 且沒有 accepted pair。這是 Chromium+Vite，不是真實 Tauri 視窗 |
 | Tauri host 編譯與資產 proxy | `cargo test` 3 項通過；`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin、output grant proxy 與 cursor command 編譯驗證 |
 | 預設啟動改為 Native App | `segvision-gui` → `segvision.desktop:main` |
 
@@ -119,7 +119,7 @@ $env:Path = (Join-Path (Get-Location) ".venv\Scripts") + ";" + $env:Path
 
 ### 5.1 協定與 sidecar（目前最可靠）
 
-涵蓋 health、secret、version、開資料集、binary mask、IMAGE_OPEN→lock_roi、候選、refinement、edit、revision_conflict、Accept、Needs Review、本機 process。
+涵蓋 health、secret、version、開資料集、binary mask、IMAGE_OPEN→lock_roi、候選、refinement、edit、revision_conflict、Accept、Needs Review 的實際 review sidecar/draft 輸出及非訓練狀態、本機 process。
 
 ```powershell
 python -m pytest tests/contract tests/integration/test_desktop_sidecar.py -q
@@ -142,7 +142,7 @@ npm test
 python -m pytest tests/desktop-e2e -q
 ```
 
-會起 sidecar + Vite，用 Playwright 開資料集、選 output grant、點 ROI 兩個角、驗證 candidate overlay，再 Accept。測試會檢查受保護 source／gold／candidate PNG、160×120 的真實影像尺寸、畫布疊圖像素、sidecar authoritative ROI、candidate mask hash 與輸出 pair。這**不證明** Tauri 檔案選擇器與 `segvision-asset://` 的實際視窗整合。
+會起 sidecar + Vite，用 Playwright 開資料集、選 output grant、點 ROI 兩個角、驗證 candidate overlay，並分別走 Accept 與 Needs Review。Accept 必須輸出 PNG+sidecar；Needs Review 必須輸出 `review/` metadata 與 hash 對應 draft，標記 `training_eligible=false`，且不得在輸出根目錄產生 accepted pair。測試會檢查受保護 source／gold／candidate PNG、160×120 的真實影像尺寸、畫布疊圖像素、sidecar authoritative ROI 與 candidate mask hash。這**不證明** Tauri 檔案選擇器與 `segvision-asset://` 的實際視窗整合。
 
 ### 5.4 Native App 手動 smoke
 

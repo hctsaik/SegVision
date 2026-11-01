@@ -484,6 +484,7 @@ export function App({ host }: { host?: HostClient }) {
     const epoch = ++navigationEpoch.current;
     mutationQueue.current = Promise.resolve();
     beginItem(itemId);
+    setSaveNote(null);
     setRoiNote(null);
     try {
       setUiError(null);
@@ -614,7 +615,7 @@ export function App({ host }: { host?: HostClient }) {
       const grant = await ensureOutputGrant();
       if (!grant) return;
       const current = useViewStore.getState().snapshot;
-      if (!current?.controls.accept) return;
+      if (!current?.controls.accept || current.protocol_session_id !== ready.protocol_session_id) return;
       const acknowledgements = (current.warnings || []).map((warning) => warning.code);
       const fit = useViewStore.getState().dinoPrototype;
       if (fit) setComputePhase("fitting-dino");
@@ -628,6 +629,15 @@ export function App({ host }: { host?: HostClient }) {
             fit,
           ),
         );
+        const saved = useViewStore.getState().snapshot;
+        if (
+          saved?.protocol_session_id !== current.protocol_session_id ||
+          saved.workflow_state !== "ACCEPTED" ||
+          saved.persist?.kind !== "accepted" ||
+          saved.persist.training_eligible !== true
+        ) {
+          return;
+        }
         const folder = useViewStore.getState().outputDisplayName;
         setSaveNote(folder ? `已儲存到 ${folder}` : "已儲存遮罩。");
         if (advance) openNextItem();
@@ -644,7 +654,7 @@ export function App({ host }: { host?: HostClient }) {
       const grant = await ensureOutputGrant();
       if (!grant) return;
       const current = useViewStore.getState().snapshot;
-      if (!current?.controls.needs_review) return;
+      if (!current?.controls.needs_review || current.protocol_session_id !== ready.protocol_session_id) return;
       await withSnap((session) =>
         client.sessionsNeedsReview(
           session.protocol_session_id,
@@ -653,6 +663,15 @@ export function App({ host }: { host?: HostClient }) {
           grant,
         ),
       );
+      const reviewed = useViewStore.getState().snapshot;
+      if (
+        reviewed?.protocol_session_id === current.protocol_session_id &&
+        reviewed.workflow_state === "NEEDS_REVIEW" &&
+        reviewed.persist?.kind === "needs_review" &&
+        reviewed.persist.training_eligible === false
+      ) {
+        setSaveNote("待複核資料已儲存，未納入訓練。");
+      }
     })();
   }
 
@@ -1203,6 +1222,23 @@ export function App({ host }: { host?: HostClient }) {
               type="button"
               className="btn accept save-bar-accept"
               disabled={!snapshot.controls.next}
+              onClick={openNextItem}
+            >
+              下一張
+            </button>
+          </div>
+        ) : null}
+        {snapshot?.workflow_state === "NEEDS_REVIEW" && engine === "ready" ? (
+          <div className="save-bar saved review-saved" data-testid="review-saved-bar">
+            <div className="save-bar-copy">
+              <strong>已送交複核</strong>
+              <p>{saveNote || "待複核資料已儲存，未標記為訓練資料。"}</p>
+            </div>
+            <button
+              type="button"
+              className="btn review"
+              data-testid="next-after-review"
+              disabled={!snapshot.controls.next || advancingItem}
               onClick={openNextItem}
             >
               下一張

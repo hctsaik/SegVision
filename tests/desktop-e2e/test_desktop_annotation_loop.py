@@ -79,8 +79,9 @@ def dataset(tmp_path: Path) -> tuple[Path, np.ndarray, np.ndarray]:
 
 
 @pytest.mark.skipif(os.environ.get("SEGVISION_SKIP_PLAYWRIGHT") == "1", reason="playwright disabled")
-def test_desktop_window_open_overlay_and_roi(
-    dataset: tuple[Path, np.ndarray, np.ndarray], tmp_path: Path
+@pytest.mark.parametrize("outcome", ["accept", "needs_review"])
+def test_chromium_open_overlay_roi_and_persisted_outcome(
+    dataset: tuple[Path, np.ndarray, np.ndarray], tmp_path: Path, outcome: str
 ):
     pytest.importorskip("playwright.sync_api")
     dataset_root, expected_rgb, expected_gold = dataset
@@ -269,11 +270,42 @@ def test_desktop_window_open_overlay_and_roi(
             assert hashlib.sha256(actual_mask.tobytes()).hexdigest() == hashlib.sha256(
                 expected_mask.tobytes()
             ).hexdigest()
-            page.get_by_test_id("accept").click()
-            page.wait_for_function(
-                "() => document.querySelector('[data-testid=workflow-state]')?.getAttribute('data-state') === 'ACCEPTED'"
-            )
-            assert list(output.glob("*.json"))
+            if outcome == "accept":
+                page.get_by_test_id("accept").click()
+                page.wait_for_function(
+                    "() => document.querySelector('[data-testid=workflow-state]')?.getAttribute('data-state') === 'ACCEPTED'"
+                )
+                assert list(output.glob("*.json"))
+                assert list(output.glob("*.png"))
+            else:
+                page.get_by_test_id("save-bar-review").click()
+                page.wait_for_function(
+                    "() => document.querySelector('[data-testid=workflow-state]')?.getAttribute('data-state') === 'NEEDS_REVIEW'"
+                )
+                assert page.get_by_test_id("review-saved-bar").is_visible()
+                assert page.get_by_test_id("next-after-review").is_enabled()
+                reviewed = httpx.get(
+                    f"http://127.0.0.1:{sidecar_port}/v1/sessions/{session_id}", headers=headers
+                ).json()
+                assert reviewed["workflow_state"] == "NEEDS_REVIEW"
+                assert reviewed["persist"] == {
+                    "kind": "needs_review",
+                    "training_eligible": False,
+                    "reason": "needs review",
+                }
+                review_path = output / "review" / "part.json"
+                assert review_path.is_file()
+                review_record = json.loads(review_path.read_text(encoding="utf-8"))
+                assert review_record["status"] == "needs_review"
+                assert review_record["training_eligible"] is False
+                assert review_record["reason"] == "needs review"
+                assert not list(output.glob("*.json")), "review must not publish an accepted sidecar"
+                assert not list(output.glob("*.png")), "review must not publish an accepted mask"
+                draft = review_record["draft"]
+                assert draft and draft["filename"]
+                draft_path = output / "review" / draft["filename"]
+                assert draft_path.is_file()
+                assert hashlib.sha256(draft_path.read_bytes()).hexdigest() == draft["sha256"]
             assert not page_errors
             assert not console_errors
             browser.close()
