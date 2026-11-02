@@ -11,9 +11,9 @@ from typing import Any
 
 import numpy as np
 
+from segvision.application.config import HISTORY_MAX_DEPTH
 from segvision.cv.fixed_recipe import CVResult, execute_recipe
 from segvision.providers.base import Backend, EncodedState, RawMask
-from segvision.application.config import HISTORY_MAX_DEPTH
 
 from .candidate_policy import (
     CandidatePolicy,

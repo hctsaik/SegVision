@@ -1,8 +1,7 @@
 import json
 
-import pytest
-
 import numpy as np
+import pytest
 
 from segvision.adapters import (
     AcceptedStore,
@@ -124,6 +123,8 @@ def test_labelme_preview_and_polygon_import_are_deterministic():
 
 
 def test_labelme_import_rejects_unsupported_shape():
+    with pytest.raises(TypeError, match="must be an object"):
+        rasterize_labelme(None, image_width=4, image_height=4)  # type: ignore[arg-type]
     with pytest.raises(ValueError, match="unsupported"):
         rasterize_labelme(
             {"imageWidth": 4, "imageHeight": 4, "shapes": [{"shape_type": "circle", "label": "Defect", "points": [[1, 1]]}]},

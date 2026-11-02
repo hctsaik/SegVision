@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
-from segvision.application.config import DRAFT_SCHEMA_VERSION, DRAFT_RETENTION
+from segvision.application.config import DRAFT_RETENTION, DRAFT_SCHEMA_VERSION
 from segvision.core.errors import PersistenceError
 
 

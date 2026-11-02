@@ -1,5 +1,5 @@
-import pytest
 import numpy as np
+import pytest
 
 from segvision.core.errors import AcceptValidationError, UnsupportedOperation
 from tests.e2e.helpers import make_session

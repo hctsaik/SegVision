@@ -32,12 +32,15 @@ def brush(
         if len(clip_rect) != 4:
             raise ValueError("clip_rect must contain four coordinates")
         try:
-            clip = tuple(int(value) for value in clip_rect)  # type: ignore[assignment]
+            x0 = int(clip_rect[0])
+            y0 = int(clip_rect[1])
+            x1 = int(clip_rect[2])
+            y1 = int(clip_rect[3])
         except (TypeError, ValueError) as exc:
             raise ValueError("clip_rect must contain integer coordinates") from exc
-        if tuple(float(value) for value in clip_rect) != tuple(clip):
+        clip = (x0, y0, x1, y1)
+        if tuple(float(value) for value in clip_rect) != clip:
             raise ValueError("clip_rect must contain integer coordinates")
-        x0, y0, x1, y1 = clip
         h, w = arr.shape
         if x0 < 0 or y0 < 0 or x1 > w or y1 > h or x1 <= x0 or y1 <= y0:
             raise ValueError("clip_rect must be a positive rectangle inside the mask")

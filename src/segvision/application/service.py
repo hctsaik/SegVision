@@ -11,12 +11,17 @@ from typing import Any
 
 import numpy as np
 
-from segvision.adapters.png_sidecar import AcceptedStore, ReviewStore
 from segvision.adapters.drafts import DraftStore
-from segvision.adapters.labelme import clean_mask_for_polygon, labelme_dict, preview_mask, rasterize_labelme
+from segvision.adapters.labelme import (
+    clean_mask_for_polygon,
+    labelme_dict,
+    preview_mask,
+    rasterize_labelme,
+)
+from segvision.adapters.png_sidecar import AcceptedStore, ReviewStore
+from segvision.application.qa import analyze_mask
 from segvision.core.api import AnnotationSession, SegVisionEngine
 from segvision.core.geometry import reconstruct_full_mask
-from segvision.application.qa import analyze_mask
 from segvision.core.recipe import CVRecipe
 from segvision.gui.controller import AnnotationController, WorkflowState
 from segvision.prototype import PrototypeStore
@@ -953,7 +958,7 @@ class DesktopApplication:
             record, mask = self._draft_store_for_dataset(ds).load_with_mask(
                 dataset_id=dataset_id, item_id=item_id, draft_id=draft_id, source_sha256=source_sha
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             raise ProtocolError("validation_failed", str(exc)) from exc
         result: dict[str, Any] = {"dataset_id": dataset_id, "item_id": item_id, "draft": record}
         # When a caller supplies an open session, restore the verified pair
@@ -1234,9 +1239,7 @@ class DesktopApplication:
             drafts = self._draft_store_for_dataset(ds).inspect(dataset_id=dataset_id, item_id=item.item_id)
             valid_draft = any(bool(d.get("valid")) for d in drafts)
             has_invalid = any(not bool(d.get("valid")) for d in drafts)
-            if has_invalid:
-                status = "conflict-or-corrupt"
-            elif item.image_id in corrupt_ids:
+            if has_invalid or item.image_id in corrupt_ids:
                 status = "conflict-or-corrupt"
             elif valid_draft:
                 status = "draft"

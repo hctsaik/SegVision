@@ -28,7 +28,7 @@ class MatchResult:
 def letterbox(rgb: np.ndarray, mask: np.ndarray | None) -> tuple[np.ndarray, np.ndarray | None, float]:
     height, width = rgb.shape[:2]
     scale = DINO_SIZE / max(height, width)
-    nh, nw = max(1, int(round(height * scale))), max(1, int(round(width * scale)))
+    nh, nw = max(1, round(height * scale)), max(1, round(width * scale))
     canvas = np.zeros((DINO_SIZE, DINO_SIZE, 3), dtype=np.uint8)
     canvas[:nh, :nw] = np.asarray(Image.fromarray(rgb).resize((nw, nh), Image.Resampling.BILINEAR))
     out_mask = None
@@ -180,7 +180,7 @@ class PrototypeStore:
             model.eval()
             self._model = model
             return model
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             self._load_error = f"DINOv2 unavailable: {exc}"
             raise RuntimeError(self._load_error) from exc
 

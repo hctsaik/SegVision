@@ -10,8 +10,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from segvision.defaults import DEFAULT_CLASS_ID
 from segvision.application.config import DEFAULT_PROJECT_LABELS
+from segvision.defaults import DEFAULT_CLASS_ID
 
 from .errors import ProtocolError
 

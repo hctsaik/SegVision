@@ -36,4 +36,4 @@ def test_hole_and_one_pixel_bridge_are_reported_once():
     codes = [issue["code"] for issue in result["issues"]]
     assert "ENCLOSED_HOLE" in codes
     assert "ONE_PIXEL_BRIDGE" in codes
-    assert len(codes) == len(set((issue["code"], tuple(issue["bbox"])) for issue in result["issues"]))
+    assert len(codes) == len({(issue["code"], tuple(issue["bbox"])) for issue in result["issues"]})

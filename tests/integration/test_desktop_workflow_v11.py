@@ -9,7 +9,6 @@ from PIL import Image
 
 from segvision.transport.desktop_api.app import create_app
 
-
 SECRET = "workflow-v11-secret"
 
 
@@ -96,7 +95,7 @@ def test_v11_labelme_draft_qa_and_resume(tmp_path: Path):
     assert snapshot["draft"]["state"] == "saved"
 
     qa = client.post(
-        "/v1/sessions/%s/qa" % sid,
+        f"/v1/sessions/{sid}/qa",
         headers=_headers(),
         json={"session_id": sid},
     )

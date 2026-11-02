@@ -14,12 +14,10 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from PIL import Image, ImageDraw
-
-from segvision.defaults import DEFAULT_CLASS_ID
 
 from segvision.core.errors import InvalidMask, PersistenceError
 from segvision.core.mask_ops import fill_holes as fill_mask_holes
+from segvision.defaults import DEFAULT_CLASS_ID
 
 from .png_sidecar import AcceptedStore, PersistedPair
 
@@ -338,7 +336,7 @@ def rasterize_labelme(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Strictly validate and rasterize supported LabelMe polygons."""
     if not isinstance(document, dict):
-        raise ValueError("LabelMe document must be an object")
+        raise TypeError("LabelMe document must be an object")
     try:
         document_width = int(document.get("imageWidth", -1))
         document_height = int(document.get("imageHeight", -1))

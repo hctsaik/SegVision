@@ -66,13 +66,16 @@ def test_local_evaluation_config_requires_matching_authorization(tmp_path):
 
 def test_verified_local_config_selects_mobilesam(monkeypatch, tmp_path):
     digest = "b" * 64
+    revision = "f706ad9c4eb7f219c00d9050e46328518ffb65d2"
     checkpoint = tmp_path / "mobile_sam.pt"
     checkpoint.write_bytes(b"verified-by-constructor-double")
     provenance = tmp_path / "provenance.json"
     provenance.write_text(
         json.dumps(
             {
-                "source_revision": "f706ad9c4eb7f219c00d9050e46328518ffb65d2",
+                "source_repository": "https://github.com/ChaoningZhang/MobileSAM",
+                "source_revision": revision,
+                "source_archive": {"sha256": "a" * 64},
                 "checkpoint": {"sha256": digest},
             }
         ),
@@ -85,7 +88,7 @@ def test_verified_local_config_selects_mobilesam(monkeypatch, tmp_path):
                 "scope": {"local_cpu_evaluation": True},
                 "artifacts": {
                     "checkpoint_sha256": digest,
-                    "source_revision": "f706ad9c4eb7f219c00d9050e46328518ffb65d2",
+                    "source_revision": revision,
                 },
             }
         ),
@@ -104,6 +107,32 @@ def test_verified_local_config_selects_mobilesam(monkeypatch, tmp_path):
             }
         ),
         encoding="utf-8",
+    )
+    package_provenance = tmp_path / "mobile-sam-provenance.json"
+    package_provenance.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "package_name": "mobile-sam",
+                "package_version": "1.0",
+                "source_repository": "https://github.com/ChaoningZhang/MobileSAM",
+                "source_revision": revision,
+                "source_archive_sha256": "a" * 64,
+                "wheel_sha256": "d" * 64,
+                "scope": "local_cpu_evaluation",
+                "release_approved": False,
+            }
+        ),
+        encoding="utf-8",
+    )
+    lock = tmp_path / "api.lock"
+    lock.write_text(f"mobile-sam==1.0 --hash=sha256:{'d' * 64}\n", encoding="utf-8")
+    monkeypatch.setenv("SEGVISION_MOBILESAM_PACKAGE_PROVENANCE", str(package_provenance))
+    monkeypatch.setenv("SEGVISION_MOBILESAM_LOCK", str(lock))
+    monkeypatch.setattr(
+        backend_module,
+        "distribution",
+        lambda _name: type("Package", (), {"version": "1.0", "read_text": lambda self, _: None})(),
     )
     captured = {}
     sentinel = object()
