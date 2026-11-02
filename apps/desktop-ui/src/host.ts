@@ -610,6 +610,14 @@ export function createCimShellHost(baseUrl: string, secret: string): HostClient 
   };
 }
 
+/**
+ * Use the public NativeApp web bridge: same-origin /v1 requests are proxied by
+ * the host, while folder selection is provided by window.cimHost.chooseFile.
+ */
+export function createNativeAppHost(secret: string): HostClient {
+  return createCimShellHost(window.location.origin, secret);
+}
+
 export function resolveHost(): HostClient {
   const w = window as unknown as {
     __SEGVISION_E2E_HOST__?: HostClient;

@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { createE2EHost, createTauriHost, encodeHostPathHeader, pickDirectoryViaCimShell } from "./host";
+import {
+  createE2EHost,
+  createNativeAppHost,
+  createTauriHost,
+  encodeHostPathHeader,
+  pickDirectoryViaCimShell,
+} from "./host";
 
 describe("CIM folder picker", () => {
   it("uses the dialog plugin when custom choose_file is blocked", async () => {
@@ -29,6 +35,60 @@ describe("CIM folder picker", () => {
         chooseFile: async () => ({ canceled: false, paths: ["D:\\out"] }),
       };
     await expect(pickDirectoryViaCimShell()).resolves.toBe("D:\\out");
+  });
+
+  it("uses the public same-origin NativeApp proxy with the launch secret in a header", async () => {
+    const dataset = "C:\\資料\\capsule";
+    const launchSecret = "nativeapp-test-secret";
+    const chooseFile = vi.fn(async () => ({ canceled: false, paths: [dataset] }));
+    const hostWindow = window as unknown as {
+      cimHost?: { chooseFile: typeof chooseFile };
+      NATIVEAPP_LOCAL_API?: string;
+      __TAURI_INTERNALS__?: unknown;
+      __TAURI__?: unknown;
+    };
+    const previous = {
+      cimHost: hostWindow.cimHost,
+      localApi: hostWindow.NATIVEAPP_LOCAL_API,
+      tauriInternals: hostWindow.__TAURI_INTERNALS__,
+      tauri: hostWindow.__TAURI__,
+    };
+    delete hostWindow.__TAURI_INTERNALS__;
+    delete hostWindow.__TAURI__;
+    hostWindow.NATIVEAPP_LOCAL_API = "";
+    hostWindow.cimHost = { chooseFile };
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL, _init?: RequestInit) =>
+      new Response(JSON.stringify({ ready: true, setup_state: "ready" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const host = createNativeAppHost(launchSecret);
+      await expect(host.pickerOpenFolder("dataset")).resolves.toEqual({
+        grant_id: "dataset",
+        display_name: "capsule",
+      });
+      await host.engineHealth();
+
+      expect(chooseFile).toHaveBeenCalledWith({ properties: ["openDirectory"] });
+      expect(String(fetchMock.mock.calls[0]?.[0])).toBe(`${window.location.origin}/v1/health`);
+      expect(String(fetchMock.mock.calls[0]?.[0])).not.toContain(launchSecret);
+      const headers = fetchMock.mock.calls[0]?.[1]?.headers as Record<string, string>;
+      expect(headers["X-SegVision-Launch-Secret"]).toBe(launchSecret);
+      expect(headers["X-SegVision-Resolved-Path"]).toBe(encodeHostPathHeader(dataset));
+    } finally {
+      vi.unstubAllGlobals();
+      if (previous.cimHost === undefined) delete hostWindow.cimHost;
+      else hostWindow.cimHost = previous.cimHost;
+      if (previous.localApi === undefined) delete hostWindow.NATIVEAPP_LOCAL_API;
+      else hostWindow.NATIVEAPP_LOCAL_API = previous.localApi;
+      if (previous.tauriInternals === undefined) delete hostWindow.__TAURI_INTERNALS__;
+      else hostWindow.__TAURI_INTERNALS__ = previous.tauriInternals;
+      if (previous.tauri === undefined) delete hostWindow.__TAURI__;
+      else hostWindow.__TAURI__ = previous.tauri;
+    }
   });
 
   it("percent-encodes non-ASCII folder paths so fetch can send them", async () => {

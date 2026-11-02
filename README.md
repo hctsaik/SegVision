@@ -2,6 +2,8 @@
 
 SegVision is a CPU-first image annotation tool under active development. Its UI is built with React and Vite, the desktop host uses Tauri 2, and segmentation and persistence remain in the Python application and sidecar.
 
+The same React build can also run under NativeApp's public `http-v1` web host: the UI uses same-origin `/v1` requests and `cimHost` folder selection while the Python sidecar keeps ownership of local model work.
+
 ## Project layout
 
 - `apps/desktop-ui/` — React interface and browser-based UI tests

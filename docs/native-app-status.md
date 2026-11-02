@@ -28,7 +28,7 @@ SegVision 是 **Windows x64、CPU-only、離線** 的靜態圖二值標註工具
 ```text
 操作者
   → React UI（apps/desktop-ui）顯示與未提交預覽
-  → Tauri 2 Host（apps/desktop-host）視窗、資料夾授權、sidecar 生命週期
+  → Tauri 2 Host（apps/desktop-host），或 NativeApp 公開 HTTP web host（同源 /v1 proxy、cimHost 資料夾選擇）
   → Python sidecar（127.0.0.1 隨機 port）
   → 既有 SegVision core / fake 或 MobileSAM / PNG+JSON 持久化
 ```
@@ -70,8 +70,9 @@ segvision pyside6
 | OpenSpec change `adopt-react-tauri-desktop`（proposal / design / specs / tasks） | 規格齊，`openspec validate` 曾通過 |
 | 桌面協定 1.1（含 `lock_roi` / `select` / `undo` / `close` 等） | 已落地 |
 | Python sidecar（health、資料集、session、binary asset、Accept / Review） | 已落地 |
-| React UI + Vitest | 66 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
+| React UI + Vitest | 67 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
 | Chromium Playwright E2E | `tests/desktop-e2e` 驗證受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash；另分別驗證 Accept PNG+sidecar 與 Needs Review metadata/draft/hash、`training_eligible=false` 且沒有 accepted pair。這是 Chromium+Vite，不是真實 Tauri 視窗 |
+| NativeApp 公開 web-host E2E | `test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow` 經 NativeApp SegVision wrapper、React dist、同源 `/v1` proxy、合成資料夾 picker 與 fake backend 開啟影像並走完 ROI／候選選取；2026-11-02 本機 1 項通過。此 opt-in case 不含真模型、OS picker 或發布包 |
 | Tauri host 編譯與資產 proxy | `cargo test` 3 項通過；`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin、output grant proxy 與 cursor command 編譯驗證 |
 | 預設啟動改為 Native App | `segvision-gui` → `segvision.desktop:main` |
 
@@ -86,6 +87,7 @@ segvision pyside6
 5. **資料集已按 cursor 續載**：React 清單顯示已載入／總數，可逐頁載入；「下一張」會跨頁尋找未完成項目。搜尋或狀態篩選時可按「載入完整清單後套用篩選」，續載剩餘項目摘要後再篩選；分頁失敗會顯示清單錯誤並保留重試操作。一般瀏覽仍逐頁載入，避免一開始讀入整份清單。
 6. **沒有離線安裝包 / 乾淨 VM 驗收。**
 7. OpenSpec `tasks.md` 仍幾乎全是未勾選；parity 未過時就把預設切到 Native App，是依你後來的指示，與原規格「先對等再切預設」不一致。
+8. NativeApp web-host browser journey 目前使用 fake backend 和合成 picker；既有 MobileSAM 真模型證據仍是 API／草稿流程，尚未在此 React web-host journey 驗證真模型互動。
 
 結論：**Chromium 自動化標註流程現在可重現且可檢查；Native Tauri 視窗仍不是可宣告完成或可發布的穩定工具。**
 
@@ -144,7 +146,18 @@ python -m pytest tests/desktop-e2e -q
 
 會起 sidecar + Vite，用 Playwright 開資料集、選 output grant、點 ROI 兩個角、驗證 candidate overlay，並分別走 Accept 與 Needs Review。Accept 必須輸出 PNG+sidecar；Needs Review 必須輸出 `review/` metadata 與 hash 對應 draft，標記 `training_eligible=false`，且不得在輸出根目錄產生 accepted pair。測試會檢查受保護 source／gold／candidate PNG、160×120 的真實影像尺寸、畫布疊圖像素、sidecar authoritative ROI 與 candidate mask hash。這**不證明** Tauri 檔案選擇器與 `segvision-asset://` 的實際視窗整合。
 
-### 5.4 Native App 手動 smoke
+### 5.4 NativeApp 公開 web-host E2E（opt-in）
+
+先建置 React dist，並將 `NATIVEAPP_V2_ROOT` 設為 NativeApp v2 checkout；再以 SegVision 的 `.venv` 執行：
+
+```powershell
+$env:NATIVEAPP_V2_ROOT = 'C:\work\nativeApp_v2'
+.\.venv\Scripts\python.exe -m pytest tests\desktop-e2e\test_desktop_annotation_loop.py::test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow -q
+```
+
+這會啟動既有 NativeApp SegVision HTTP host 和真實 Python sidecar，由 Playwright 操作 React dist。測試固定使用 fake backend 與合成 `cimHost.chooseFile`，驗證同源 `/v1`、資料集開啟、ROI 提案與候選選取；不會開啟作業系統 picker，也不證明 MobileSAM 或發布包已通過。
+
+### 5.5 Native App 手動 smoke
 
 ```powershell
 npm --prefix apps\desktop-host run dev
@@ -172,7 +185,7 @@ npm --prefix apps\desktop-host run dev:cim
 
 若點了 Open dataset 沒有檔案清單：先看畫面上的錯誤列；常見原因是選到超過一層的資料夾，或 host invoke 失敗。必要時再看 `tauri-dev.err.log`。
 
-### 5.5 既有 v1 Python / PySide 回歸（不應被 Native App 改壞）
+### 5.6 既有 v1 Python / PySide 回歸（不應被 Native App 改壞）
 
 ```powershell
 python -m pytest tests/unit/test_import_contract.py tests/gui tests/unit/test_core_smoke.py -q

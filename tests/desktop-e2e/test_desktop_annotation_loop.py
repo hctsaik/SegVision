@@ -312,3 +312,138 @@ def test_chromium_open_overlay_roi_and_persisted_outcome(
     finally:
         _stop(sidecar)
         _stop(ui)
+
+
+@pytest.mark.skipif(
+    not os.environ.get("NATIVEAPP_V2_ROOT"),
+    reason="set NATIVEAPP_V2_ROOT to run the public NativeApp web-host journey",
+)
+def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow(
+    dataset: tuple[Path, np.ndarray, np.ndarray], tmp_path: Path
+):
+    """Exercise the built React UI through NativeApp's public same-origin web host."""
+    pytest.importorskip("playwright.sync_api")
+    dataset_root, _expected_rgb, _expected_gold = dataset
+    nativeapp_root = Path(os.environ["NATIVEAPP_V2_ROOT"]).expanduser().resolve()
+    wrapper = nativeapp_root / "integrations" / "segvision" / "http_server.py"
+    if not wrapper.is_file():
+        pytest.fail(f"NativeApp SegVision integration host is missing: {wrapper}")
+    ui_dist = UI / "dist"
+    if not (ui_dist / "index.html").is_file():
+        pytest.fail(f"Build SegVision React before this E2E: {ui_dist}")
+
+    output = tmp_path / "nativeapp-output"
+    output.mkdir()
+    host_port = _free_port()
+    host_url = f"http://127.0.0.1:{host_port}"
+    log_path = tmp_path / "nativeapp-segvision-host.log"
+    env = os.environ.copy()
+    env.update(
+        {
+            "CUDA_VISIBLE_DEVICES": "-1",
+            "SEGVISION_SOURCE": str(ROOT),
+            "SEGVISION_UI_DIST": str(ui_dist),
+            "SEGVISION_DATASET": str(dataset_root),
+            "SEGVISION_OUTPUT": str(output),
+            "SEGVISION_PREFER_REAL": "0",
+        }
+    )
+    with log_path.open("w", encoding="utf-8") as log_file:
+        host = subprocess.Popen(
+            [
+                sys.executable,
+                str(wrapper),
+                "--host",
+                "127.0.0.1",
+                "--port",
+                str(host_port),
+                "--root",
+                str(ROOT),
+            ],
+            cwd=str(nativeapp_root),
+            env=env,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+        )
+    try:
+        try:
+            _wait_http(host_url + "/health", timeout=45)
+        except RuntimeError as exc:
+            detail = log_path.read_text(encoding="utf-8", errors="replace")
+            raise RuntimeError(f"NativeApp SegVision web host failed to start:\n{detail}") from exc
+
+        from playwright.sync_api import expect, sync_playwright
+
+        with sync_playwright() as playwright:
+            browser = playwright.chromium.launch()
+            page = browser.new_page()
+            requests: list[str] = []
+            responses: list[tuple[str, int, str]] = []
+            page_errors: list[str] = []
+            page.on("request", lambda request: requests.append(request.url) if "/v1/" in request.url else None)
+            page.on(
+                "response",
+                lambda response: responses.append((response.url, response.status, response.text()))
+                if "/v1/" in response.url
+                else None,
+            )
+            page.on("pageerror", lambda error: page_errors.append(str(error)))
+            page.goto(host_url)
+            expect(page.get_by_test_id("open-dataset")).to_be_visible()
+            assert page.evaluate("window.NATIVEAPP_LOCAL_API") == ""
+            assert page.evaluate("Boolean(window.__SEGVISION_CIM_HOST__)") is True
+
+            picks = [str(dataset_root), str(output)]
+            page.evaluate(
+                """(paths) => {
+                    const queue = [...paths];
+                    window.cimHost.chooseFile = async () => ({ canceled: false, paths: [queue.shift()] });
+                }""",
+                picks,
+            )
+            page.get_by_test_id("open-dataset").click()
+            try:
+                expect(page.get_by_text("part.png")).to_be_visible(timeout=10_000)
+            except AssertionError as exc:
+                raise AssertionError(
+                    f"Dataset list did not render. UI text: {page.locator('body').inner_text()}; "
+                    f"API responses: {responses}"
+                ) from exc
+            page.get_by_text("part.png").click()
+            page.get_by_test_id("choose-output").click()
+            expect(page.get_by_test_id("output-grant")).to_be_visible()
+            page.wait_for_selector('[data-testid="workflow-state"][data-state="IMAGE_OPEN"]')
+
+            canvas = page.get_by_test_id("annotation-canvas")
+            page.wait_for_function(
+                """() => {
+                    const canvas = document.querySelector('[data-testid=annotation-canvas]');
+                    return canvas?.getAttribute('data-image-width') === '160'
+                        && canvas?.getAttribute('data-image-height') === '120';
+                }"""
+            )
+            box = canvas.bounding_box()
+            assert box
+            viewport = canvas.evaluate(
+                """(node) => ({
+                    zoom: Number(node.getAttribute('data-zoom')),
+                    panX: Number(node.getAttribute('data-pan-x')),
+                    panY: Number(node.getAttribute('data-pan-y')),
+                })"""
+            )
+            point = lambda x, y: (
+                box["x"] + viewport["panX"] + (x + 0.5) * viewport["zoom"],
+                box["y"] + viewport["panY"] + (y + 0.5) * viewport["zoom"],
+            )
+            page.get_by_test_id("tool-roi").click()
+            page.mouse.click(*point(70, 50))
+            page.mouse.click(*point(130, 95))
+            expect(page.get_by_test_id("candidate-1")).to_be_visible(timeout=30_000)
+            page.get_by_test_id("candidate-1").click()
+            assert requests
+            unexpected = [url for url in requests if not url.startswith(host_url + "/v1/")]
+            assert not unexpected, unexpected
+            assert not page_errors
+            browser.close()
+    finally:
+        _stop(host)

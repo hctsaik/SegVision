@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
-import { createCimShellHost, createE2EHost } from "./host";
+import { createCimShellHost, createE2EHost, createNativeAppHost } from "./host";
 import { useViewStore } from "./store";
 import "./styles.css";
 
@@ -11,6 +11,8 @@ const hostWindow = window as unknown as {
   __SEGVISION_E2E_HOST__?: unknown;
   __SEGVISION_CIM_HOST__?: unknown;
   __SEGVISION_NATIVEAPP__?: { sidecarUrl?: string; secret?: string };
+  NATIVEAPP_LOCAL_API?: string;
+  cimHost?: { chooseFile?: (options: { properties?: string[] }) => Promise<unknown> };
   __SEGVISION_E2E__?: {
     setViewport: (viewport: { zoom: number; panX: number; panY: number; dpr: number }) => void;
     getViewport: () => { zoom: number; panX: number; panY: number; dpr: number };
@@ -28,6 +30,12 @@ if (import.meta.env.DEV && params.get("e2e") === "1") {
     getViewport: () => useViewStore.getState().viewport,
     getViewSize: () => useViewStore.getState().viewSize,
   };
+} else if (
+  hostWindow.NATIVEAPP_LOCAL_API === "" &&
+  typeof hostWindow.cimHost?.chooseFile === "function" &&
+  hostWindow.__SEGVISION_NATIVEAPP__?.secret
+) {
+  hostWindow.__SEGVISION_CIM_HOST__ = createNativeAppHost(hostWindow.__SEGVISION_NATIVEAPP__.secret);
 } else if (
   params.get("host") === "cim" &&
   hostWindow.__SEGVISION_NATIVEAPP__?.sidecarUrl &&
