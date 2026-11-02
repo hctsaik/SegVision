@@ -334,6 +334,7 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
 
     output = tmp_path / "nativeapp-output"
     output.mkdir()
+    use_real_model = os.environ.get("SEGVISION_TEST_PREFER_REAL") == "1"
     host_port = _free_port()
     host_url = f"http://127.0.0.1:{host_port}"
     log_path = tmp_path / "nativeapp-segvision-host.log"
@@ -345,9 +346,17 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
             "SEGVISION_UI_DIST": str(ui_dist),
             "SEGVISION_DATASET": str(dataset_root),
             "SEGVISION_OUTPUT": str(output),
-            "SEGVISION_PREFER_REAL": "0",
+            "SEGVISION_PREFER_REAL": "1" if use_real_model else "0",
         }
     )
+    if use_real_model:
+        model_config = os.environ.get("SEGVISION_TEST_MOBILESAM_CONFIG")
+        if not model_config:
+            pytest.fail("set SEGVISION_TEST_MOBILESAM_CONFIG to the authorized local-evaluation config")
+        model_config_path = Path(model_config).expanduser().resolve()
+        if not model_config_path.is_file():
+            pytest.fail(f"MobileSAM local-evaluation config is missing: {model_config_path}")
+        env["SEGVISION_MOBILESAM_CONFIG"] = str(model_config_path)
     with log_path.open("w", encoding="utf-8") as log_file:
         host = subprocess.Popen(
             [
@@ -367,7 +376,7 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
         )
     try:
         try:
-            _wait_http(host_url + "/health", timeout=45)
+            _wait_http(host_url + "/health", timeout=240 if use_real_model else 45)
         except RuntimeError as exc:
             detail = log_path.read_text(encoding="utf-8", errors="replace")
             raise RuntimeError(f"NativeApp SegVision web host failed to start:\n{detail}") from exc
@@ -392,6 +401,11 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
             expect(page.get_by_test_id("open-dataset")).to_be_visible()
             assert page.evaluate("window.NATIVEAPP_LOCAL_API") == ""
             assert page.evaluate("Boolean(window.__SEGVISION_CIM_HOST__)") is True
+            if use_real_model:
+                health = page.evaluate("async () => await window.__SEGVISION_CIM_HOST__.engineHealth()")
+                assert health["backend"]["name"] == "mobilesam", health
+                assert health["backend"]["approval_scope"] == "local_evaluation", health
+                assert health["backend"]["release_approved"] is False, health
 
             picks = [str(dataset_root), str(output)]
             page.evaluate(
