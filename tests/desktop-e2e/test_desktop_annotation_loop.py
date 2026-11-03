@@ -324,6 +324,12 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
     """Exercise the built React UI through NativeApp's public same-origin web host."""
     pytest.importorskip("playwright.sync_api")
     dataset_root, _expected_rgb, _expected_gold = dataset
+    source_hashes = {
+        path.relative_to(dataset_root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in dataset_root.iterdir()
+        if path.is_file()
+    }
+    assert source_hashes, "the fixture must contain source files to protect"
     nativeapp_root = Path(os.environ["NATIVEAPP_V2_ROOT"]).expanduser().resolve()
     wrapper = nativeapp_root / "integrations" / "segvision" / "http_server.py"
     if not wrapper.is_file():
@@ -357,23 +363,27 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
         if not model_config_path.is_file():
             pytest.fail(f"MobileSAM local-evaluation config is missing: {model_config_path}")
         env["SEGVISION_MOBILESAM_CONFIG"] = str(model_config_path)
-    with log_path.open("w", encoding="utf-8") as log_file:
-        host = subprocess.Popen(
-            [
-                sys.executable,
-                str(wrapper),
-                "--host",
-                "127.0.0.1",
-                "--port",
-                str(host_port),
-                "--root",
-                str(ROOT),
-            ],
-            cwd=str(nativeapp_root),
-            env=env,
-            stdout=log_file,
-            stderr=subprocess.STDOUT,
-        )
+
+    def start_host(log_mode: str) -> subprocess.Popen[str]:
+        with log_path.open(log_mode, encoding="utf-8") as log_file:
+            return subprocess.Popen(
+                [
+                    sys.executable,
+                    str(wrapper),
+                    "--host",
+                    "127.0.0.1",
+                    "--port",
+                    str(host_port),
+                    "--root",
+                    str(ROOT),
+                ],
+                cwd=str(nativeapp_root),
+                env=env,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+
+    host = start_host("w")
     try:
         try:
             _wait_http(host_url + "/health", timeout=240 if use_real_model else 45)
@@ -462,7 +472,8 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
 
             sidecars = list(output.glob("*.json"))
             assert len(sidecars) == 1, sidecars
-            record = json.loads(sidecars[0].read_text(encoding="utf-8"))
+            sidecar_bytes = sidecars[0].read_bytes()
+            record = json.loads(sidecar_bytes)
             assert record["status"] == "accepted"
             assert record["training_eligible"] is True
             assert record["image"]["image_id"] == "part"
@@ -475,6 +486,50 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
             assert set(np.unique(accepted_mask).tolist()) <= {0, 255}
             assert np.any(accepted_mask)
             assert requests
+            unexpected = [url for url in requests if not url.startswith(host_url + "/v1/")]
+            assert not unexpected, unexpected
+            assert not page_errors
+
+            first_host_pid = host.pid
+            _stop(host)
+            host.wait(timeout=15)
+            assert host.poll() is not None
+            host = start_host("a")
+            try:
+                _wait_http(host_url + "/health", timeout=240 if use_real_model else 45)
+            except RuntimeError as exc:
+                detail = log_path.read_text(encoding="utf-8", errors="replace")
+                raise RuntimeError(f"Restarted NativeApp SegVision web host failed to start:\n{detail}") from exc
+            assert host.pid != first_host_pid
+
+            page.goto(host_url)
+            expect(page.get_by_test_id("open-dataset")).to_be_visible()
+            assert page.evaluate("window.NATIVEAPP_LOCAL_API") == ""
+            assert page.evaluate("Boolean(window.__SEGVISION_CIM_HOST__)") is True
+            picks = [str(dataset_root), str(output)]
+            page.evaluate(
+                """(paths) => {
+                    const queue = [...paths];
+                    window.cimHost.chooseFile = async () => ({ canceled: false, paths: [queue.shift()] });
+                }""",
+                picks,
+            )
+            page.get_by_test_id("open-dataset").click()
+            expect(page.get_by_text("part.png")).to_be_visible(timeout=10_000)
+            page.get_by_text("part.png").click()
+            page.get_by_test_id("choose-output").click()
+            expect(page.get_by_test_id("output-grant")).to_be_visible()
+            expect(page.get_by_test_id("work-progress")).to_contain_text("已接受 1", timeout=10_000)
+
+            reopened_sidecars = list(output.glob("*.json"))
+            assert len(reopened_sidecars) == 1, reopened_sidecars
+            assert reopened_sidecars[0].read_bytes() == sidecar_bytes
+            assert mask_path.read_bytes() == mask_bytes
+            assert hashlib.sha256(mask_path.read_bytes()).hexdigest() == record["mask"]["sha256"]
+            for relative_path, expected_hash in source_hashes.items():
+                source_path = dataset_root / relative_path
+                assert source_path.is_file()
+                assert hashlib.sha256(source_path.read_bytes()).hexdigest() == expected_hash
             unexpected = [url for url in requests if not url.startswith(host_url + "/v1/")]
             assert not unexpected, unexpected
             assert not page_errors
