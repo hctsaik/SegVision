@@ -1,6 +1,6 @@
 # SegVision 功能、進度與測試說明
 
-> 日期：2026-11-03
+> 日期：2026-11-04
 >
 > 這份文件記錄**現況**，不是完成宣告。Chromium Playwright 流程已有可重現的影像／ROI／遮罩／Accept 持久化驗證；真正 Tauri 視窗仍未完成同等 E2E。
 
@@ -70,7 +70,7 @@ segvision pyside6
 | OpenSpec change `adopt-react-tauri-desktop`（proposal / design / specs / tasks） | 規格齊，`openspec validate` 曾通過 |
 | 桌面協定 1.1（含 `lock_roi` / `select` / `undo` / `close` 等） | 已落地 |
 | Python sidecar（health、資料集、session、binary asset、Accept / Review） | 已落地 |
-| React UI + Vitest | 68 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋、選擇輸出資料夾後刷新目前清單的工作狀態，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
+| React UI + Vitest | 2026-11-04 在此分支重跑 `npm --prefix apps/desktop-ui test`：6 個測試檔、68/68 通過；`npm --prefix apps/desktop-ui run build` 正式建置通過。涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋、選擇輸出資料夾後刷新目前清單的工作狀態，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
 | Chromium Playwright E2E | `tests/desktop-e2e` 驗證受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash；另分別驗證 Accept PNG+sidecar 與 Needs Review metadata/draft/hash、`training_eligible=false` 且沒有 accepted pair。這是 Chromium+Vite，不是真實 Tauri 視窗 |
 | NativeApp 公開 web-host E2E | 2026-11-04 source 可見旅程經 NativeApp SegVision wrapper、React dist、同源 `/v1` proxy 與合成資料夾 picker，走完 ROI、候選及 Accept，再停止 host 並以不同 PID 重啟。Chromium 重開 React、重新選資料集與輸出資料夾後，畫面仍顯示「已接受 1」；PNG 與 sidecar bytes／hash 完全相同，fixture 原始檔 hash 不變。fake backend `1 passed`（11.56 秒）；opt-in MobileSAM CPU local-evaluation `1 passed`（CPython 3.11.9 AMD64、CPU PyTorch 2.7.1，36.87 秒），checkpoint SHA-256 `6dbb90523a35330fedd7f1d3dfc66f995213d81b29a5ca8108dbcdd4e37d6c2f`，health 明示 local evaluation／release not approved。這是來源版 React／API host 證據，不是 packaged release；使用合成影像與資料夾 picker。OS picker、真實 Tauri 視窗及發布包仍未驗。`test_work_status_reloads_accepted_output_root_after_service_restart` 仍另驗 sidecar 的輸出根目錄狀態讀回 |
 | Tauri host 編譯與資產 proxy | `cargo test` 3 項通過；`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin、output grant proxy 與 cursor command 編譯驗證 |
