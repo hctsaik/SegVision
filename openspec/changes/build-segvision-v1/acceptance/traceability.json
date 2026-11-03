@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "change_id": "build-segvision-v1",
-  "specs_sha256": "088674107cd1c6100234e03bee633ff7bdb54de4667378a35dc48d54785778de",
+  "specs_sha256": "75325985d1a46885586b5f1992ea664798ba8d3dc32690c05f7f8c88b6db12d0",
   "entries": [
     {
       "capability": "acceptance-observability",
