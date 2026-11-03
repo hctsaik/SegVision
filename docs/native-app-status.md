@@ -72,7 +72,7 @@ segvision pyside6
 | Python sidecar（health、資料集、session、binary asset、Accept / Review） | 已落地 |
 | React UI + Vitest | 68 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋、選擇輸出資料夾後刷新目前清單的工作狀態，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
 | Chromium Playwright E2E | `tests/desktop-e2e` 驗證受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash；另分別驗證 Accept PNG+sidecar 與 Needs Review metadata/draft/hash、`training_eligible=false` 且沒有 accepted pair。這是 Chromium+Vite，不是真實 Tauri 視窗 |
-| NativeApp 公開 web-host E2E | 2026-11-03 fake-backend 可見旅程經 NativeApp SegVision wrapper、React dist、同源 `/v1` proxy 與合成資料夾 picker，走完 ROI、候選、Accept，並核對 PNG／sidecar、mask SHA-256 與清單已接受狀態（`1 passed`，53.45 秒）。`test_work_status_reloads_accepted_output_root_after_service_restart` 另確認新 service process 選定輸出資料夾後可讀回 accepted 狀態。Opt-in MobileSAM local-evaluation 的既有證據涵蓋 ROI／候選；尚未以真模型重跑新增的 Accept 流程。OS picker 與發布包仍未驗 |
+| NativeApp 公開 web-host E2E | 2026-11-03 fake-backend 可見旅程經 NativeApp SegVision wrapper、React dist、同源 `/v1` proxy 與合成資料夾 picker，走完 ROI、候選、Accept，並核對 PNG／sidecar、mask SHA-256 與清單已接受狀態（`1 passed`，53.45 秒）。2026-11-04 opt-in MobileSAM local-evaluation 同一條旅程亦通過（CPython 3.11.9 AMD64、CPU PyTorch 2.7.1；`1 passed`，123.97 秒）：checkpoint SHA-256 `6dbb90523a35330fedd7f1d3dfc66f995213d81b29a5ca8108dbcdd4e37d6c2f`，health 明示 local evaluation／release not approved；React UI 完成 ROI、候選及 Accept，核對 PNG／sidecar、mask hash、尺寸與非空內容。測試使用合成資料夾 picker，不含真實業務影像。`test_work_status_reloads_accepted_output_root_after_service_restart` 另確認新 service process 選定輸出資料夾後可讀回 accepted 狀態。OS picker、Tauri 視窗與發布包仍未驗 |
 | Tauri host 編譯與資產 proxy | `cargo test` 3 項通過；`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin、output grant proxy 與 cursor command 編譯驗證 |
 | 預設啟動改為 Native App | `segvision-gui` → `segvision.desktop:main` |
 
@@ -87,7 +87,7 @@ segvision pyside6
 5. **資料集已按 cursor 續載**：React 清單顯示已載入／總數，可逐頁載入；「下一張」會跨頁尋找未完成項目。搜尋或狀態篩選時可按「載入完整清單後套用篩選」，續載剩餘項目摘要後再篩選；分頁失敗會顯示清單錯誤並保留重試操作。選擇輸出資料夾及儲存 Accept／Needs Review 後會刷新已載入項目的狀態。一般瀏覽仍逐頁載入，避免一開始讀入整份清單。
 6. **沒有離線安裝包 / 乾淨 VM 驗收。**
 7. OpenSpec `tasks.md` 仍幾乎全是未勾選；parity 未過時就把預設切到 Native App，是依你後來的指示，與原規格「先對等再切預設」不一致。
-8. NativeApp web-host fake 模式已有合成影像 ROI／候選／Accept、輸出檔案雜湊與清單狀態驗收。Opt-in MobileSAM local-evaluation 既有證據仍是 ROI／候選旅程，未包含本次新增的 Accept 驗收；兩者都使用合成 picker 與 fixture，不代表真實業務影像品質、OS picker、Tauri 視窗或發布包通過。
+8. NativeApp web-host 的 fake backend 與 opt-in MobileSAM local-evaluation 都已通過合成影像 ROI／候選／Accept 可見旅程，並核對輸出檔案雜湊與清單狀態；MobileSAM checkpoint 僅限 local evaluation，未獲 release approval。兩者都使用合成 picker 與 fixture，不代表真實業務影像品質、OS picker、Tauri 視窗或發布包通過。
 
 結論：**Chromium 自動化標註流程現在可重現且可檢查；Native Tauri 視窗仍不是可宣告完成或可發布的穩定工具。**
 
