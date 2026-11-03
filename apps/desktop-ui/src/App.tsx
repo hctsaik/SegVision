@@ -415,6 +415,27 @@ export function App({ host }: { host?: HostClient }) {
     }
   }
 
+  async function refreshDatasetWorkStatus(
+    datasetId: string | null,
+    requestEpoch = datasetEpoch.current,
+  ): Promise<void> {
+    if (!datasetId || !client.datasetsWorkStatus) return;
+    try {
+      const status = await client.datasetsWorkStatus(datasetId);
+      const latest = useViewStore.getState();
+      if (requestEpoch !== datasetEpoch.current || latest.datasetId !== datasetId) return;
+      latest.refreshDatasetItemStatuses(status.items);
+      setDatasetPageError(null);
+    } catch (error) {
+      if (
+        requestEpoch === datasetEpoch.current &&
+        useViewStore.getState().datasetId === datasetId
+      ) {
+        setDatasetPageError(operatorMessage(error));
+      }
+    }
+  }
+
   async function openDataset() {
     const epoch = ++navigationEpoch.current;
     const openEpoch = ++datasetEpoch.current;
@@ -449,6 +470,7 @@ export function App({ host }: { host?: HostClient }) {
       const grant = await client.pickerOpenFolder("output");
       if (epoch !== outputPickerEpoch.current) return false;
       setOutputGrant(grant.grant_id, grant.display_name);
+      await refreshDatasetWorkStatus(useViewStore.getState().datasetId);
       return true;
     } catch (error) {
       if (epoch === outputPickerEpoch.current) setUiError(operatorMessage(error));
@@ -638,6 +660,7 @@ export function App({ host }: { host?: HostClient }) {
         ) {
           return;
         }
+        await refreshDatasetWorkStatus(useViewStore.getState().datasetId);
         const folder = useViewStore.getState().outputDisplayName;
         setSaveNote(folder ? `已儲存到 ${folder}` : "已儲存遮罩。");
         if (advance) openNextItem();
@@ -670,6 +693,7 @@ export function App({ host }: { host?: HostClient }) {
         reviewed.persist?.kind === "needs_review" &&
         reviewed.persist.training_eligible === false
       ) {
+        await refreshDatasetWorkStatus(useViewStore.getState().datasetId);
         setSaveNote("待複核資料已儲存，未納入訓練。");
       }
     })();

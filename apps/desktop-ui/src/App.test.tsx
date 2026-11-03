@@ -134,6 +134,35 @@ describe("App", () => {
     expect(screen.getByTestId("region-empty")).toHaveTextContent(/點兩個角建立黃框/);
   });
 
+  it("refreshes visible work status after selecting the output folder", async () => {
+    useViewStore.setState({
+      snapshot: null,
+      grantId: null,
+      datasetId: null,
+      items: [],
+      currentItemId: null,
+      uiError: null,
+      outputGrantId: null,
+      outputDisplayName: null,
+    });
+    const client = host(snap({ workflow_state: "IMAGE_OPEN", revision: 0, candidates: [] }));
+    client.datasetsWorkStatus = vi.fn(async () => ({
+      dataset_id: "d",
+      items: [{ item_id: "i1", status: "accepted" as const }],
+      counts: { accepted: 1, draft: 0, "needs-review": 0, unstarted: 0 },
+      total: 1,
+    }));
+    render(<App host={client} />);
+
+    await userEvent.click(screen.getByTestId("open-dataset"));
+    expect(await screen.findByTestId("item-status-i1")).toHaveTextContent("unstarted");
+    await userEvent.click(screen.getByTestId("choose-output"));
+
+    await waitFor(() => expect(screen.getByTestId("item-status-i1")).toHaveTextContent("accepted"));
+    expect(client.datasetsWorkStatus).toHaveBeenCalledWith("d");
+    expect(screen.getByTestId("work-progress")).toHaveTextContent("已接受 1");
+  });
+
   it("loads additional dataset pages and reports loaded versus total items", async () => {
     useViewStore.setState({
       snapshot: null,

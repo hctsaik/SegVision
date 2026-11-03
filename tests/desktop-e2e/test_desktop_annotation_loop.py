@@ -454,6 +454,26 @@ def test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow
             page.mouse.click(*point(130, 95))
             expect(page.get_by_test_id("candidate-1")).to_be_visible(timeout=30_000)
             page.get_by_test_id("candidate-1").click()
+            page.get_by_test_id("accept").click()
+            expect(page.get_by_test_id("workflow-state")).to_have_attribute(
+                "data-state", "ACCEPTED", timeout=30_000
+            )
+            expect(page.get_by_test_id("work-progress")).to_contain_text("已接受 1", timeout=30_000)
+
+            sidecars = list(output.glob("*.json"))
+            assert len(sidecars) == 1, sidecars
+            record = json.loads(sidecars[0].read_text(encoding="utf-8"))
+            assert record["status"] == "accepted"
+            assert record["training_eligible"] is True
+            assert record["image"]["image_id"] == "part"
+            mask_path = output / record["mask"]["filename"]
+            assert mask_path.is_file()
+            mask_bytes = mask_path.read_bytes()
+            assert hashlib.sha256(mask_bytes).hexdigest() == record["mask"]["sha256"]
+            accepted_mask = np.asarray(Image.open(io.BytesIO(mask_bytes)).convert("L"))
+            assert accepted_mask.shape == (120, 160)
+            assert set(np.unique(accepted_mask).tolist()) <= {0, 255}
+            assert np.any(accepted_mask)
             assert requests
             unexpected = [url for url in requests if not url.startswith(host_url + "/v1/")]
             assert not unexpected, unexpected

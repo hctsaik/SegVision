@@ -124,6 +124,83 @@ def test_open_list_and_binary_assets(client: TestClient, dataset: Path):
     assert set(np.unique(pixels).tolist()) <= {0, 255}
 
 
+def test_work_status_reloads_accepted_output_root_after_service_restart(
+    client: TestClient, dataset: Path, tmp_path: Path
+):
+    output = tmp_path / "accepted-output"
+    output.mkdir()
+    opened = _open(client, dataset)
+    item_id = client.get(
+        f"/v1/datasets/{opened['dataset_id']}/items", headers=HEADERS
+    ).json()["items"][0]["item_id"]
+    created = client.post(
+        "/v1/sessions",
+        headers=HEADERS,
+        json={
+            "protocol_version": "1.1",
+            "request_id": _rid(),
+            "base_revision": 0,
+            "dataset_id": opened["dataset_id"],
+            "item_id": item_id,
+        },
+    ).json()
+    sid = created["protocol_session_id"]
+    manual = client.post(
+        f"/v1/sessions/{sid}/manual-empty",
+        headers=HEADERS,
+        json={
+            "protocol_version": "1.1",
+            "request_id": _rid(),
+            "base_revision": 0,
+            "roi_xyxy": [10, 10, 30, 30],
+        },
+    ).json()
+    edited = client.post(
+        f"/v1/sessions/{sid}/edits",
+        headers=HEADERS,
+        json={
+            "protocol_version": "1.1",
+            "request_id": _rid(),
+            "base_revision": manual["revision"],
+            "operation": "brush",
+            "points": [[1, 1]],
+            "radius": 1,
+            "clip_rect": [1, 1, 2, 2],
+        },
+    )
+    assert edited.status_code == 200, edited.text
+    accepted = client.post(
+        f"/v1/sessions/{sid}/accept",
+        headers={**HEADERS, "X-SegVision-Output-Path": str(output)},
+        json={
+            "protocol_version": "1.1",
+            "request_id": _rid(),
+            "base_revision": edited.json()["revision"],
+            "acknowledge_warnings": [w["code"] for w in edited.json()["warnings"]],
+        },
+    )
+    assert accepted.status_code == 200, accepted.text
+    assert accepted.json()["workflow_state"] == "ACCEPTED"
+
+    with TestClient(create_app(secret=SECRET, actor="scripted_test")) as restarted:
+        reopened = _open(restarted, dataset)
+        before = restarted.get(
+            f"/v1/datasets/{reopened['dataset_id']}/items", headers=HEADERS
+        ).json()
+        assert before["items"][0]["status"] == "unstarted"
+
+        status = restarted.get(
+            f"/v1/datasets/{reopened['dataset_id']}/work-status",
+            headers={**HEADERS, "X-SegVision-Output-Path": str(output)},
+        )
+        assert status.status_code == 200, status.text
+        assert status.json()["items"][0]["status"] == "accepted"
+        after = restarted.get(
+            f"/v1/datasets/{reopened['dataset_id']}/items", headers=HEADERS
+        ).json()
+        assert after["items"][0]["status"] == "accepted"
+
+
 def test_asset_token_rejects_path_traversal(client: TestClient):
     r = client.get("/v1/assets/..%2Fetc%2Fpasswd", headers=HEADERS)
     assert r.json()["code"] in {"unauthorized", "not_found"}

@@ -82,6 +82,18 @@ export type DatasetItemSummary = {
   gold_mask_token?: string | null;
 };
 
+export type DatasetWorkItemStatus = {
+  item_id: string;
+  status: NonNullable<DatasetItemSummary["status"]>;
+};
+
+export type DatasetWorkStatus = {
+  dataset_id: string;
+  items: DatasetWorkItemStatus[];
+  counts: Record<string, number>;
+  total: number;
+};
+
 export type FolderGrantKind = "dataset" | "output";
 
 export type HostClient = {
@@ -97,7 +109,7 @@ export type HostClient = {
     items: DatasetItemSummary[];
     next_cursor: string | null;
   }>;
-  datasetsWorkStatus?(datasetId: string): Promise<Record<string, unknown>>;
+  datasetsWorkStatus?(datasetId: string): Promise<DatasetWorkStatus>;
   sessionsCreate(datasetId: string, itemId: string, prototypeMatch?: boolean): Promise<Snapshot>;
   sessionsGet(sessionId: string): Promise<Snapshot>;
   sessionsLockRoi(
@@ -271,6 +283,7 @@ export function createE2EHost(baseUrl: string, secret: string, datasetPath: stri
     datasetsOpen: (grantId) => post("/v1/datasets/open", { grant_id: grantId, base_revision: 0 }),
     datasetsListItems: (datasetId, cursor) =>
       get(`/v1/datasets/${datasetId}/items${cursor == null ? "" : `?cursor=${encodeURIComponent(cursor)}`}`),
+    datasetsWorkStatus: (datasetId) => get(`/v1/datasets/${datasetId}/work-status`),
     sessionsCreate: (datasetId, itemId, prototypeMatch = false) =>
       post("/v1/sessions", {
         dataset_id: datasetId,
@@ -569,6 +582,7 @@ export function createCimShellHost(baseUrl: string, secret: string): HostClient 
     },
     datasetsOpen: (grantId) => live().datasetsOpen(grantId),
     datasetsListItems: (datasetId, cursor) => live().datasetsListItems(datasetId, cursor),
+    datasetsWorkStatus: (datasetId) => live().datasetsWorkStatus!(datasetId),
     sessionsCreate: (datasetId, itemId, prototypeMatch) =>
       live().sessionsCreate(datasetId, itemId, prototypeMatch),
     sessionsGet: (sessionId) => live().sessionsGet(sessionId),

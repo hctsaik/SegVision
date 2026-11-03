@@ -1190,10 +1190,14 @@ class DesktopApplication:
         imported["snapshot"] = self.snapshot(session_id)
         return imported
 
-    def work_status(self, dataset_id: str) -> dict[str, Any]:
+    def work_status(
+        self, dataset_id: str, *, output_root: str | None = None
+    ) -> dict[str, Any]:
         ds = self._datasets.get(dataset_id)
         if ds is None:
             raise ProtocolError("not_found", "dataset not found")
+        if output_root:
+            self._output_roots[dataset_id] = output_root
         accepted_ids: set[str] = set()
         review_ids: set[str] = set()
         corrupt_ids: set[str] = set()
@@ -1464,6 +1468,7 @@ class DesktopApplication:
         self._require_revision(sess, base_revision)
         if output_root:
             sess.output_root = output_root
+            self._output_roots[sess.dataset_id] = output_root
             accepted, review = self._stores(sess)
             sess.controller.accepted_store = accepted
             sess.controller.review_store = review
@@ -1472,6 +1477,10 @@ class DesktopApplication:
         sess.workflow_state = sess.controller.state
         if sess.controller.state == WorkflowState.ACCEPTED and sess.controller.last_result is not None:
             result = sess.controller.last_result
+            self._draft_store(sess).discard(
+                dataset_id=sess.dataset_id,
+                item_id=sess.item.item_id,
+            )
             sess.persist = {
                 "kind": "accepted",
                 "path": str(getattr(result, "sidecar_path", "") or ""),
@@ -1521,6 +1530,7 @@ class DesktopApplication:
         self._require_revision(sess, base_revision)
         if output_root:
             sess.output_root = output_root
+            self._output_roots[sess.dataset_id] = output_root
             accepted, review = self._stores(sess)
             sess.controller.accepted_store = accepted
             sess.controller.review_store = review

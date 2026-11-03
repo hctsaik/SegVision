@@ -233,8 +233,8 @@ def create_app(
         return application.list_items(dataset_id, cursor=cursor, limit=limit)
 
     @app.get("/v1/datasets/{dataset_id}/work-status")
-    def work_status(dataset_id: str) -> dict[str, Any]:
-        return application.work_status(dataset_id)
+    def work_status(dataset_id: str, request: Request) -> dict[str, Any]:
+        return application.work_status(dataset_id, output_root=_output_path(request))
 
     @app.post("/v1/sessions")
     def create_session(request: Request) -> dict[str, Any]:

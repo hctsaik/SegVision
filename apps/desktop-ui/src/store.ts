@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { DatasetItemSummary, Snapshot } from "./host";
+import type { DatasetItemSummary, DatasetWorkItemStatus, Snapshot } from "./host";
 import {
   CANVAS_VIEW_HEIGHT,
   CANVAS_VIEW_WIDTH,
@@ -59,6 +59,7 @@ type ViewState = {
   actualSize: (imageWidth: number, imageHeight: number) => void;
   setDataset: (grantId: string, datasetId: string, items: DatasetItemSummary[], itemCount: number) => void;
   appendDatasetItems: (items: DatasetItemSummary[]) => void;
+  refreshDatasetItemStatuses: (items: DatasetWorkItemStatus[]) => void;
   setOutputGrant: (grantId: string | null, displayName: string | null) => void;
   beginItem: (itemId: string) => void;
   setCurrentItemId: (itemId: string | null) => void;
@@ -161,6 +162,16 @@ export const useViewStore = create<ViewState>((set) => ({
         return true;
       });
       return additions.length > 0 ? { items: [...state.items, ...additions] } : state;
+    }),
+  refreshDatasetItemStatuses: (items) =>
+    set((state) => {
+      const statuses = new Map(items.map((item) => [item.item_id, item.status]));
+      return {
+        items: state.items.map((item) => {
+          const status = statuses.get(item.item_id);
+          return status ? { ...item, status } : item;
+        }),
+      };
     }),
   setOutputGrant: (outputGrantId, outputDisplayName) => set({ outputGrantId, outputDisplayName }),
   beginItem: (currentItemId) => set({ currentItemId, snapshot: null }),

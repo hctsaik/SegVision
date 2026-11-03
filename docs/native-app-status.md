@@ -1,6 +1,6 @@
 # SegVision 功能、進度與測試說明
 
-> 日期：2026-11-02
+> 日期：2026-11-03
 >
 > 這份文件記錄**現況**，不是完成宣告。Chromium Playwright 流程已有可重現的影像／ROI／遮罩／Accept 持久化驗證；真正 Tauri 視窗仍未完成同等 E2E。
 
@@ -70,24 +70,24 @@ segvision pyside6
 | OpenSpec change `adopt-react-tauri-desktop`（proposal / design / specs / tasks） | 規格齊，`openspec validate` 曾通過 |
 | 桌面協定 1.1（含 `lock_roi` / `select` / `undo` / `close` 等） | 已落地 |
 | Python sidecar（health、資料集、session、binary asset、Accept / Review） | 已落地 |
-| React UI + Vitest | 67 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
+| React UI + Vitest | 68 項通過；涵蓋資產載入錯誤、快速切圖與 mutation 不會套用舊 snapshot、輸出 grant、關閉舊 session、host-private 持久化路徑不留在 store、資料集 cursor 續載與全清單搜尋、選擇輸出資料夾後刷新目前清單的工作狀態，以及 durable Needs Review 的非訓練結果與 Accept 失敗不得誤報成功 |
 | Chromium Playwright E2E | `tests/desktop-e2e` 驗證受保護 asset、160×120 影像、gold 與候選 overlay、ROI authoritative snapshot、candidate mask hash；另分別驗證 Accept PNG+sidecar 與 Needs Review metadata/draft/hash、`training_eligible=false` 且沒有 accepted pair。這是 Chromium+Vite，不是真實 Tauri 視窗 |
-| NativeApp 公開 web-host E2E | `test_nativeapp_public_same_origin_web_host_reaches_visible_segmentation_flow` 經 NativeApp SegVision wrapper、React dist、同源 `/v1` proxy 與合成資料夾 picker，走完 ROI／候選選取；2026-11-02 fake 與 opt-in MobileSAM local-evaluation 模式各 1 項通過。真模型模式檢查 health backend 與授權範圍，仍不含 OS picker 或發布包 |
+| NativeApp 公開 web-host E2E | 2026-11-03 fake-backend 可見旅程經 NativeApp SegVision wrapper、React dist、同源 `/v1` proxy 與合成資料夾 picker，走完 ROI、候選、Accept，並核對 PNG／sidecar、mask SHA-256 與清單已接受狀態（`1 passed`，53.45 秒）。`test_work_status_reloads_accepted_output_root_after_service_restart` 另確認新 service process 選定輸出資料夾後可讀回 accepted 狀態。Opt-in MobileSAM local-evaluation 的既有證據涵蓋 ROI／候選；尚未以真模型重跑新增的 Accept 流程。OS picker 與發布包仍未驗 |
 | Tauri host 編譯與資產 proxy | `cargo test` 3 項通過；`segvision-asset://localhost/<token>` path token、已知 WebView CORS origin、output grant proxy 與 cursor command 編譯驗證 |
 | 預設啟動改為 Native App | `segvision-gui` → `segvision.desktop:main` |
 
 ### 3.2 尚未完成的 Native App 門檻
 
-這輪已修正舊的錯誤吞沒、50×40 固定 Canvas、直接 HTTP asset 無法帶授權 header、gold overlay 未投影、單層資料集掃描、fake backend 跨 crop 尺寸錯誤、Tauri asset token/CORS、output grant、切圖舊回應覆寫，以及 nested image id 的持久化路徑問題。不過下列限制仍成立：
+這輪已修正舊的錯誤吞沒、50×40 固定 Canvas、直接 HTTP asset 無法帶授權 header、gold overlay 未投影、單層資料集掃描、fake backend 跨 crop 尺寸錯誤、Tauri asset token/CORS、output grant、切圖舊回應覆寫、nested image id 的持久化路徑問題、接受後舊草稿遮蔽完成狀態，以及選取輸出資料夾後未刷新工作狀態的問題。不過下列限制仍成立：
 
 1. **Native App 開發路徑已接上官方 MobileSAM TinyViT CPU**：Tauri 以 `--prefer-real` 啟動 sidecar，runtime 先核對本機評估授權、provenance 與 checkpoint SHA-256，再建立官方 `SamPredictor`。目前核准範圍僅為本機 CPU 評估，`release_approved=false`；缺檔、hash／授權不符時會明確退回 fake backend 並回報 setup blocker，不得據此宣告 release approval。
 2. **資料集掃描有意限制為直接檔案或一層子目錄。** 更深的樹狀資料集仍應選擇實際含影像的子資料夾，避免任意遞迴掃描。
 3. **尚未用真實 Tauri 視窗跑完整 E2E。** 現有自動化是 Chromium + Vite + sidecar（`?e2e=1`），因此尚未覆蓋 Tauri picker、custom protocol 與不同 DPR 的整合。
 4. **Canvas 已有 pan／zoom／DPR 導覽與座標單元測試**；真正 Tauri 視窗的不同 DPI 與大圖互動仍未完成端到端驗收。
-5. **資料集已按 cursor 續載**：React 清單顯示已載入／總數，可逐頁載入；「下一張」會跨頁尋找未完成項目。搜尋或狀態篩選時可按「載入完整清單後套用篩選」，續載剩餘項目摘要後再篩選；分頁失敗會顯示清單錯誤並保留重試操作。一般瀏覽仍逐頁載入，避免一開始讀入整份清單。
+5. **資料集已按 cursor 續載**：React 清單顯示已載入／總數，可逐頁載入；「下一張」會跨頁尋找未完成項目。搜尋或狀態篩選時可按「載入完整清單後套用篩選」，續載剩餘項目摘要後再篩選；分頁失敗會顯示清單錯誤並保留重試操作。選擇輸出資料夾及儲存 Accept／Needs Review 後會刷新已載入項目的狀態。一般瀏覽仍逐頁載入，避免一開始讀入整份清單。
 6. **沒有離線安裝包 / 乾淨 VM 驗收。**
 7. OpenSpec `tasks.md` 仍幾乎全是未勾選；parity 未過時就把預設切到 Native App，是依你後來的指示，與原規格「先對等再切預設」不一致。
-8. NativeApp web-host browser journey 的 fake 與 opt-in MobileSAM local-evaluation 模式都已通過合成影像的 ROI／候選操作；MobileSAM 模式仍用合成 picker 與 fixture，不代表真實業務影像品質、OS picker、Tauri 視窗或發布包通過。
+8. NativeApp web-host fake 模式已有合成影像 ROI／候選／Accept、輸出檔案雜湊與清單狀態驗收。Opt-in MobileSAM local-evaluation 既有證據仍是 ROI／候選旅程，未包含本次新增的 Accept 驗收；兩者都使用合成 picker 與 fixture，不代表真實業務影像品質、OS picker、Tauri 視窗或發布包通過。
 
 結論：**Chromium 自動化標註流程現在可重現且可檢查；Native Tauri 視窗仍不是可宣告完成或可發布的穩定工具。**
 

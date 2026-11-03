@@ -39,8 +39,10 @@ describe("CIM folder picker", () => {
 
   it("uses the public same-origin NativeApp proxy with the launch secret in a header", async () => {
     const dataset = "C:\\資料\\capsule";
+    const output = "C:\\輸出\\annotations";
     const launchSecret = "nativeapp-test-secret";
-    const chooseFile = vi.fn(async () => ({ canceled: false, paths: [dataset] }));
+    const folders = [dataset, output];
+    const chooseFile = vi.fn(async () => ({ canceled: false, paths: [folders.shift() ?? ""] }));
     const hostWindow = window as unknown as {
       cimHost?: { chooseFile: typeof chooseFile };
       NATIVEAPP_LOCAL_API?: string;
@@ -70,14 +72,22 @@ describe("CIM folder picker", () => {
         grant_id: "dataset",
         display_name: "capsule",
       });
+      await expect(host.pickerOpenFolder("output")).resolves.toEqual({
+        grant_id: "output",
+        display_name: "annotations",
+      });
+      await host.datasetsWorkStatus!("dataset-1");
       await host.engineHealth();
 
+      expect(chooseFile).toHaveBeenCalledTimes(2);
       expect(chooseFile).toHaveBeenCalledWith({ properties: ["openDirectory"] });
-      expect(String(fetchMock.mock.calls[0]?.[0])).toBe(`${window.location.origin}/v1/health`);
-      expect(String(fetchMock.mock.calls[0]?.[0])).not.toContain(launchSecret);
-      const headers = fetchMock.mock.calls[0]?.[1]?.headers as Record<string, string>;
+      const statusCall = fetchMock.mock.calls.find(([input]) => String(input).includes("/v1/datasets/dataset-1/work-status"));
+      expect(String(statusCall?.[0])).toBe(`${window.location.origin}/v1/datasets/dataset-1/work-status`);
+      expect(String(statusCall?.[0])).not.toContain(launchSecret);
+      const headers = statusCall?.[1]?.headers as Record<string, string>;
       expect(headers["X-SegVision-Launch-Secret"]).toBe(launchSecret);
       expect(headers["X-SegVision-Resolved-Path"]).toBe(encodeHostPathHeader(dataset));
+      expect(headers["X-SegVision-Output-Path"]).toBe(encodeHostPathHeader(output));
     } finally {
       vi.unstubAllGlobals();
       if (previous.cimHost === undefined) delete hostWindow.cimHost;
