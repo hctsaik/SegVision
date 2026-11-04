@@ -43,6 +43,22 @@ def test_mobile_decode_reuses_previous_logits_and_converts_binary_prompt(tmp_pat
     assert backend.ledger[-1]["op"] == "decode_mask_prompt"
 
 
+def test_mobile_binary_mask_prompt_uses_nearest_neighbor(tmp_path):
+    backend = controlled_backend(tmp_path)
+    image = np.zeros((2, 2, 3), dtype=np.uint8)
+    encoded = backend.encode(
+        image, session_id="s", revision=1, crop_fingerprint="f"
+    )
+    coarse = np.asarray([[True, False], [False, True]], dtype=np.bool_)
+
+    prompt = backend.mask_prompt_from_binary(encoded, coarse)
+
+    expected = np.repeat(np.repeat(coarse, 128, axis=0), 128, axis=1)
+    assert prompt.shape == (1, 256, 256)
+    assert prompt.dtype == np.float32
+    assert np.array_equal(prompt[0] > 0, expected)
+
+
 def test_mobile_refinement_adapts_model_logit_threshold_to_include_positive_point(tmp_path):
     backend = controlled_backend(tmp_path)
     encoded = backend.encode(

@@ -7,7 +7,6 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-import cv2
 import numpy as np
 
 from segvision.core.errors import ModelApprovalError, ModelArtifactError
@@ -46,12 +45,11 @@ class MobileSAMCPUBackend:
         from segvision.models.manifest import verify_sha256
 
         verified_sha256 = verify_sha256(checkpoint_path, checkpoint_sha256)
-        try:
-            import torch
-        except ImportError as exc:  # pragma: no cover - dependency gate
-            raise ModelArtifactError("PyTorch CPU runtime is unavailable") from exc
-
         if model is None:
+            try:
+                import torch
+            except ImportError as exc:  # pragma: no cover - dependency gate
+                raise ModelArtifactError("PyTorch CPU runtime is unavailable") from exc
             try:
                 from mobile_sam import SamPredictor, sam_model_registry
             except ImportError as exc:  # pragma: no cover - dependency gate
@@ -61,8 +59,13 @@ class MobileSAMCPUBackend:
             model.to(device="cpu")
             model.eval()
             predictor_factory = SamPredictor
+            torch_runtime = f"torch-{torch.__version__}"
         elif predictor_factory is None:
             raise ModelArtifactError("an injected model requires an injected predictor factory")
+        else:
+            # Controlled model/predictor pairs keep core and adapter contract
+            # tests independent from the optional PyTorch runtime.
+            torch_runtime = "injected-model"
 
         self._model = model
         self._predictor_factory = predictor_factory
@@ -70,7 +73,7 @@ class MobileSAMCPUBackend:
             "mobile_sam_torch_cpu",
             model_version,
             verified_sha256,
-            f"torch-{torch.__version__};device=cpu",
+            f"{torch_runtime};device=cpu",
             "mobilesam-sam-predictor-v1",
         )
         self._capabilities = BackendCapabilities(model=self._identity)
@@ -256,9 +259,19 @@ class MobileSAMCPUBackend:
         configured = getattr(prompt_encoder, "mask_input_size", None)
         if configured is not None and len(configured) == 2:
             target_size = (int(configured[1]), int(configured[0]))
-        resized = cv2.resize(
-            arr.astype(np.uint8), target_size, interpolation=cv2.INTER_NEAREST
-        ).astype(bool)
+        target_width, target_height = target_size
+        if target_width < 1 or target_height < 1:
+            raise ModelArtifactError("mask prompt target size must be positive")
+        height, width = arr.shape
+        source_y = np.minimum(
+            (np.arange(target_height, dtype=np.int64) * height) // target_height,
+            height - 1,
+        )
+        source_x = np.minimum(
+            (np.arange(target_width, dtype=np.int64) * width) // target_width,
+            width - 1,
+        )
+        resized = arr[np.ix_(source_y, source_x)]
         logits = np.where(resized, 10.0, -10.0).astype(np.float32)[None, :, :]
         logits.setflags(write=False)
         self.ledger.append({"op": "mask_prompt_from_binary", "revision": encoded.revision})
