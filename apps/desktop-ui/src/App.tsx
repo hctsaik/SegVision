@@ -151,7 +151,38 @@ function CandidateCard(props: {
 }
 
 export function App({ host }: { host?: HostClient }) {
-  const client = useMemo(() => host ?? resolveHost(), [host]);
+  const resolved = useMemo(() => {
+    if (host) return { client: host };
+    try {
+      return { client: resolveHost() };
+    } catch {
+      return { client: null };
+    }
+  }, [host]);
+
+  if (!resolved.client) return <HostUnavailable />;
+  return <Workspace client={resolved.client} />;
+}
+
+function HostUnavailable() {
+  return (
+    <main className="host-unavailable" role="alert">
+      <section className="host-unavailable-card">
+        <span className="host-unavailable-label">本機服務未連線</span>
+        <h1>無法開啟 SegVision</h1>
+        <p>
+          SegVision Web 需要 NativeApp 提供本機標註服務和資料夾授權。請從 NativeApp
+          開啟這個 App；如果你剛完成接入或啟動，請重新載入頁面。
+        </p>
+        <button className="btn host-unavailable-retry" type="button" onClick={() => window.location.reload()}>
+          重新載入
+        </button>
+      </section>
+    </main>
+  );
+}
+
+function Workspace({ client }: { client: HostClient }) {
   const snapshot = useViewStore((s) => s.snapshot);
   const engine = useViewStore((s) => s.engine);
   const items = useViewStore((s) => s.items);
