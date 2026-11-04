@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -15,6 +17,42 @@ from segvision.defaults import DEFAULT_CLASS_ID
 def _write_image(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     Image.fromarray(np.zeros((8, 12, 3), dtype=np.uint8)).save(path)
+
+
+def _create_directory_link(link: Path, target: Path) -> None:
+    try:
+        link.symlink_to(target, target_is_directory=True)
+        return
+    except OSError as exc:
+        if os.name != "nt":
+            raise AssertionError(f"could not create directory symlink: {exc}") from exc
+        symlink_error = exc
+
+    env = os.environ.copy()
+    env["SEGVISION_LINK_PATH"] = str(link)
+    env["SEGVISION_LINK_TARGET"] = str(target)
+    result = subprocess.run(
+        [
+            "powershell.exe",
+            "-NoLogo",
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            (
+                "New-Item -ItemType Junction -Path $env:SEGVISION_LINK_PATH "
+                "-Target $env:SEGVISION_LINK_TARGET | Out-Null"
+            ),
+        ],
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise AssertionError(
+            "could not create directory junction without symlink privileges: "
+            f"{result.stdout}\n{result.stderr}"
+        ) from symlink_error
 
 
 def test_dataset_discovers_one_nested_image_and_excludes_gold_files(tmp_path: Path) -> None:
@@ -75,7 +113,7 @@ def test_manifest_cannot_escape_the_granted_dataset_root(tmp_path: Path) -> None
     assert excinfo.value.code == "validation_failed"
 
 
-def test_discovery_rejects_source_and_gold_symlinks_outside_the_granted_root(
+def test_discovery_rejects_source_and_gold_links_outside_the_granted_root(
     tmp_path: Path,
 ) -> None:
     root = tmp_path / "dataset"
@@ -83,18 +121,35 @@ def test_discovery_rejects_source_and_gold_symlinks_outside_the_granted_root(
     outside = tmp_path / "outside"
     _write_image(outside / "source.png")
     _write_image(outside / "gold.png")
+    _write_image(outside / "part.png")
 
+    source_link = root / "source-link.png"
     try:
-        (root / "source-link.png").symlink_to(outside / "source.png")
-    except OSError as exc:
-        pytest.skip(f"symlinks are unavailable on this Windows test account: {exc}")
-
-    with pytest.raises(ProtocolError, match="source image escapes"):
+        source_link.symlink_to(outside / "source.png")
+        source_error = "source image escapes"
+    except OSError:
+        source_link = root / "source-link"
+        _create_directory_link(source_link, outside)
+        source_error = "dataset directory escapes"
+    with pytest.raises(ProtocolError, match=source_error):
         open_dataset(str(root), grant_id="grant")
 
-    (root / "source-link.png").unlink()
+    if source_link.is_dir():
+        source_link.rmdir()
+    else:
+        source_link.unlink()
     _write_image(root / "part.png")
-    (root / "part_gold.png").symlink_to(outside / "gold.png")
+    gold_link = root / "part_gold.png"
+    try:
+        gold_link.symlink_to(outside / "gold.png")
+    except OSError:
+        gold_link = root / "gold"
+        _create_directory_link(gold_link, outside)
 
     with pytest.raises(ProtocolError, match="gold mask escapes"):
         open_dataset(str(root), grant_id="grant")
+
+    if gold_link.is_dir():
+        gold_link.rmdir()
+    else:
+        gold_link.unlink()
